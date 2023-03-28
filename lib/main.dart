@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sonic_mobile/core/constants/constants.dart';
+import 'features/album/presentation/album_page.dart';
 
 void main() {
   runApp(const Sonic());
@@ -13,7 +14,6 @@ class Sonic extends StatefulWidget {
 }
 
 class _SonicState extends State<Sonic> {
-
   @override
   void initState() {
     super.initState();
@@ -27,7 +27,7 @@ class _SonicState extends State<Sonic> {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const Scaffold(),
+      home: const AlbumPage(),
     );
   }
 }
