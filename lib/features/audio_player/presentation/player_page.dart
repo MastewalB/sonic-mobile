@@ -19,15 +19,7 @@ class PlayerPage extends StatelessWidget {
           color: Colors.black
         ),
         child: ListView(
-          children: [
-            // BlocBuilder<AudioPlayerBloc, AudioPlayerState>(
-            //   builder: (_, state) => Container(
-            //     child: Image.network(
-            //         "https://e0.pxfuel.com/wallpapers/807/950/desktop-wallpaper-life-2022-movie.jpg"
-            //         // "${state.audioQueue?.elementAt(state.currentIndex).thumbnail}"
-            //         ),
-            //   ),
-            // ),
+          children: const [
             PlayerAppBar(),
             AudioInformation(),
             TimeSlider(),

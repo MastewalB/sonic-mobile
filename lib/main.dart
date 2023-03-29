@@ -15,7 +15,7 @@ void main() {
 class MyApp extends StatelessWidget {
   MyApp({super.key});
 
-  final AudioMock audio = AudioMock(
+  final AudioMock audio = const AudioMock(
     id: "id",
     language: "language",
     description: "Kings and Queens of Summer - Main",
@@ -40,7 +40,7 @@ class MyApp extends StatelessWidget {
         ),
       ],
       child: MaterialApp(
-        home: PlayerPage(),
+        home: const PlayerPage(),
         debugShowCheckedModeBanner: false,
         theme: ThemeData(primarySwatch: Colors.blue),
       ),
