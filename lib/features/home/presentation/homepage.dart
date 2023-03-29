@@ -9,6 +9,20 @@ class Homepage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold();
+    return SafeArea(
+        child: Column(
+      children: const [
+        Header(
+          profileName: 'Labile',
+        ),
+        CatchPhrase(
+          text: "Are you Ready for somme Music?",
+        ),
+        DisplayBlock(
+          desc: "Songs you like",
+          songs: [],
+        )
+      ],
+    ));
   }
 }
