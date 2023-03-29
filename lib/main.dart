@@ -2,6 +2,7 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sonic_mobile/features/follow/presentation/followers_page.dart';
 import 'package:sonic_mobile/models/AudioModelMock.dart';
 import 'package:sonic_mobile/features/audio_player/bloc/audio_player_bloc.dart';
 import 'package:sonic_mobile/features/audio_player/presentation/player_page.dart';
@@ -34,13 +35,14 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<AudioPlayerBloc>(
-          create: (context) =>
-              AudioPlayerBloc(audioPlayer: AudioPlayer())
-                ..add(PlayAudioEvent(audio: audio)),
+          create: (context) => AudioPlayerBloc(audioPlayer: AudioPlayer())
+            ..add(PlayAudioEvent(audio: audio)),
         ),
       ],
       child: MaterialApp(
-        home: const PlayerPage(),
+        home: Scaffold(
+          body: FollowersPage(),
+        ),
         debugShowCheckedModeBanner: false,
         theme: ThemeData(primarySwatch: Colors.blue),
       ),
