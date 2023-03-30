@@ -6,8 +6,8 @@ import 'features/album/presentation/album_page.dart';
 import 'features/album/presentation/widgets/album_art.dart';
 
 void main() {
-  runApp(const Sonic());
-  // WidgetsFlutterBinding.ensureInitialized();
+  WidgetsFlutterBinding.ensureInitialized();
+  runApp(MaterialApp(home: const Sonic()));
   // SystemChrome.setPreferredOrientations(DeviceOrientation.portraitUp)
 }
 
@@ -22,7 +22,12 @@ class _SonicState extends State<Sonic> {
   @override
   void initState() {
     super.initState();
-    // MediaQueryManager.init(context);
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    MediaQueryManager.init(context);
   }
 
   @override
