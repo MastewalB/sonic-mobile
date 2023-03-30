@@ -16,11 +16,11 @@ class Homepage extends StatelessWidget {
           profileName: 'Labile',
         ),
         CatchPhrase(
-          text: "Are you Ready for somme Music?",
+          text: "Are you Ready for some Music?",
         ),
         DisplayBlock(
-          desc: "Songs you like",
-          songs: [],
+          desc: "Songs you may like",
+          // songs: [],
         )
       ],
     ));

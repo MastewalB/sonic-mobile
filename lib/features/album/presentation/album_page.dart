@@ -8,12 +8,13 @@ class AlbumPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Column(children: const [
+      child: ListView(children: const [
         AlbumArtWidget(
-            albumArtUrl: 'albumArtUrl',
-            title: 'title',
-            artist: 'artist',
-            numberOfSongs: 10,
+            albumArtUrl:
+                'https://www.planetware.com/wpimages/2020/02/france-in-pictures-beautiful-places-to-photograph-eiffel-tower.jpg',
+            title: 'While in Paris',
+            artist: 'Dorothy',
+            numberOfSongs: 12,
             year: 2022),
         AudioListWidget(songs: [])
       ]),

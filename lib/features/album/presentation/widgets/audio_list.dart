@@ -8,6 +8,13 @@ class AudioListWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (songs.isEmpty) {
+      return const Center(
+          child: Text(
+        'No items here',
+        style: TextStyle(color: Colors.black),
+      ));
+    }
     return ListView.builder(
       itemCount: songs.length,
       itemBuilder: (BuildContext context, int index) {
