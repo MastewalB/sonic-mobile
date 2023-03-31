@@ -39,7 +39,7 @@ class _SonicState extends State<Sonic> {
   @override
   Widget build(BuildContext context) {
     MediaQueryManager.init(context);
-    
+
     return MaterialApp(
       title: 'Sonic',
       theme: ThemeData(
