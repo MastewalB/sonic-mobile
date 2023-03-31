@@ -9,10 +9,9 @@ import 'package:sonic_mobile/features/audio_player/bloc/audio_player_bloc.dart';
 import 'package:sonic_mobile/features/audio_player/presentation/player_page.dart';
 
 void main() {
-  runApp(const Sonic());
   WidgetsFlutterBinding.ensureInitialized();
-  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
-      .then((value) => runApp(const Sonic()));
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp,DeviceOrientation.landscapeLeft, DeviceOrientation.landscapeRight])
+      .then((value) => runApp(const MaterialApp(home: Sonic())));
 }
 
 class Sonic extends StatefulWidget {
@@ -23,21 +22,32 @@ class Sonic extends StatefulWidget {
 }
 
 class _SonicState extends State<Sonic> {
-
   @override
   void initState() {
     super.initState();
-    MediaQueryManager.init(context);
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+
+    });
+  }
+
+  @override
+  void didChangeDependecies(){
+    super.didChangeDependencies();
+
   }
 
   @override
   Widget build(BuildContext context) {
+    MediaQueryManager.init(context);
+    
     return MaterialApp(
       title: 'Sonic',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const Scaffold(),
+      home: const Scaffold(
+        body: FollowersPage(),
+      ),
     );
   }
 }
