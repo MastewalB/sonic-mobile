@@ -1,18 +1,15 @@
-import 'users.dart';
-import 'music.dart';
+import 'models.dart';
 
 class Playlist {
   final String id;
   final User createdBy;
   final String playlistTitle;
+  final List<Song> items;
 
-  Playlist(
-      {required this.id, required this.createdBy, required this.playlistTitle});
-}
-
-class PlaylistItems {
-  final Playlist playlistId;
-  final Song songId;
-
-  PlaylistItems({required this.playlistId, required this.songId});
+  Playlist({
+    required this.id,
+    required this.createdBy,
+    required this.playlistTitle,
+    required this.items,
+  });
 }

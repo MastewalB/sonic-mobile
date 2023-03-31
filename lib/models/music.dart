@@ -1,3 +1,5 @@
+import 'package:sonic_mobile/models/models.dart';
+
 class Artist {
   final String name;
   final String picture;
@@ -13,8 +15,10 @@ class Album {
   Album({required this.artist, required this.name, required this.cover});
 }
 
-class Song {
+class Song implements Audio{
+  @override
   final String title;
+
   final Artist artist;
   final Album album;
   final String songFile;
