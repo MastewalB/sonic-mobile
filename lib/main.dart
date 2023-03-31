@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:sonic_mobile/core/constants/constants.dart';
+import 'package:flutter/services.dart';
+import 'package:sonic_mobile/features/record/presentation/record_page.dart';
 
 void main() {
-  runApp(const Sonic());
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.landscapeLeft,
+    DeviceOrientation.landscapeRight
+  ]).then((value) => runApp(const MaterialApp(home: Sonic())));
 }
 
 class Sonic extends StatefulWidget {
@@ -13,21 +20,20 @@ class Sonic extends StatefulWidget {
 }
 
 class _SonicState extends State<Sonic> {
-
   @override
   void initState() {
     super.initState();
-    MediaQueryManager.init(context);
   }
 
   @override
   Widget build(BuildContext context) {
+    MediaQueryManager.init(context);
     return MaterialApp(
       title: 'Sonic',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const Scaffold(),
+      home: RecordPage(),
     );
   }
 }
