@@ -1,6 +1,6 @@
 part of 'audio_player_bloc.dart';
 
-enum AudioPlayerStatus { initial, loading, playing, failure }
+enum AudioPlayerStatus { initial, loading, playing, paused, failure }
 
 extension AudioPlayerStatusX on AudioPlayerStatus {
   bool get isInitial => this == AudioPlayerStatus.initial;
@@ -9,6 +9,8 @@ extension AudioPlayerStatusX on AudioPlayerStatus {
 
   bool get isPlaying => this == AudioPlayerStatus.playing;
 
+  bool get isPaused => this == AudioPlayerStatus.paused;
+
   bool get isFailure => this == AudioPlayerStatus.failure;
 }
 
@@ -16,12 +18,14 @@ class AudioPlayerState extends Equatable {
   final AudioPlayer audioPlayer;
   final AudioPlayerStatus status;
   bool isPlaying;
+  final bool isLooping;
   int currentIndex;
   bool finishedQueue;
   ListQueue<AudioMock>? audioQueue;
 
   AudioPlayerState({
     required this.audioPlayer,
+    required this.isLooping,
     this.status = AudioPlayerStatus.initial,
     this.isPlaying = false,
     this.currentIndex = 0,
@@ -30,17 +34,20 @@ class AudioPlayerState extends Equatable {
   }) : audioQueue = audioQueue ?? ListQueue<AudioMock>(0);
 
   @override
-  List<Object?> get props => [status, isPlaying, currentIndex, finishedQueue];
+  List<Object?> get props =>
+      [status, isPlaying, isLooping, currentIndex, finishedQueue];
 
   AudioPlayerState copyWith(
       {AudioPlayer? audioPlayer,
-        AudioPlayerStatus? status,
-        bool? isPlaying,
-        int? currentIndex,
-        bool? finishedQueue,
-        ListQueue<AudioMock>? audioQueue}) {
+      AudioPlayerStatus? status,
+      bool? isLooping,
+      bool? isPlaying,
+      int? currentIndex,
+      bool? finishedQueue,
+      ListQueue<AudioMock>? audioQueue}) {
     return AudioPlayerState(
         audioPlayer: audioPlayer ?? this.audioPlayer,
+        isLooping: isLooping ?? this.isLooping,
         status: status ?? this.status,
         isPlaying: isPlaying ?? this.isPlaying,
         currentIndex: currentIndex ?? this.currentIndex,

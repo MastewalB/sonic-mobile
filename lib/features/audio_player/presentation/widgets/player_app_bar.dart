@@ -12,14 +12,14 @@ class PlayerAppBar extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           GestureDetector(
-            child: Icon(
+            child: const Icon(
               Icons.keyboard_arrow_down,
               textDirection: TextDirection.ltr,
-              color: Colors.white,
+              color: Colors.black,
             ),
             onTap: () {},
           ),
-          Icon(
+          const Icon(
             Icons.more_horiz,
             textDirection: TextDirection.ltr,
             color: Colors.white,

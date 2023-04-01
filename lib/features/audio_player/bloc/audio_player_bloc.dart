@@ -13,90 +13,79 @@ class AudioPlayerBloc extends Bloc<AudioPlayerEvent, AudioPlayerState> {
   final AudioPlayer audioPlayer;
   int currentIndex = 0;
   bool isPlaying = false;
-  bool finishedQueue = false;
+  bool isLooping = false;
 
-  ListQueue<AudioMock> audioQueue = //ListQueue<AudioMock>(0);
-      ListQueue<AudioMock>.from([
-    const AudioMock(
-      id: "id",
-      language: "language",
-      description: "Little Sunshine - But Solo",
-      category: "Family",
-      type: "type",
-      thumbnail:
-          "https://images.ecestaticos.com/xnNbBZp8-d8EtrRzQNEnUp3hOL4=/0x60:1919x1138/557x418/filters:fill(white):format(jpg)/f.elconfidencial.com%2Foriginal%2Fcc3%2F6d5%2F5eb%2Fcc36d55ebd0a8c375b6530ab68b0252b.jpg",
-      audio: "audio",
-      audioUrl:
-          "https://github.com/MastewalB/competitive-programming/raw/master/Algorithms%20and%20Programming/Little%20Sunshine%20-%20Solo.mp3",
-    ),
-    const AudioMock(
-      id: "id2",
-      language: "language",
-      description: "Little Sunshine",
-      category: "Family",
-      type: "type",
-      thumbnail:
-          "https://www.hdwallpapers.in/download/life_2017_movie_4k-wide.jpg",
-      audio: "audio",
-      audioUrl:
-          "https://github.com/MastewalB/competitive-programming/raw/master/Algorithms%20and%20Programming/Little%20Sunshine.mp3",
-    )
-  ]);
+  ListQueue<AudioMock> audioQueue = ListQueue<AudioMock>();
 
   AudioPlayerBloc({required this.audioPlayer})
-      : super(AudioPlayerState(audioPlayer: audioPlayer)) {
+      : super(AudioPlayerState(audioPlayer: audioPlayer, isLooping: false)) {
     AudioPlayer.logEnabled = false;
-    state.audioPlayer.onPlayerCompletion.listen((event) {
-      add(PlayNextEvent());
+
+    state.audioPlayer.onPlayerCompletion.listen((event) async {
+      if (isLooping) {
+        await state.audioPlayer.setUrl(
+          audioQueue.elementAt(currentIndex).audioUrl,
+        );
+        add(PlayAudioEvent(
+          currentIndex: currentIndex,
+          fromCurrentPlaylist: true,
+        ));
+      } else {
+        add(PlayNextEvent());
+      }
     });
 
     state.audioPlayer.onPlayerError.listen((event) {
       add(AudioPlayerFailedEvent(errorMessage: event.toString()));
     });
 
-    // on<AudioPlayerEvent>((event, emit) {
-    //   // TODO: implement event handler
-    // });
-
     on<PlayAudioEvent>((event, emit) async {
-      print("Current Index . . . " + currentIndex.toString());
+      if (!event.fromCurrentPlaylist) {
+        if (event.playlist == null) {
+          emit(state.copyWith(
+            audioPlayer: audioPlayer,
+            isPlaying: false,
+            status: AudioPlayerStatus.failure,
+          ));
+          return;
+        }
+
+        audioQueue.clear();
+        audioQueue = event.playlist!;
+      }
+
+      currentIndex = event.currentIndex ?? 0;
+
       emit(state.copyWith(
         audioPlayer: audioPlayer,
+        isPlaying: true,
         status: AudioPlayerStatus.loading,
+        audioQueue: audioQueue,
       ));
-      //Check if already playing another content
+
       isPlaying = true;
+      await state.audioPlayer.stop();
 
-      // Clear the current queue as the new song will insert its queue
-      // audioQueue.clear();
-
-      //TODO - Populate the audio queue with the audio files in the selected category.
-      //For now let's just add the given audio only.
-      audioQueue.add(event.audio);
-      print("Current Len . . . " + audioQueue.length.toString());
-      // await state.audioPlayer.stop();
-
-      // await state.audioPlayer.play(event.audio.audioUrl, stayAwake: true);
-      // TODO - Find the current index of the audio in the queue.
-      // currentIndex = audioQueue
-      //await state.audioPlayer.play(audioQueue.elementAt(currentIndex).audioUrl, stayAwake: true);
-
-      // state.audioPlayer.setNotification();
       emit(state.copyWith(
-          status: AudioPlayerStatus.playing,
-          isPlaying: true,
-          currentIndex: currentIndex,
-          audioQueue: audioQueue));
+        status: AudioPlayerStatus.playing,
+        isPlaying: true,
+        currentIndex: currentIndex,
+        audioQueue: audioQueue,
+      ));
+
       await state.audioPlayer.play(audioQueue.elementAt(currentIndex).audioUrl);
-      print("Playinggggggggggggggggggggggggggggggggggggg");
+    });
+
+    on<ResumeAudioEvent>((event, emit) async {
+      await state.audioPlayer.resume();
+      emit(state.copyWith(status: AudioPlayerStatus.playing));
     });
 
     on<PauseAudioEvent>((event, emit) async {
-      print("pauseeee");
-      isPlaying = false;
       await state.audioPlayer.pause();
-      emit(state.copyWith(isPlaying: false));
-      print(state.status);
+      emit(state.copyWith(
+        status: AudioPlayerStatus.paused,
+      ));
     });
 
     on<StopAudioEvent>((event, emit) async {
@@ -112,14 +101,28 @@ class AudioPlayerBloc extends Bloc<AudioPlayerEvent, AudioPlayerState> {
         currentIndex = 0;
       }
       await state.audioPlayer.stop();
+
+      AudioPlayerStatus prevState = state.status;
+      emit(state.copyWith(
+        audioPlayer: audioPlayer,
+        currentIndex: currentIndex,
+        status: AudioPlayerStatus.loading,
+      ));
+
       await state.audioPlayer
           .setUrl(audioQueue.elementAt(currentIndex).audioUrl);
-      if (isPlaying) {
-        add(PlayAudioEvent(audio: audioQueue.elementAt(currentIndex)));
+      if (prevState == AudioPlayerStatus.playing) {
+        add(PlayAudioEvent(
+          currentIndex: currentIndex,
+          fromCurrentPlaylist: true,
+        ));
+      } else {
+        emit(state.copyWith(
+          audioPlayer: audioPlayer,
+          currentIndex: currentIndex,
+          status: AudioPlayerStatus.paused,
+        ));
       }
-      emit(state.copyWith(
-        currentIndex: currentIndex,
-      ));
     });
 
     on<PlayPreviousEvent>((event, emit) async {
@@ -128,18 +131,40 @@ class AudioPlayerBloc extends Bloc<AudioPlayerEvent, AudioPlayerState> {
         currentIndex = audioQueue.length - 1;
       }
       await state.audioPlayer.stop();
+
+      AudioPlayerStatus prevState = state.status;
+      emit(state.copyWith(
+        audioPlayer: audioPlayer,
+        currentIndex: currentIndex,
+        status: AudioPlayerStatus.loading,
+      ));
+
       await state.audioPlayer
           .setUrl(audioQueue.elementAt(currentIndex).audioUrl);
-      if (isPlaying) {
-        add(PlayAudioEvent(audio: audioQueue.elementAt(currentIndex)));
+      if (prevState == AudioPlayerStatus.playing) {
+        add(PlayAudioEvent(
+          currentIndex: currentIndex,
+          fromCurrentPlaylist: true,
+        ));
+      } else {
+        emit(state.copyWith(
+          audioPlayer: audioPlayer,
+          currentIndex: currentIndex,
+          status: AudioPlayerStatus.paused,
+        ));
       }
-      emit(state.copyWith(
-        currentIndex: currentIndex,
-      ));
     });
 
     on<SeekAudioEvent>((event, emit) async {
       await state.audioPlayer.seek(event.newPosition);
+    });
+
+    on<ToggleLoopEvent>((event, emit) async {
+      isLooping = !isLooping;
+      emit(state.copyWith(
+        audioPlayer: audioPlayer,
+        isLooping: isLooping,
+      ));
     });
 
     on<AudioPlayerFailedEvent>((event, emit) async {

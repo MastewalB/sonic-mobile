@@ -14,14 +14,14 @@ class AudioPlayerFailedEvent extends AudioPlayerEvent {
 }
 
 class PlayAudioEvent extends AudioPlayerEvent {
-  final AudioMock audio;
-  // final ListQueue<AudioMock> playlist;
-  // final int currentIndex;
+  ListQueue<AudioMock>? playlist;
+  int? currentIndex;
+  bool fromCurrentPlaylist;
 
-  const PlayAudioEvent({
-    required this.audio,
-    // required this.playlist,
-    // required this.currentIndex,
+  PlayAudioEvent({
+    this.playlist,
+    this.currentIndex,
+    this.fromCurrentPlaylist = false,
   });
 
   @override
@@ -57,6 +57,13 @@ class SeekAudioEvent extends AudioPlayerEvent {
   final Duration newPosition;
 
   SeekAudioEvent({required this.newPosition});
+
+  @override
+  List<Object?> get props => [];
+}
+
+class ToggleLoopEvent extends AudioPlayerEvent {
+  const ToggleLoopEvent();
 
   @override
   List<Object?> get props => [];
