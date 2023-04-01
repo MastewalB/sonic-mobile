@@ -12,11 +12,21 @@ class PlayerPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final audioPlayerBloc = BlocProvider.of<AudioPlayerBloc>(context);
 
-  debugPrint(audioPlayerBloc.audioQueue.length.toString());
+    debugPrint(audioPlayerBloc.audioQueue.length.toString());
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
-          color: Colors.black
+          gradient: LinearGradient(
+            colors: [
+              Color(Colors.grey.shade50.value),
+              Color(Colors.grey.shade900.value),
+              Color(Colors.black87.value),
+            ],
+            begin: FractionalOffset.topCenter,
+            end: FractionalOffset.bottomCenter,
+            stops: const [0.0, 0.7, 1.0],
+            tileMode: TileMode.clamp,
+          ),
         ),
         child: ListView(
           children: const [
