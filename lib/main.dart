@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sonic_mobile/core/constants/constants.dart';
 import 'package:flutter/services.dart';
 import 'package:sonic_mobile/features/record/presentation/record_page.dart';
+import 'package:sonic_mobile/models/models.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
