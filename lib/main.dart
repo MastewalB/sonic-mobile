@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sonic_mobile/core/constants/constants.dart';
+import 'package:sonic_mobile/models/models.dart';
 
 void main() {
   runApp(const Sonic());
