@@ -1,6 +1,11 @@
-class Audio{
+class Audio {
   final String title;
+  final String artistName;
+  final String fileUrl;
 
-  Audio(this.title);
-
+  Audio(
+    this.title,
+    this.artistName,
+    this.fileUrl,
+  );
 }

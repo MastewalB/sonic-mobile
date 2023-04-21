@@ -11,6 +11,8 @@ class User {
   final bool isStaff;
   final bool isActive;
 
+  String get fullName => "$fullName $lastName";
+
   User({
     required this.id,
     required this.email,

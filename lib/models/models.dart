@@ -1,5 +1,9 @@
-export 'music.dart';
-export 'podcasts.dart';
-export 'playlists.dart';
-export 'users.dart';
+export 'song.dart';
+export 'podcast.dart';
+export 'playlist.dart';
+export 'user.dart';
 export 'audio.dart';
+export 'album.dart';
+export 'artist.dart';
+export 'studio_episode.dart';
+export 'studio_podcast.dart';
