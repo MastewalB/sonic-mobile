@@ -21,6 +21,28 @@ class _CreatePodcastPageState extends State<CreatePodcastPage> {
 
     return BlocBuilder<CreatePodcastBloc, CreatePodcastState>(
       builder: (context, state) {
+        if(state.status.isCreatingPodcast){
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            showDialog(
+                context: context,
+                builder: (builder) {
+                  return AlertDialog(
+                    content: Padding(
+                      padding: EdgeInsets.all(8),
+                      child: Row(
+                        children: const [
+                          CircularProgressIndicator(),
+                          SizedBox(
+                            width: 20,
+                          ),
+                          Text('Creating Your Podcast...')
+                        ],
+                      ),
+                    ),
+                  );
+                });
+          });
+        }
         if (state.status.isError) {
           WidgetsBinding.instance.addPostFrameCallback((_) {
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
