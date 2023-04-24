@@ -3,7 +3,7 @@ import 'package:sonic_mobile/models/models.dart';
 class StudioPodcast {
   final String id;
   final String title;
-  final User author;
+  final PublicUser author;
   final String description;
   final String genre;
   final int numberOfEpisodes;
@@ -20,16 +20,18 @@ class StudioPodcast {
   });
 
   factory StudioPodcast.fromJson(Map<String, dynamic> json) {
+    List<StudioEpisode> episodes = [];
+    for (var episode in json["episodes"]) {
+      episodes.add(StudioEpisode.fromJson(episode));
+    }
     return StudioPodcast(
       id: json["id"],
       title: json["title"],
-      author: json["author"],
+      author: PublicUser.fromJson(json["author"]),
       description: json["description"],
-      genre: json["genres"],
-      episodes: json["episodes"],
+      genre: json["genre"],
+      episodes: episodes,
       numberOfEpisodes: json["number_of_episodes"],
     );
   }
-
-
 }
