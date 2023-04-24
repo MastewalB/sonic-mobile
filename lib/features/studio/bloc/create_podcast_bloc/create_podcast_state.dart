@@ -28,7 +28,7 @@ class CreatePodcastState extends Equatable {
   });
 
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [status, podcast];
 
   CreatePodcastState copyWith(
       {CreatePodcastStatus? status, StudioPodcast? podcast}) {

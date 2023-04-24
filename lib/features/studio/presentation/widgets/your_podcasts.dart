@@ -26,7 +26,7 @@ class YourPodcastsPage extends StatelessWidget {
       title: "My Podcast",
       author: PublicUser.fromUser(user),
       description:
-      "Through benediction You tried to rid your mind of malediction But through all this time ou try to peel it off, and it's such a ride (ride) Your desolation led you into this Vile incarnation of consummated bliss I know you need it now to make you feel alive (alive, alive)",
+          "Through benediction You tried to rid your mind of malediction But through all this time ou try to peel it off, and it's such a ride (ride) Your desolation led you into this Vile incarnation of consummated bliss I know you need it now to make you feel alive (alive, alive)",
       genre: "genre",
       numberOfEpisodes: 0,
       episodes: [],
@@ -62,32 +62,39 @@ class YourPodcastsPage extends StatelessWidget {
     podcast.episodes.add(episode2);
     podcast.episodes.add(episode);
 
-
     double safeAreaWidth = MediaQueryManager.safeAreaHorizontal;
 
     double circleAvatarWidth = safeAreaWidth * 8;
 
     Future _refreshData() async {
       await Future.delayed(const Duration(seconds: 1));
-      context.read<StudioBloc>().add(GetAllPodcastsByUserEvent(userId: "userId"));
+      context
+          .read<StudioBloc>()
+          .add(GetAllPodcastsByUserEvent(userId: "userId"));
     }
+
     return BlocBuilder<StudioBloc, StudioState>(
       builder: (context, state) {
-        if(state.status.isInitial || state.status.isLoading){
+        if (state.status.isInitial || state.status.isLoading) {
           return const Scaffold(
             body: Center(
               child: CircularProgressIndicator(),
             ),
           );
         }
-        if(state.status.isError){
+        if (state.status.isError) {
           return const Scaffold(
             body: Center(
-              child: Text("Could not fetch podcasts."),
+              child: Text(
+                "Could not fetch podcasts.",
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              ),
             ),
           );
         }
-        if(state.status.isLoaded && state.podcasts.isEmpty){
+        if (state.status.isLoaded && state.podcasts.isEmpty) {
           return const Scaffold(
             body: Center(
               child: Text("Your Podcasts will appear Here."),
@@ -123,8 +130,8 @@ class YourPodcastsPage extends StatelessWidget {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) =>
-                                      PodcastDetailPage(podcast: state.podcasts[index])),
+                                  builder: (context) => PodcastDetailPage(
+                                      podcast: state.podcasts[index])),
                             );
                           },
                           child: ListTile(
