@@ -24,9 +24,9 @@ class SearchBar extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 15),
         margin: const EdgeInsets.fromLTRB(0, 20, 0, 0),
         child: Row(
-          children: [
+          children: const [
             Icon(Icons.search),
-            const SizedBox(width: 8),
+            SizedBox(width: 8),
             Text('Search'),
           ],
         ),

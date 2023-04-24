@@ -8,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 
 class SearchBar2 extends StatefulWidget {
-  final bool isYt;
   final Widget body;
   final bool autofocus;
   final bool liveSearch;
@@ -28,7 +27,6 @@ class SearchBar2 extends StatefulWidget {
     this.onQueryChanged,
     this.onQueryCleared,
     required this.body,
-    required this.isYt,
     required this.controller,
     required this.liveSearch,
     required this.onSubmitted,
@@ -130,41 +128,23 @@ class _SearchBar2State extends State<SearchBar2> {
                       if (widget.liveSearch) {
                         tempQuery = val;
                         hide.value = false;
-                        if (widget.isYt) {
-                          Future.delayed(
-                            const Duration(
-                              milliseconds: 600,
-                            ),
-                            () async {
-                              if (tempQuery == val &&
-                                  tempQuery.trim() != '' &&
-                                  tempQuery != query) {
-                                query = tempQuery;
-                                suggestionsList.value =
-                                    await widget.onQueryChanged!(tempQuery)
-                                        as List;
+                        Future.delayed(
+                          const Duration(
+                            milliseconds: 600,
+                          ),
+                          () async {
+                            if (tempQuery == val &&
+                                tempQuery.trim() != '' &&
+                                tempQuery != query) {
+                              query = tempQuery;
+                              if (widget.onQueryChanged == null) {
+                                widget.onSubmitted(tempQuery);
+                              } else {
+                                widget.onQueryChanged!(tempQuery);
                               }
-                            },
-                          );
-                        } else {
-                          Future.delayed(
-                            const Duration(
-                              milliseconds: 600,
-                            ),
-                            () async {
-                              if (tempQuery == val &&
-                                  tempQuery.trim() != '' &&
-                                  tempQuery != query) {
-                                query = tempQuery;
-                                if (widget.onQueryChanged == null) {
-                                  widget.onSubmitted(tempQuery);
-                                } else {
-                                  widget.onQueryChanged!(tempQuery);
-                                }
-                              }
-                            },
-                          );
-                        }
+                            }
+                          },
+                        );
                       }
                     },
                     onSubmitted: (submittedQuery) {

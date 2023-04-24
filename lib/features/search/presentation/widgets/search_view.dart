@@ -144,7 +144,6 @@ class _SearchViewState extends State<SearchView> {
               resizeToAvoidBottomInset: false,
               backgroundColor: Colors.transparent,
               body: SearchBar2(
-                isYt: false,
                 controller: controller,
                 liveSearch: liveSearch,
                 autofocus: widget.autofocus,
