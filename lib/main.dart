@@ -3,10 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sonic_mobile/core/core.dart';
 import 'package:flutter/services.dart';
 import 'package:sonic_mobile/core/widgets/root_scaffold.dart';
-import 'package:sonic_mobile/features/studio/bloc/create_podcast_bloc/create_podcast_bloc.dart';
-import 'package:sonic_mobile/features/studio/presentation/record_page.dart';
-import 'package:sonic_mobile/features/studio/presentation/widgets/create_podcast_page.dart';
-import 'package:sonic_mobile/features/studio/presentation/widgets/your_podcasts.dart';
+import 'package:sonic_mobile/features/studio/presentation/studio_library.dart';
+
 import 'package:sonic_mobile/features/studio/repository/http_studio_repository.dart';
 import 'package:sonic_mobile/models/models.dart';
 import 'package:sonic_mobile/dependency_provider.dart';
@@ -26,12 +24,7 @@ void main() {
         debugShowCheckedModeBanner: false,
         title: 'Sonic',
         theme: CustomTheme.DarkTheme,
-        home: BlocProvider(
-          create: (context) => StudioBloc(
-            studioRepository: DependencyProvider.getHttpStudioRepository()!,
-          )..add(const GetAllPodcastsByUserEvent(userId: "userId")),
-          child: Sonic(),
-        ),
+        home: const Sonic(),
         onGenerateRoute: pageRouter.generateRoute,
       ),
     ),
@@ -55,36 +48,12 @@ class _SonicState extends State<Sonic> {
   Widget build(BuildContext context) {
     MediaQueryManager.init(context);
 
-    List<Widget> screens = [
-      YourPodcastsPage(),
-      Scaffold(),
-    ];
-    List<IconData> icons = [
-      Icons.podcasts,
-      Icons.home,
-    ];
-    List<String> names = [
-      "Your Podcasts",
-      "Another",
-    ];
-    return RootScaffold(
-      screens: screens,
-      icons: icons,
-      names: names,
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        onPressed: () {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (BuildContext context) => BlocProvider(
-                        create: (context) => CreatePodcastBloc(
-                            studioRepository:
-                                DependencyProvider.getHttpStudioRepository()!),
-                        child: CreatePodcastPage(),
-                      )));
-        },
-      ),
+    return BlocProvider(
+      create: (context) => StudioBloc(
+          studioRepository: DependencyProvider.getHttpStudioRepository()!)
+        ..add(GetAllPodcastsByUserEvent(userId: "userId")),
+      child: StudioLibrary(),
     );
+    ;
   }
 }

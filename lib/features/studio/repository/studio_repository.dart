@@ -1,7 +1,7 @@
 import 'package:sonic_mobile/models/models.dart';
 
 abstract class StudioRepository {
-  Future<void> createPodcast(String title, String description, String genre);
+  Future<StudioPodcast> createPodcast(String title, String description, String genre);
 
   Future<List<StudioPodcast>> getPodcastsByUser(String userId);
 

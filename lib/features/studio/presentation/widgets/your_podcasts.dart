@@ -2,65 +2,65 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sonic_mobile/core/core.dart';
 import 'package:sonic_mobile/features/studio/presentation/podcast_detail_page.dart';
-import 'package:sonic_mobile/models/models.dart';
 import 'package:sonic_mobile/features/studio/bloc/studio_bloc/studio_bloc.dart';
 
 class YourPodcastsPage extends StatelessWidget {
+  static const String routeName = "/my_podcasts";
   YourPodcastsPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    User user = User(
-      id: "id",
-      email: "email",
-      username: "username",
-      firstName: "Aj",
-      lastName: "Simpson",
-      dateOfBirth: DateTime.now(),
-      country: "country",
-      isStaff: false,
-      isActive: true,
-    );
-    StudioPodcast podcast = StudioPodcast(
-      id: "id",
-      title: "My Podcast",
-      author: PublicUser.fromUser(user),
-      description:
-          "Through benediction You tried to rid your mind of malediction But through all this time ou try to peel it off, and it's such a ride (ride) Your desolation led you into this Vile incarnation of consummated bliss I know you need it now to make you feel alive (alive, alive)",
-      genre: "genre",
-      numberOfEpisodes: 0,
-      episodes: [],
-    );
-    final StudioEpisode episode = StudioEpisode(
-      id: "id",
-      title: "Why did we . . ",
-      index: 2,
-      podcast: podcast,
-      description: "description",
-      uploadDate: DateTime.now(),
-      file: "file",
-    );
-    final StudioEpisode episode2 = StudioEpisode(
-      id: "id",
-      title: "Through the Spillways of your Soul",
-      index: 2,
-      podcast: podcast,
-      description: "description",
-      uploadDate: DateTime.now(),
-      file: "file",
-    );
-
-    podcast.episodes.add(episode);
-    podcast.episodes.add(episode2);
-    podcast.episodes.add(episode);
-    podcast.episodes.add(episode2);
-    podcast.episodes.add(episode);
-    podcast.episodes.add(episode2);
-    podcast.episodes.add(episode);
-    podcast.episodes.add(episode2);
-    podcast.episodes.add(episode);
-    podcast.episodes.add(episode2);
-    podcast.episodes.add(episode);
+    // User user = User(
+    //   id: "id",
+    //   email: "email",
+    //   username: "username",
+    //   firstName: "Aj",
+    //   lastName: "Simpson",
+    //   dateOfBirth: DateTime.now(),
+    //   country: "country",
+    //   isStaff: false,
+    //   isActive: true,
+    // );
+    // StudioPodcast podcast = StudioPodcast(
+    //   id: "id",
+    //   title: "My Podcast",
+    //   author: PublicUser.fromUser(user),
+    //   description:
+    //       "Through benediction You tried to rid your mind of malediction But through all this time ou try to peel it off, and it's such a ride (ride) Your desolation led you into this Vile incarnation of consummated bliss I know you need it now to make you feel alive (alive, alive)",
+    //   genre: "genre",
+    //   numberOfEpisodes: 0,
+    //   episodes: [],
+    // );
+    // final StudioEpisode episode = StudioEpisode(
+    //   id: "id",
+    //   title: "Why did we . . ",
+    //   index: 2,
+    //   podcast: "podcast",
+    //   description: "description",
+    //   uploadDate: DateTime.now(),
+    //   file: "file",
+    // );
+    // final StudioEpisode episode2 = StudioEpisode(
+    //   id: "id",
+    //   title: "Through the Spillways of your Soul",
+    //   index: 2,
+    //   podcast: "podcast",
+    //   description: "description",
+    //   uploadDate: DateTime.now(),
+    //   file: "file",
+    // );
+    //
+    // podcast.episodes.add(episode);
+    // podcast.episodes.add(episode2);
+    // podcast.episodes.add(episode);
+    // podcast.episodes.add(episode2);
+    // podcast.episodes.add(episode);
+    // podcast.episodes.add(episode2);
+    // podcast.episodes.add(episode);
+    // podcast.episodes.add(episode2);
+    // podcast.episodes.add(episode);
+    // podcast.episodes.add(episode2);
+    // podcast.episodes.add(episode);
 
     double safeAreaWidth = MediaQueryManager.safeAreaHorizontal;
 
