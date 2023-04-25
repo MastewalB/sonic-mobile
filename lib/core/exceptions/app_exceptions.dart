@@ -25,3 +25,7 @@ class PermissionDeniedException extends AppException{
 class ServerErrorException extends AppException{
   ServerErrorException(ErrorType errorType) : super(errorType: errorType);
 }
+
+class NetworkException extends AppException{
+  NetworkException(ErrorType errorType): super(errorType: errorType);
+}
