@@ -5,4 +5,5 @@ enum ErrorType {
   HTTP_403,
   HTTP_404,
   HTTP_500,
+  CONNECTION_ERROR,
 }
