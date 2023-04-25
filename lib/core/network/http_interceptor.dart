@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:http/http.dart' as http;
 import 'package:sonic_mobile/core/core.dart';
 
@@ -12,8 +11,9 @@ class AuthenticatedHttpClient extends http.BaseClient {
     required this.refreshUrl,
   });
 
-  String inMemoryAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjgyMTk5NjYzLCJpYXQiOjE2ODIxOTYwNjMsImp0aSI6ImIyZTM1ODhiMWMwMjQ5ODhiN2ExOGMxMDc0MzhkOGMxIiwidXNlcl9pZCI6IjE4MjRjYTY0LTAwMmQtNGU5Mi04MjJlLTZkMDBhYmNmYTUyNCIsIlRPS0VOX1RZUEVfQ0xBSU0iOiJhY2Nlc3MifQ.nNLo-U-CnTp8bhPIsXdvEcx1zFUF2iFfdukvHQLFp14';
-  String inMemoryRefreshToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTY4NDg0ODE5OSwiaWF0IjoxNjgyMjU2MTk5LCJqdGkiOiIwMTJmMTExODk5Yjg0ZTEzYjJmOTBjYWUwODg2OGQ2MSIsInVzZXJfaWQiOiIxODI0Y2E2NC0wMDJkLTRlOTItODIyZS02ZDAwYWJjZmE1MjQiLCJUT0tFTl9UWVBFX0NMQUlNIjoiYWNjZXNzIn0.VeOkiH8rbY6bAHHbtO7lYuLDbdcGG9GVreIx2huBik8';
+  String inMemoryAccessToken = '';
+  String inMemoryRefreshToken =
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTY4NDg0ODE5OSwiaWF0IjoxNjgyMjU2MTk5LCJqdGkiOiIwMTJmMTExODk5Yjg0ZTEzYjJmOTBjYWUwODg2OGQ2MSIsInVzZXJfaWQiOiIxODI0Y2E2NC0wMDJkLTRlOTItODIyZS02ZDAwYWJjZmE1MjQiLCJUT0tFTl9UWVBFX0NMQUlNIjoiYWNjZXNzIn0.VeOkiH8rbY6bAHHbtO7lYuLDbdcGG9GVreIx2huBik8';
 
   Future<String> get accessToken async {
     if (inMemoryAccessToken.isNotEmpty) return inMemoryAccessToken;
@@ -44,12 +44,12 @@ class AuthenticatedHttpClient extends http.BaseClient {
 
   Future<Map<String, String>?> injectToken(Map<String, String>? headers) async {
     if (headers != null) {
-      headers.putIfAbsent('Authorization', () => 'Bearer ${secureStorage.getAccessToken()}');
-      // await accessToken.then((value) {
-      //   if (value.isNotEmpty) {
-      //
-      //   }
-      // });
+      String access = await accessToken;
+      if (headers.containsKey("Authorization")) {
+        headers.update('Authorization', (value) => 'Bearer  $access');
+      } else {
+        headers.putIfAbsent('Authorization', () => 'Bearer  $access');
+      }
     }
     return headers;
   }
@@ -70,100 +70,137 @@ class AuthenticatedHttpClient extends http.BaseClient {
 
     //Refresh token is invalid, User needs to login again
     if (response.statusCode == 401) {
-      inMemoryRefreshToken = inMemoryAccessToken = "";
+      inMemoryRefreshToken = "";
+      inMemoryAccessToken = "";
       secureStorage.deleteAll();
       return;
     }
 
     var data = json.decode(response.body);
-    print(data["access"]);
     inMemoryAccessToken = data["access"];
     secureStorage.setAccessToken(data["access"]);
   }
 
   @override
   Future<http.Response> get(Uri url, {Map<String, String>? headers}) async {
-    var header = await injectToken(headers);
-    http.Response response = await _sendUnstreamed("GET", url, header);
+    try {
+      var header = await injectToken(headers);
+      http.Response response = await _sendUnstreamed("GET", url, header);
 
-    while (_checkResponse(url, response) == 1) {
-      injectToken(headers);
-      response = await _sendUnstreamed("GET", url, header);
+      await _checkResponse(url, response).then((value) async {
+        if (value == 1) {
+          var head = await injectToken(headers);
+          response = await _sendUnstreamed('POST', url, head);
+        }
+      });
+      return response;
+    } catch (e) {
+      throw NetworkException(ErrorType.CONNECTION_ERROR);
     }
-    return response;
   }
 
   @override
   Future<http.Response> post(Uri url,
       {Map<String, String>? headers, Object? body, Encoding? encoding}) async {
-    var header = await injectToken(headers);
-
-    http.Response response =
-        await _sendUnstreamed('POST', url, header, body, encoding);
-    if (_checkResponse(url, response) == 1) {
+    try {
       var header = await injectToken(headers);
-      response = await _sendUnstreamed('POST', url, header, body, encoding);
+      http.Response response =
+          await _sendUnstreamed('POST', url, header, body, encoding);
+
+      await _checkResponse(url, response).then((value) async {
+        if (value == 1) {
+          var head = await injectToken(headers);
+          response = await _sendUnstreamed('POST', url, head, body, encoding);
+        }
+      });
+      return response;
+    } catch (e) {
+      throw NetworkException(ErrorType.CONNECTION_ERROR);
     }
-    return response;
   }
 
   @override
   Future<http.Response> put(Uri url,
       {Map<String, String>? headers, Object? body, Encoding? encoding}) async {
-    injectToken(headers);
-    http.Response response =
-        await _sendUnstreamed('PUT', url, headers, body, encoding);
-    while (_checkResponse(url, response) == 1) {
-      injectToken(headers);
-      response = await _sendUnstreamed('PUT', url, headers, body, encoding);
+    try {
+      var header = await injectToken(headers);
+      http.Response response =
+          await _sendUnstreamed('PUT', url, header, body, encoding);
+
+      await _checkResponse(url, response).then((value) async {
+        if (value == 1) {
+          var head = await injectToken(headers);
+          response = await _sendUnstreamed('PUT', url, head, body, encoding);
+        }
+      });
+      return response;
+    } catch (e) {
+      throw NetworkException(ErrorType.CONNECTION_ERROR);
     }
-    return response;
   }
 
   @override
   Future<http.Response> patch(Uri url,
       {Map<String, String>? headers, Object? body, Encoding? encoding}) async {
-    injectToken(headers);
-    http.Response response =
-        await _sendUnstreamed('PATCH', url, headers, body, encoding);
-    while (_checkResponse(url, response) == 1) {
-      injectToken(headers);
-      response = await _sendUnstreamed('PATCH', url, headers, body, encoding);
+    try {
+      var header = await injectToken(headers);
+      http.Response response =
+          await _sendUnstreamed('PATCH', url, header, body, encoding);
+
+      await _checkResponse(url, response).then((value) async {
+        if (value == 1) {
+          var head = await injectToken(headers);
+          response = await _sendUnstreamed('PATCH', url, head, body, encoding);
+        }
+      });
+      return response;
+    } catch (e) {
+      throw NetworkException(ErrorType.CONNECTION_ERROR);
     }
-    return response;
   }
 
   @override
   Future<http.Response> delete(Uri url,
       {Map<String, String>? headers, Object? body, Encoding? encoding}) async {
-    injectToken(headers);
-    http.Response response =
-        await _sendUnstreamed('DELETE', url, headers, body, encoding);
-    while (_checkResponse(url, response) == 1) {
-      injectToken(headers);
-      response = await _sendUnstreamed('DELETE', url, headers, body, encoding);
+    try {
+      var header = await injectToken(headers);
+      http.Response response =
+          await _sendUnstreamed('DELETE', url, header, body, encoding);
+
+      await _checkResponse(url, response).then((value) async {
+        if (value == 1) {
+          var head = await injectToken(headers);
+          response = await _sendUnstreamed('DELETE', url, head, body, encoding);
+        }
+      });
+      return response;
+    } catch (e) {
+      throw NetworkException(ErrorType.CONNECTION_ERROR);
     }
-    return response;
   }
 
   //Returns 1 to retry, 0 to finalize
-  int _checkResponse(Uri url, http.Response response) {
-    if (response.statusCode < 400) return 0;
+  Future<int> _checkResponse(Uri url, http.Response response) async {
+    int responseValue = 0;
+    if (response.statusCode < 400) return responseValue;
     var body = json.decode(response.body);
 
     if (response.statusCode == 401 && body["code"] == "token_not_valid") {
-
-      if (inMemoryRefreshToken != "") {
-        refreshAccessToken(refreshUrl, inMemoryRefreshToken);
-        return 1;
-      }
-      throw UnauthorizedUserException(ErrorType.HTTP_401_EXPIRED_TOKEN);
+      await refreshToken.then((value) async {
+        if (value != '') {
+          await refreshAccessToken(refreshUrl, inMemoryRefreshToken);
+          responseValue = 1;
+        } else {
+          throw UnauthorizedUserException(ErrorType.HTTP_401_EXPIRED_TOKEN);
+        }
+      });
     }
+
     if (response.statusCode == 401 && body["code"] == "user_inactive") {
       throw InactiveUserException(ErrorType.HTTP_401_USER_INACTIVE);
     }
 
-    return 0;
+    return responseValue;
   }
 
   /// Sends a non-streaming [Request] and returns a non-streaming [Response].
