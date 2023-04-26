@@ -17,11 +17,18 @@ class AuthenticatedHttpClient extends http.BaseClient {
 
   Future<String> get accessToken async {
     if (inMemoryAccessToken.isNotEmpty) return inMemoryAccessToken;
-    inMemoryAccessToken = await secureStorage.getAccessToken().then((value) {
-      if (value != null) {
-        return value;
+    inMemoryAccessToken =
+        await secureStorage.getAccessToken().then((value) async {
+      if (value == null) {
+        await refreshToken.then((refreshValue) async {
+          if (refreshValue != '') {
+            await refreshAccessToken(refreshUrl, refreshValue);
+          } else {
+            throw UnauthorizedUserException(ErrorType.HTTP_401_EXPIRED_TOKEN);
+          }
+        });
       }
-      return '';
+      return inMemoryAccessToken;
     });
     return inMemoryAccessToken;
   }
@@ -133,6 +140,8 @@ class AuthenticatedHttpClient extends http.BaseClient {
           response = await _sendUnstreamed('PUT', url, head, body, encoding);
         }
       });
+      print(response.statusCode);
+      print(response.body);
       return response;
     } catch (e) {
       throw NetworkException(ErrorType.CONNECTION_ERROR);
@@ -188,7 +197,7 @@ class AuthenticatedHttpClient extends http.BaseClient {
     if (response.statusCode == 401 && body["code"] == "token_not_valid") {
       await refreshToken.then((value) async {
         if (value != '') {
-          await refreshAccessToken(refreshUrl, inMemoryRefreshToken);
+          await refreshAccessToken(refreshUrl, value);
           responseValue = 1;
         } else {
           throw UnauthorizedUserException(ErrorType.HTTP_401_EXPIRED_TOKEN);
