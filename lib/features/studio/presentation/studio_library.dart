@@ -45,7 +45,7 @@ class _StudioLibraryState extends State<StudioLibrary> {
                         create: (context) => CreatePodcastBloc(
                             studioRepository:
                                 DependencyProvider.getHttpStudioRepository()!),
-                        child: CreatePodcastPage(),
+                        child: const CreatePodcastPage(),
                       )));
         },
       ),

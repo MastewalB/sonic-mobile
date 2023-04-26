@@ -3,9 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sonic_mobile/core/core.dart';
 import 'package:sonic_mobile/features/studio/presentation/podcast_detail_page.dart';
 import 'package:sonic_mobile/features/studio/bloc/studio_bloc/studio_bloc.dart';
+import 'package:sonic_mobile/features/studio/presentation/widgets/screen_arguments.dart';
 
 class YourPodcastsPage extends StatelessWidget {
   static const String routeName = "/my_podcasts";
+
   YourPodcastsPage({Key? key}) : super(key: key);
 
   @override
@@ -127,11 +129,12 @@ class YourPodcastsPage extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(vertical: 8),
                         child: GestureDetector(
                           onTap: () {
-                            Navigator.push(
+                            Navigator.pushReplacementNamed(
                               context,
-                              MaterialPageRoute(
-                                  builder: (context) => PodcastDetailPage(
-                                      podcast: state.podcasts[index])),
+                              PodcastDetailPage.routeName,
+                              arguments: PodcastScreenArgument(
+                                state.podcasts[index],
+                              ),
                             );
                           },
                           child: ListTile(

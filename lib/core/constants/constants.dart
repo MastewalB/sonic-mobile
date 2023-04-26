@@ -25,6 +25,7 @@ class Constants {
   static const String loginRequired =
       "You Need to Login to complete this action.";
   static const String podcastCreated = "Podcast Created Successfully";
+  static const String podcastDeleted = "Podcast Deleted Successfully";
   static const String connectionError = "A Network Problem Occurred";
 
   //SnackBar Duration

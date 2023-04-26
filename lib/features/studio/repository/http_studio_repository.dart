@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:http/http.dart' as http;
 import 'package:sonic_mobile/features/studio/repository/studio_repository.dart';
@@ -14,14 +15,16 @@ class HttpStudioRepository implements StudioRepository {
     required this.httpClient,
   });
 
-
   @override
   Future<StudioPodcast> createPodcast(
       String title, String description, String genre) async {
     Uri uri = Uri.parse("$apiUrl/podcasts/");
 
-    var body = json
-        .encode({"title": title, "description": description, "genre": genre});
+    var body = json.encode({
+      "title": title,
+      "description": description,
+      "genre": genre,
+    });
     try {
       final response = await httpClient.post(
         uri,
@@ -30,20 +33,31 @@ class HttpStudioRepository implements StudioRepository {
         },
         body: body,
       );
-      if (response.statusCode >= 400) {
-        throw Exception("No");
-      }
-      print(response.body);
       return StudioPodcast.fromJson(json.decode(response.body));
-    } catch (e) {
-      throw Exception(e);
+    } on SocketException catch (e) {
+      throw NetworkException(ErrorType.CONNECTION_ERROR);
     }
   }
 
   @override
   Future<void> deletePodcast(String podcastId) async {
-    // TODO: implement deletePodcast
-    throw UnimplementedError();
+    Uri uri = Uri.parse("$apiUrl/podcasts/");
+
+    var body = json.encode({
+      "id": podcastId,
+    });
+    try {
+      final response = await httpClient.delete(
+        uri,
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+        },
+        body: body,
+      );
+      return;
+    } on SocketException catch (e) {
+      throw NetworkException(ErrorType.CONNECTION_ERROR);
+    }
   }
 
   @override
@@ -62,7 +76,9 @@ class HttpStudioRepository implements StudioRepository {
       if (response.statusCode >= 400) {
         throw Exception("No");
       }
+      // print(response.body);
       var data = json.decode(response.body);
+      // print(data);
       List<StudioPodcast> allPodcasts = [];
 
       for (var podcast in data) {
@@ -70,17 +86,36 @@ class HttpStudioRepository implements StudioRepository {
       }
       return allPodcasts;
     } catch (e) {
-      print(e.toString());
       throw Exception(e);
     }
   }
 
   @override
   Future<StudioPodcast> updatePodcast(
-      String? title, String? description, String? genre) async {
-    // TODO: implement updatePodcast
-    throw UnimplementedError();
+      String id, String title, String description, String genre) async {
+    Uri uri = Uri.parse("$apiUrl/podcasts/");
+
+    var body = json.encode({
+      "id": id,
+      "title": title,
+      "description": description,
+      "genre": genre,
+    });
+    try {
+      final response = await httpClient.put(
+        uri,
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+        },
+        body: body,
+      );
+      return StudioPodcast.fromJson(
+        json.decode(
+          response.body,
+        ),
+      );
+    } on SocketException catch (e) {
+      throw NetworkException(ErrorType.CONNECTION_ERROR);
+    }
   }
-
-
 }
