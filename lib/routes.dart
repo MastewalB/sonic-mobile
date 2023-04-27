@@ -8,16 +8,34 @@ import 'package:sonic_mobile/features/studio/presentation/studio_library.dart';
 import 'package:sonic_mobile/features/studio/presentation/widgets/screen_arguments.dart';
 import 'package:sonic_mobile/features/studio/presentation/widgets/update_podcast_page.dart';
 
+import 'features/studio/bloc/record_bloc/record_bloc.dart';
+
 class PageRouter {
   Route<dynamic>? generateRoute(RouteSettings routeSettings) {
     switch (routeSettings.name) {
       case StudioLibrary.routeName:
+        final StudioLibraryScreenArguments studioLibraryScreenArguments =
+            routeSettings.arguments as StudioLibraryScreenArguments;
+        int initialIndex = studioLibraryScreenArguments.initialIndex ?? 0;
         return MaterialPageRoute(builder: (context) {
-          return BlocProvider(
-            create: (context) => StudioBloc(
-                studioRepository: DependencyProvider.getHttpStudioRepository()!)
-              ..add(const GetAllPodcastsByUserEvent(userId: "userId")),
-            child: const StudioLibrary(),
+          return MultiBlocProvider(
+            providers: [
+              BlocProvider(
+                create: (context) => StudioBloc(
+                    studioRepository:
+                        DependencyProvider.getHttpStudioRepository()!)
+                  ..add(const GetAllPodcastsByUserEvent(userId: "userId")),
+              ),
+              BlocProvider(
+                create: (context) => RecordBloc()
+                  ..add(
+                    ListRecordingsEvent(),
+                  ),
+              ),
+            ],
+            child: StudioLibrary(
+              initialIndex: initialIndex,
+            ),
           );
         });
       case PodcastDetailPage.routeName:

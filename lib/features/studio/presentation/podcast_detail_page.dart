@@ -45,7 +45,7 @@ class _PodcastDetailPageState extends State<PodcastDetailPage> {
           WidgetsBinding.instance.addPostFrameCallback((_) {
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(
-                content: const Text(Constants.connectionError),
+                content: Text(Constants.connectionError),
                 duration: Constants.longDuration,
                 showCloseIcon: true,
               ),

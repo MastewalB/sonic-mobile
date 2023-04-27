@@ -5,3 +5,9 @@ class PodcastScreenArgument {
 
   PodcastScreenArgument(this.podcast);
 }
+
+class StudioLibraryScreenArguments {
+  final int? initialIndex;
+
+  StudioLibraryScreenArguments(this.initialIndex);
+}
