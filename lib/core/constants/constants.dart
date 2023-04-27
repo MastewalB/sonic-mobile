@@ -11,6 +11,9 @@ class Constants {
   static const String studioUrl = "${apiUrl}studio/";
   static const String podcastsUrl = "${apiUrl}podcasts/";
 
+  //Storage
+  static const String recordingDirectory = "Sonic/recordings/";
+
   //Characters
   static const String kEllipsis = ' . . .';
   static const String kLineSeparator = '\u2028';
@@ -33,4 +36,10 @@ class Constants {
   static const Duration shortDuration = Duration(seconds: 3);
   static const Duration normalDuration = Duration(seconds: 4);
   static const Duration longDuration = Duration(seconds: 5);
+
+
+  //Recording Constants
+  static const double decibleLimit = -30;
+  static const amplitudeCaptureRateInMilliSeconds = 100;
+
 }
