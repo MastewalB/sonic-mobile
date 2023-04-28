@@ -4,7 +4,7 @@ import 'package:sonic_mobile/core/core.dart';
 import 'package:flutter/services.dart';
 import 'package:sonic_mobile/core/widgets/root_scaffold.dart';
 import 'package:sonic_mobile/features/studio/bloc/create_podcast_bloc/create_podcast_bloc.dart';
-import 'package:sonic_mobile/features/studio/presentation/record_page.dart';
+// import 'package:sonic_mobile/features/studio/presentation/record_page.dart';
 import 'package:sonic_mobile/features/studio/presentation/widgets/create_podcast_page.dart';
 import 'package:sonic_mobile/features/studio/presentation/widgets/your_podcasts.dart';
 import 'package:sonic_mobile/features/studio/repository/http_studio_repository.dart';
