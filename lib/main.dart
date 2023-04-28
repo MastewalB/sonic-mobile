@@ -5,7 +5,8 @@ import 'package:sonic_mobile/features/home/presentation/homepage.dart';
 import 'package:sonic_mobile/features/search/presentation/search_page.dart';
 import 'features/album/presentation/album_page.dart';
 import 'features/album/presentation/widgets/album_art.dart';
-
+import 'features/login/loginpage.dart';
+import 'features/login/SignUpPage.dart';
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(const MaterialApp(home: Sonic()));
@@ -38,7 +39,7 @@ class _SonicState extends State<Sonic> {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const Scaffold(body: SearchPage()),
+      home: const Scaffold(body: SignUpPage()),
     );
   }
 }
