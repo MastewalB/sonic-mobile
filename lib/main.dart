@@ -37,7 +37,7 @@ class _SonicState extends State<Sonic> {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const Scaffold(body: Homepage()),
+      home: const Scaffold(body: AlbumPage()),
     );
   }
 }
