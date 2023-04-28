@@ -1,0 +1,8 @@
+enum ErrorType {
+  NONE,
+  HTTP_401_EXPIRED_TOKEN,
+  HTTP_401_USER_INACTIVE,
+  HTTP_403,
+  HTTP_404,
+  HTTP_500,
+}
