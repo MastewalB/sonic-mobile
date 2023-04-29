@@ -44,8 +44,8 @@ class RecordBloc extends Bloc<RecordEvent, RecordState> {
 
       if (path != null && event.newName != null) {
         File file = File(path);
-        String newPath = await FileManager.renameFile(path, '${event.newName!}.mp3');
-        print(file.path);
+        String newPath =
+            await FileManager.renameFile(path, '${event.newName!}.mp3');
         file.renameSync(newPath);
       }
       emit(RecordStoppedState());
@@ -74,7 +74,6 @@ class RecordBloc extends Bloc<RecordEvent, RecordState> {
         }
         emit(RecordingsLoaded(recordings: recordings));
       } catch (e) {
-        print(e.toString());
         emit(RecordingError());
       }
     });

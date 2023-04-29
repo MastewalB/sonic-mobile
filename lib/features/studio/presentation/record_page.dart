@@ -8,6 +8,8 @@ import 'package:sonic_mobile/features/studio/presentation/widgets/mic.dart';
 import 'package:sonic_mobile/features/studio/presentation/widgets/screen_arguments.dart';
 
 class RecordPage extends StatefulWidget {
+  static const String routeName = "record_page";
+
   const RecordPage({Key? key}) : super(key: key);
 
   @override
@@ -26,7 +28,22 @@ class _RecordPageState extends State<RecordPage> {
                 onTap: () {
                   superContext.read<RecordBloc>().add(StartRecordingEvent());
                 },
-                child: const Mic(),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const [
+                    Mic(),
+                    Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Text(
+                        "Tap to Start Recording",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 25
+                        ),
+                      ),
+                    )
+                  ],
+                ),
               ),
             ),
           );
@@ -89,9 +106,9 @@ class _RecordPageState extends State<RecordPage> {
                               actions: [
                                 ElevatedButton(
                                   onPressed: () {
-                                    superContext
-                                        .read<RecordBloc>()
-                                        .add(StopRecordingEvent(newName: nameController.text));
+                                    superContext.read<RecordBloc>().add(
+                                        StopRecordingEvent(
+                                            newName: nameController.text));
                                     Navigator.pop(context);
                                   },
                                   child: const Text(
@@ -135,7 +152,7 @@ class _RecordPageState extends State<RecordPage> {
         return const Scaffold(
           body: Center(
             child: Text(
-              'An Error occured',
+              'An Error occurred',
               style: TextStyle(color: Colors.white),
             ),
           ),

@@ -22,10 +22,12 @@ class _UpdatePodcastPageState extends State<UpdatePodcastPage> {
   bool validated = true;
 
   Future<bool> _onWillPop() async {
-    Navigator.of(context).pushReplacementNamed(PodcastDetailPage.routeName,
-        arguments: PodcastScreenArgument(
-          widget.podcast,
-        ));
+    Navigator.of(context).pushReplacementNamed(
+      PodcastDetailPage.routeName,
+      arguments: PodcastScreenArgument(
+        widget.podcast,
+      ),
+    );
     return true;
   }
 
@@ -44,8 +46,8 @@ class _UpdatePodcastPageState extends State<UpdatePodcastPage> {
         if (state.status.isError) {
           WidgetsBinding.instance.addPostFrameCallback((_) {
             ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text(Constants.connectionError),
+              SnackBar(
+                content: Text(state.errorType.name),
                 duration: Constants.longDuration,
                 showCloseIcon: true,
               ),
@@ -211,7 +213,12 @@ class _UpdatePodcastPageState extends State<UpdatePodcastPage> {
                                   : const Text("Update")),
                           ElevatedButton(
                             onPressed: () {
-                              Navigator.pop(context);
+                              Navigator.of(context).pushReplacementNamed(
+                                PodcastDetailPage.routeName,
+                                arguments: PodcastScreenArgument(
+                                  widget.podcast,
+                                ),
+                              );
                             },
                             style: ButtonStyle(
                               backgroundColor:

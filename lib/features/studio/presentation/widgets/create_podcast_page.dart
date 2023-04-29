@@ -5,6 +5,7 @@ import 'package:sonic_mobile/features/studio/bloc/create_podcast_bloc/create_pod
 import 'package:sonic_mobile/features/studio/presentation/studio_library.dart';
 
 class CreatePodcastPage extends StatefulWidget {
+  static const String routeName = "create_podcast";
   const CreatePodcastPage({Key? key}) : super(key: key);
 
   @override

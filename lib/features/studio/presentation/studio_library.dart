@@ -47,30 +47,18 @@ class _StudioLibraryState extends State<StudioLibrary> {
         FloatingActionButton(
           child: const Icon(Icons.add),
           onPressed: () {
-            Navigator.push(
+            Navigator.pushNamed(
               context,
-              MaterialPageRoute(
-                builder: (BuildContext context) => BlocProvider(
-                  create: (context) => CreatePodcastBloc(
-                      studioRepository:
-                          DependencyProvider.getHttpStudioRepository()!),
-                  child: const CreatePodcastPage(),
-                ),
-              ),
+              CreatePodcastPage.routeName,
             );
           },
         ),
         FloatingActionButton(
           child: const Icon(Icons.add),
           onPressed: () {
-            Navigator.push(
+            Navigator.pushNamed(
               context,
-              MaterialPageRoute(
-                builder: (BuildContext context) => BlocProvider(
-                  create: (context) => RecordBloc(),
-                  child: const RecordPage(),
-                ),
-              ),
+              RecordPage.routeName,
             );
           },
         )
