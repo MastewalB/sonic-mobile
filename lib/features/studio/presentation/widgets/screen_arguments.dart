@@ -11,3 +11,9 @@ class StudioLibraryScreenArguments {
 
   StudioLibraryScreenArguments(this.initialIndex);
 }
+
+class CreateEpisodeScreenArguments {
+  final StudioPodcast podcast;
+
+  CreateEpisodeScreenArguments(this.podcast);
+}
