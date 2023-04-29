@@ -5,13 +5,13 @@ class StudioEpisode implements Audio {
   @override
   final String title;
   final int index;
-  final String podcast;
+  final StudioPodcastInfo podcast;
   final String description;
   final DateTime uploadDate;
   final String file;
 
   @override
-  String get artistName => "podcast.author.fullName";
+  String get artistName => podcast.author.fullName;
 
   @override
   String get fileUrl => file;
@@ -31,7 +31,7 @@ class StudioEpisode implements Audio {
       id: json["id"],
       title: json["title"],
       index: json["index"],
-      podcast: json['podcast'],
+      podcast: StudioPodcastInfo.fromJson(json['podcast']),
       description: json["description"],
       uploadDate: DateTime.parse(json["upload_date"]),
       file: json["file"],

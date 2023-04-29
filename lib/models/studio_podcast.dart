@@ -35,3 +35,32 @@ class StudioPodcast {
     );
   }
 }
+
+class StudioPodcastInfo {
+  final String id;
+  final String title;
+  final PublicUser author;
+  final String description;
+  final String genre;
+  final int numberOfEpisodes;
+
+  const StudioPodcastInfo({
+    required this.id,
+    required this.title,
+    required this.author,
+    required this.description,
+    required this.genre,
+    required this.numberOfEpisodes,
+  });
+
+  factory StudioPodcastInfo.fromJson(Map<String, dynamic> json) {
+    return StudioPodcastInfo(
+      id: json["id"],
+      title: json["title"],
+      author: PublicUser.fromJson(json["author"]),
+      description: json["description"],
+      genre: json["genre"],
+      numberOfEpisodes: json["number_of_episodes"],
+    );
+  }
+}
