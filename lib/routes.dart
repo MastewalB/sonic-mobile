@@ -33,7 +33,9 @@ class PageRouter {
                 BlocProvider(
                   create: (context) => StudioBloc(
                       studioRepository:
-                          DependencyProvider.getHttpStudioRepository()!)
+                          DependencyProvider.getHttpStudioRepository()!,
+                    notificationCubit: DependencyProvider.getNotificationCubit()!,
+                  )
                     ..add(const GetAllPodcastsByUserEvent(userId: "userId")),
                 ),
                 BlocProvider(
@@ -57,6 +59,7 @@ class PageRouter {
             return BlocProvider(
               create: (context) => PodcastDetailBloc(
                 studioRepository: DependencyProvider.getHttpStudioRepository()!,
+                notificationCubit: DependencyProvider.getNotificationCubit()!,
               )..add(GetPodcastDetailEvent()),
               child: PodcastDetailPage(podcast: podcastScreenArgument.podcast),
             );
@@ -70,13 +73,14 @@ class PageRouter {
             return BlocProvider(
               create: (context) => PodcastDetailBloc(
                 studioRepository: DependencyProvider.getHttpStudioRepository()!,
+                notificationCubit: DependencyProvider.getNotificationCubit()!,
               ),
               child: UpdatePodcastPage(podcast: podcastScreenArgument.podcast),
             );
           },
         );
       case CreatePodcastPage.routeName:
-        MaterialPageRoute(
+        return MaterialPageRoute(
           builder: (BuildContext context) => BlocProvider(
             create: (context) => CreatePodcastBloc(
                 studioRepository:
@@ -101,6 +105,7 @@ class PageRouter {
           builder: (BuildContext context) => BlocProvider(
             create: (context) => PodcastDetailBloc(
               studioRepository: DependencyProvider.getHttpStudioRepository()!,
+              notificationCubit: DependencyProvider.getNotificationCubit()!,
             )..add(CreateEpisodeInitial()),
             child: CreateEpisodePage(
               podcast: createEpisodeScreenArguments.podcast,

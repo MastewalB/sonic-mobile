@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:sonic_mobile/core/core.dart';
 
 class RootScaffold extends StatefulWidget {
   const RootScaffold({

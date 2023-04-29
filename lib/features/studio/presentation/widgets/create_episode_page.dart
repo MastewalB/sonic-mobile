@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sonic_mobile/core/core.dart';
 import 'package:sonic_mobile/features/studio/bloc/podcast_detail_bloc/podcast_detail_bloc.dart';
 import 'package:sonic_mobile/features/studio/presentation/podcast_detail_page.dart';
 import 'package:sonic_mobile/features/studio/presentation/widgets/screen_arguments.dart';
@@ -62,20 +61,6 @@ class _CreateEpisodePageState extends State<CreateEpisodePage> {
             ),
           );
         }
-        // if (state.status.isError) {
-        //   debugPrint("been here");
-        //   WidgetsBinding.instance.addPostFrameCallback((_) {
-        //   ScaffoldMessenger.of(context).showSnackBar(
-        //     SnackBar(
-        //       content: const Text(Constants.connectionError),
-        //       duration: Constants.longDuration,
-        //       showCloseIcon: true,
-        //     ),
-        //   );
-        //   });
-        //   return ErrorHandlerWidget(
-        //       context: context, errorType: state.errorType, callback: () {});
-        // }
         if (state.status.isEpisodeCreated) {
           WidgetsBinding.instance.addPostFrameCallback((_) {
             Navigator.pushReplacementNamed(

@@ -12,16 +12,18 @@ part 'podcast_detail_state.dart';
 
 class PodcastDetailBloc extends Bloc<PodcastDetailEvent, PodcastDetailState> {
   final StudioRepository studioRepository;
+  final NotificationCubit notificationCubit;
 
-  PodcastDetailBloc({required this.studioRepository})
-      : super(const PodcastDetailState()) {
+  PodcastDetailBloc({
+    required this.studioRepository,
+    required this.notificationCubit,
+  }) : super(const PodcastDetailState()) {
     on<PodcastDetailEvent>((event, emit) {
       // TODO: implement event handler
+      notificationCubit.successNotification(message: "loaded");
     });
 
-    on<GetPodcastDetailEvent>((event, emit) async {
-
-    });
+    on<GetPodcastDetailEvent>((event, emit) async {});
 
     on<UpdatePodcastEvent>((event, emit) async {
       emit(state.copyWith(status: PodcastDetailStatus.loading));
@@ -106,6 +108,8 @@ class PodcastDetailBloc extends Bloc<PodcastDetailEvent, PodcastDetailState> {
             .then(
           (value) {
             if (value == true) {
+              notificationCubit.successNotification(
+                  message: "Episode Created Successfully.");
               emit(state.copyWith(
                 status: PodcastDetailStatus.episodeCreated,
               ));

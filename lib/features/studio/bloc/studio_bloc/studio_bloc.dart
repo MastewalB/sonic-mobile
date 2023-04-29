@@ -12,16 +12,21 @@ part 'studio_state.dart';
 
 class StudioBloc extends Bloc<StudioEvent, StudioState> {
   final StudioRepository studioRepository;
+  final NotificationCubit notificationCubit;
 
-  StudioBloc({required this.studioRepository}) : super(StudioState()) {
+  StudioBloc({
+    required this.studioRepository,
+    required this.notificationCubit,
+  }) : super(StudioState()) {
     on<StudioEvent>((event, emit) {});
-
 
     on<GetAllPodcastsByUserEvent>((event, emit) async {
       emit(state.copyWith(status: StudioStatus.loading));
       await studioRepository.getPodcastsByUser(event.userId).then((value) {
         emit(state.copyWith(status: StudioStatus.loaded, podcasts: value));
       }, onError: (error) {
+        notificationCubit.errorNotification(
+            message: error.toString());
         emit(state.copyWith(status: StudioStatus.error));
       });
     });

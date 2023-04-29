@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:sonic_mobile/features/studio/repository/http_studio_repository.dart';
 import 'package:sonic_mobile/core/core.dart';
@@ -7,6 +8,8 @@ class DependencyProvider {
   static AuthenticatedHttpClient? _authenticatedHttpClient;
   static HttpStudioRepository? _httpStudioRepository;
   static SecureStorage? _secureStorage;
+  static NotificationCubit? _notificationCubit;
+  static GlobalKey<ScaffoldMessengerState>? _messengerKey;
 
   static http.Client? getHttpClient() {
     _httpClient ??= http.Client();
@@ -19,6 +22,15 @@ class DependencyProvider {
       refreshUrl: Constants.refreshTokenUrl,
     );
     return _authenticatedHttpClient;
+  }
+
+  static NotificationCubit? getNotificationCubit() {
+    _notificationCubit ??= NotificationCubit();
+    return _notificationCubit;
+  }
+
+  static GlobalKey<ScaffoldMessengerState>? getScaffoldMessengerKey(){
+    return _messengerKey ??= GlobalKey<ScaffoldMessengerState>();
   }
 
   static HttpStudioRepository? getHttpStudioRepository() {
