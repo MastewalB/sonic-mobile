@@ -5,6 +5,17 @@ class CustomTheme {
     return ThemeData(
         primaryColor: Colors.purple.shade400,
         scaffoldBackgroundColor: const Color.fromARGB(255, 31, 29, 43),
+        snackBarTheme: SnackBarThemeData(
+          backgroundColor: Colors.white,
+          contentTextStyle: const TextStyle(
+            color: Colors.black,
+          ),
+          elevation: 10,
+          closeIconColor: Colors.black,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(5),
+          ),
+        ),
         canvasColor: Colors.purple.shade200,
         indicatorColor: Colors.purple.shade50,
         primaryIconTheme: const IconThemeData(
