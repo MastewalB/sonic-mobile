@@ -8,3 +8,4 @@ export 'artist.dart';
 export 'studio_episode.dart';
 export 'studio_podcast.dart';
 export 'recording.dart';
+export 'package:sonic_mobile/models/AudioModelMock.dart';
