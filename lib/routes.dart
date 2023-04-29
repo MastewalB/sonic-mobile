@@ -32,15 +32,17 @@ class PageRouter {
               providers: [
                 BlocProvider(
                   create: (context) => StudioBloc(
-                      studioRepository:
-                          DependencyProvider.getHttpStudioRepository()!,
-                    notificationCubit: DependencyProvider.getNotificationCubit()!,
-                  )
-                    ..add(const GetAllPodcastsByUserEvent(userId: "userId")),
+                    studioRepository:
+                        DependencyProvider.getHttpStudioRepository()!,
+                    notificationCubit:
+                        DependencyProvider.getNotificationCubit()!,
+                  )..add(const GetAllPodcastsByUserEvent(userId: "userId")),
                 ),
                 BlocProvider(
-                  create: (context) => RecordBloc()
-                    ..add(
+                  create: (context) => RecordBloc(
+                    notificationCubit:
+                        DependencyProvider.getNotificationCubit()!,
+                  )..add(
                       ListRecordingsEvent(),
                     ),
                 ),
@@ -83,8 +85,9 @@ class PageRouter {
         return MaterialPageRoute(
           builder: (BuildContext context) => BlocProvider(
             create: (context) => CreatePodcastBloc(
-                studioRepository:
-                    DependencyProvider.getHttpStudioRepository()!),
+              studioRepository: DependencyProvider.getHttpStudioRepository()!,
+              notificationCubit: DependencyProvider.getNotificationCubit()!,
+            ),
             child: const CreatePodcastPage(),
           ),
         );
@@ -93,7 +96,9 @@ class PageRouter {
       case RecordPage.routeName:
         return MaterialPageRoute(
           builder: (BuildContext context) => BlocProvider(
-            create: (context) => RecordBloc(),
+            create: (context) => RecordBloc(
+              notificationCubit: DependencyProvider.getNotificationCubit()!,
+            ),
             child: const RecordPage(),
           ),
         );

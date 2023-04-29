@@ -12,9 +12,10 @@ part 'record_event.dart';
 part 'record_state.dart';
 
 class RecordBloc extends Bloc<RecordEvent, RecordState> {
+  final NotificationCubit notificationCubit;
   final _recordController = Record();
 
-  RecordBloc() : super(RecordInitial()) {
+  RecordBloc({required this.notificationCubit}) : super(RecordInitial()) {
     on<RecordEvent>((event, emit) {
       // TODO: implement event handler
     });
@@ -34,7 +35,6 @@ class RecordBloc extends Bloc<RecordEvent, RecordState> {
 
         emit(RecordOnState());
       } catch (e) {
-        print(e.toString());
         emit(RecordingError());
       }
     });

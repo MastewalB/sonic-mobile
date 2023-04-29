@@ -40,6 +40,7 @@ class PodcastDetailBloc extends Bloc<PodcastDetailEvent, PodcastDetailState> {
           },
         );
       } on AppException catch (e) {
+        notificationCubit.errorNotification(message: "An Error Occurred.");
         emit(state.copyWith(
           status: PodcastDetailStatus.error,
           errorType: e.errorType,
@@ -58,6 +59,7 @@ class PodcastDetailBloc extends Bloc<PodcastDetailEvent, PodcastDetailState> {
           },
         );
       } on AppException catch (e) {
+        notificationCubit.errorNotification(message: "An Error Occurred.");
         emit(state.copyWith(
           status: PodcastDetailStatus.error,
           errorType: e.errorType,
@@ -91,6 +93,7 @@ class PodcastDetailBloc extends Bloc<PodcastDetailEvent, PodcastDetailState> {
           recordings: recordings,
         ));
       } catch (e) {
+        notificationCubit.errorNotification(message: "An Error Occurred.");
         emit(state.copyWith(status: PodcastDetailStatus.error));
       }
     });
@@ -114,6 +117,8 @@ class PodcastDetailBloc extends Bloc<PodcastDetailEvent, PodcastDetailState> {
                 status: PodcastDetailStatus.episodeCreated,
               ));
             } else {
+              notificationCubit.errorNotification(
+                  message: "An Error Occurred.");
               emit(state.copyWith(
                 status: PodcastDetailStatus.error,
               ));
@@ -121,6 +126,7 @@ class PodcastDetailBloc extends Bloc<PodcastDetailEvent, PodcastDetailState> {
           },
         );
       } on AppException catch (e) {
+        notificationCubit.errorNotification(message: "An Error Occurred.");
         emit(state.copyWith(
           status: PodcastDetailStatus.error,
           errorType: e.errorType,
@@ -154,6 +160,7 @@ class PodcastDetailBloc extends Bloc<PodcastDetailEvent, PodcastDetailState> {
           recordings: recordings,
         ));
       } catch (e) {
+        notificationCubit.errorNotification(message: "An Error Occurred.");
         emit(state.copyWith(status: PodcastDetailStatus.error));
       }
     });

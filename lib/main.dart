@@ -106,7 +106,9 @@ class _SonicState extends State<Sonic> {
           )..add(const GetAllPodcastsByUserEvent(userId: "userId")),
         ),
         BlocProvider(
-          create: (context) => RecordBloc()..add(ListRecordingsEvent()),
+          create: (context) => RecordBloc(
+            notificationCubit: DependencyProvider.getNotificationCubit()!,
+          )..add(ListRecordingsEvent()),
         ),
       ],
       child: const StudioLibrary(),
