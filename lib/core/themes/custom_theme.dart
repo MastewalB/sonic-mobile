@@ -36,6 +36,7 @@ class CustomTheme {
             toolbarHeight: 65,
             elevation: 10,
             titleTextStyle: TextStyle(
+              fontFamily: 'Poppins',
               color: Colors.white,
               fontSize: 28,
               fontWeight: FontWeight.w400,

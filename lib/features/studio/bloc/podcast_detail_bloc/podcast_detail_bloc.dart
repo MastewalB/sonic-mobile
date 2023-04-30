@@ -20,7 +20,6 @@ class PodcastDetailBloc extends Bloc<PodcastDetailEvent, PodcastDetailState> {
   }) : super(const PodcastDetailState()) {
     on<PodcastDetailEvent>((event, emit) {
       // TODO: implement event handler
-      notificationCubit.successNotification(message: "loaded");
     });
 
     on<GetPodcastDetailEvent>((event, emit) async {});

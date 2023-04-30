@@ -7,6 +7,7 @@ import 'package:sonic_mobile/features/studio/presentation/studio_library.dart';
 import 'package:sonic_mobile/features/studio/presentation/widgets/create_episode_page.dart';
 import 'package:sonic_mobile/features/studio/presentation/widgets/screen_arguments.dart';
 import 'package:sonic_mobile/features/studio/presentation/widgets/update_podcast_page.dart';
+import 'package:sonic_mobile/features/studio/presentation/widgets/your_podcasts.dart';
 import 'package:sonic_mobile/models/models.dart';
 import 'package:sonic_mobile/features/studio/presentation/episode_detail_page.dart';
 
@@ -24,10 +25,10 @@ class PodcastDetailPage extends StatefulWidget {
 }
 
 class _PodcastDetailPageState extends State<PodcastDetailPage> {
+  // final GlobalKey<NavigatorState> navigatorKey = GlobalKey();
+
   Future<bool> _onWillPop() async {
-    Navigator.of(context).pushReplacementNamed(
-      StudioLibrary.routeName,
-    );
+    Navigator.pop(context);
     return true;
   }
 
@@ -42,29 +43,6 @@ class _PodcastDetailPageState extends State<PodcastDetailPage> {
             ),
           );
         }
-        if (state.status.isError) {
-          WidgetsBinding.instance.addPostFrameCallback((_) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text(Constants.connectionError),
-                duration: Constants.longDuration,
-                showCloseIcon: true,
-              ),
-            );
-          });
-        }
-        if (state.status.isPodcastDeleted) {
-          WidgetsBinding.instance.addPostFrameCallback((_) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text(Constants.podcastDeleted),
-                duration: Constants.longDuration,
-                showCloseIcon: true,
-              ),
-            );
-            Navigator.pushReplacementNamed(context, StudioLibrary.routeName);
-          });
-        }
 
         return WillPopScope(
           onWillPop: _onWillPop,
@@ -77,9 +55,7 @@ class _PodcastDetailPageState extends State<PodcastDetailPage> {
                     leading: IconButton(
                       icon: Icon(Icons.arrow_back_ios),
                       onPressed: () {
-                        Navigator.of(context).pushReplacementNamed(
-                          StudioLibrary.routeName,
-                        );
+                        Navigator.pop(context);
                       },
                     ),
                     actions: [
@@ -90,7 +66,17 @@ class _PodcastDetailPageState extends State<PodcastDetailPage> {
                               Navigator.pushReplacementNamed(
                                 context,
                                 UpdatePodcastPage.routeName,
-                                arguments: PodcastScreenArgument(widget.podcast),
+                                arguments:
+                                    PodcastScreenArgument(widget.podcast),
+                              );
+                              break;
+                            case "create_episode":
+                              Navigator.pushReplacementNamed(
+                                context,
+                                CreateEpisodePage.routeName,
+                                arguments: CreateEpisodeScreenArguments(
+                                  widget.podcast,
+                                ),
                               );
                               break;
                             case "delete":
@@ -110,10 +96,16 @@ class _PodcastDetailPageState extends State<PodcastDetailPage> {
                                       actions: [
                                         OutlinedButton(
                                           onPressed: () {
-                                            context.read<PodcastDetailBloc>().add(
-                                                DeletePodcastEvent(
+                                            context
+                                                .read<PodcastDetailBloc>()
+                                                .add(DeletePodcastEvent(
                                                     id: widget.podcast.id));
+                                            // Navigator.pushNamed(
+                                            //   context,
+                                            //   StudioLibrary.routeName,
+                                            // );
                                             Navigator.pop(context);
+                                            Navigator.pop(builder);
                                           },
                                           child: Text(
                                             "Delete",
@@ -143,6 +135,15 @@ class _PodcastDetailPageState extends State<PodcastDetailPage> {
                                 ),
                               ),
                               value: "edit",
+                            ),
+                            PopupMenuItem(
+                              child: Text(
+                                "Create a New Episode",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                ),
+                              ),
+                              value: "create_episode",
                             ),
                             PopupMenuItem(
                               child: Text(
@@ -225,7 +226,8 @@ class _PodcastDetailPageState extends State<PodcastDetailPage> {
                     delegate: SliverChildBuilderDelegate(
                         (BuildContext context, int index) {
                       return Padding(
-                        padding: const EdgeInsets.fromLTRB(30.0, 15.0, 0.0, 0.0),
+                        padding:
+                            const EdgeInsets.fromLTRB(30.0, 15.0, 0.0, 0.0),
                         child: InkWell(
                           onTap: () {
                             Navigator.push(
@@ -270,18 +272,6 @@ class _PodcastDetailPageState extends State<PodcastDetailPage> {
                     }, childCount: widget.podcast.episodes.length),
                   )
                 ],
-              ),
-              floatingActionButton: FloatingActionButton(
-                onPressed: () {
-                  Navigator.pushReplacementNamed(
-                    context,
-                    CreateEpisodePage.routeName,
-                    arguments: CreateEpisodeScreenArguments(widget.podcast),
-                  );
-                },
-                child: const Icon(
-                  Icons.add,
-                ),
               ),
             ),
           ),

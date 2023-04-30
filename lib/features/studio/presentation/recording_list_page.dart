@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sonic_mobile/features/studio/bloc/record_bloc/record_bloc.dart';
+import 'package:sonic_mobile/features/studio/presentation/record_page.dart';
 
 class RecordingListPage extends StatefulWidget {
+  static const String routeName = "recording_list";
+
   const RecordingListPage({Key? key}) : super(key: key);
 
   @override
@@ -12,9 +15,7 @@ class RecordingListPage extends StatefulWidget {
 class _RecordingListPageState extends State<RecordingListPage> {
   Future _refreshData() async {
     await Future.delayed(const Duration(seconds: 1));
-    context
-        .read<RecordBloc>()
-        .add(ListRecordingsEvent());
+    context.read<RecordBloc>().add(ListRecordingsEvent());
   }
 
   @override
@@ -42,69 +43,103 @@ class _RecordingListPageState extends State<RecordingListPage> {
             displacement: 100,
             onRefresh: _refreshData,
             child: SafeArea(
-              child: SingleChildScrollView(
-                child: Column(
-                  children: state.recordingList
-                      .map(
-                        (e) => Dismissible(
-                          onDismissed: (direction) async {
-                            showDialog(
-                                context: superContext,
-                                builder: (context) {
-                                  return AlertDialog(
-                                    title: const Text("Delete Recording"),
-                                    content: Text(
-                                        "The recording ${e.name.toString()} will be deleted."),
-                                    actions: [
-                                      ElevatedButton(
-                                        onPressed: () async {
-                                          final recording = state.recordingList
-                                              .firstWhere(
-                                                  (element) => element == e);
-                                          await recording.file.delete();
-                                          superContext
-                                              .read<RecordBloc>()
-                                              .add(RemoveRecording());
-                                          Navigator.pop(context);
-                                        },
-                                        child: const Text(
-                                          'Delete',
-                                          style: TextStyle(
-                                            color: Colors.red,
-                                          ),
-                                        ),
-                                      ),
-                                      ElevatedButton(
-                                        onPressed: () {
+              child: Scaffold(
+                appBar: AppBar(
 
-                                          Navigator.pop(context);
-                                        },
-                                        child: const Text(
-                                          'Cancel',
-                                          style: TextStyle(
-                                            color: Colors.white,
+                  title: const Text("Your Recordings"),
+                  actions: [
+                    PopupMenuButton(
+                      onSelected: (value) {
+                        switch (value.toString()) {
+                          case "add_recording":
+                            Navigator.pushNamed(
+                              context,
+                              RecordPage.routeName,
+                            );
+                        }
+                      },
+                      itemBuilder: (BuildContext context) {
+                        return const [
+                          PopupMenuItem(
+                            child: Text(
+                              "Add a New Recording",
+                              style: TextStyle(
+                                color: Colors.white,
+                              ),
+                            ),
+                            value: "add_recording",
+                          ),
+                        ];
+                      },
+                    )
+                  ],
+                ),
+                body: SingleChildScrollView(
+                  child: Column(
+                    children: state.recordingList
+                        .map(
+                          (e) => Dismissible(
+                            onDismissed: (direction) async {
+                              showDialog(
+                                  context: superContext,
+                                  builder: (context) {
+                                    return AlertDialog(
+                                      title: const Text("Delete Recording"),
+                                      content: Text(
+                                          "The recording ${e.name.toString()} will be deleted."),
+                                      actions: [
+                                        ElevatedButton(
+                                          onPressed: () async {
+                                            final recording =
+                                                state.recordingList.firstWhere(
+                                                    (element) => element == e);
+                                            await recording.file.delete();
+                                            superContext
+                                                .read<RecordBloc>()
+                                                .add(RemoveRecording());
+                                            Navigator.pop(context);
+                                          },
+                                          child: const Text(
+                                            'Delete',
+                                            style: TextStyle(
+                                              color: Colors.red,
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                    ],
-                                  );
-                                });
-                          },
-                          key: UniqueKey(),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 10),
-                            child: ListTile(
-                              title: Text(e.name.toString(),style: TextStyle(color: Colors.white),),
-                              trailing: Text(
-                                durationString(e.fileDuration),
-                                style: const TextStyle(color: Colors.white),
+                                        ElevatedButton(
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                          },
+                                          child: const Text(
+                                            'Cancel',
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    );
+                                  });
+                            },
+                            key: UniqueKey(),
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 10),
+                              child: ListTile(
+                                title: Text(
+                                  e.name.toString(),
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                                trailing: Text(
+                                  durationString(e.fileDuration),
+                                  style: const TextStyle(color: Colors.white),
+                                ),
+                                onTap: () {},
                               ),
-                              onTap: () {},
                             ),
                           ),
-                        ),
-                      )
-                      .toList(),
+                        )
+                        .toList(),
+                  ),
                 ),
               ),
             ),

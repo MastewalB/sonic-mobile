@@ -17,12 +17,28 @@ class RecordPage extends StatefulWidget {
 }
 
 class _RecordPageState extends State<RecordPage> {
+
+  Future<bool> _onWillPop() async {
+    Navigator.pop(context);
+    return true;
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<RecordBloc, RecordState>(
       builder: (superContext, state) {
         if (state is RecordInitial) {
           return Scaffold(
+            appBar: AppBar(
+              title: const Text("Record New Audio"),
+              leading: IconButton(
+                icon: Icon(Icons.arrow_back_ios),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+            ),
             body: Center(
               child: GestureDetector(
                 onTap: () {
@@ -57,6 +73,15 @@ class _RecordPageState extends State<RecordPage> {
           });
         } else if (state is RecordOnState) {
           return Scaffold(
+            appBar: AppBar(
+              title: const Text("Record New Audio"),
+              leading: IconButton(
+                icon: Icon(Icons.arrow_back_ios),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+            ),
             body: SafeArea(
               child: Column(
                 children: [

@@ -10,13 +10,7 @@ import 'package:sonic_mobile/features/studio/presentation/studio_library.dart';
 import 'package:sonic_mobile/dependency_provider.dart';
 import 'package:sonic_mobile/routes.dart';
 import 'features/studio/bloc/studio_bloc/studio_bloc.dart';
-import 'package:sonic_mobile/core/constants/constants.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sonic_mobile/features/follow/presentation/followers_page.dart';
 import 'package:sonic_mobile/models/AudioModelMock.dart';
-import 'package:sonic_mobile/features/audio_player/bloc/audio_player_bloc.dart';
-import 'package:sonic_mobile/features/audio_player/presentation/player_page.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -82,7 +76,7 @@ void main() {
             title: 'Sonic',
             theme: CustomTheme.DarkTheme,
             home: const Sonic(),
-            onGenerateRoute: pageRouter.generateRoute,
+            // onGenerateRoute: pageRouter.generateRoute,
           ),
         ),
       ),

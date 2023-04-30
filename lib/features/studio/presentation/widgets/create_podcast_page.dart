@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sonic_mobile/core/core.dart';
 import 'package:sonic_mobile/features/studio/bloc/create_podcast_bloc/create_podcast_bloc.dart';
-import 'package:sonic_mobile/features/studio/presentation/studio_library.dart';
+import 'package:sonic_mobile/features/studio/presentation/widgets/your_podcasts.dart';
 
 class CreatePodcastPage extends StatefulWidget {
   static const String routeName = "create_podcast";
@@ -27,27 +27,20 @@ class _CreatePodcastPageState extends State<CreatePodcastPage> {
 
     return BlocBuilder<CreatePodcastBloc, CreatePodcastState>(
       builder: (context, state) {
-        if (state.status.isError) {
-          WidgetsBinding.instance.addPostFrameCallback((_) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: const Text(Constants.connectionError),
-                duration: Constants.longDuration,
-                showCloseIcon: true,
-              ),
-            );
-          });
-        }
+        // if (state.status.isError) {
+        //   WidgetsBinding.instance.addPostFrameCallback((_) {
+        //     ScaffoldMessenger.of(context).showSnackBar(
+        //       const SnackBar(
+        //         content: const Text(Constants.connectionError),
+        //         duration: Constants.longDuration,
+        //         showCloseIcon: true,
+        //       ),
+        //     );
+        //   });
+        // }
         if (state.status.isPodcastCreated) {
           WidgetsBinding.instance.addPostFrameCallback((_) {
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              content: const Text(Constants.podcastCreated),
-              duration: Constants.longDuration,
-              showCloseIcon: true,
-            ));
-          });
-          WidgetsBinding.instance.addPostFrameCallback((_) {
-            Navigator.pushReplacementNamed(context, StudioLibrary.routeName);
+            Navigator.pushReplacementNamed(context, YourPodcastsPage.routeName);
           });
         }
         return Scaffold(

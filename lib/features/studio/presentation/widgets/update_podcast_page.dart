@@ -22,12 +22,7 @@ class _UpdatePodcastPageState extends State<UpdatePodcastPage> {
   bool validated = true;
 
   Future<bool> _onWillPop() async {
-    Navigator.of(context).pushReplacementNamed(
-      PodcastDetailPage.routeName,
-      arguments: PodcastScreenArgument(
-        widget.podcast,
-      ),
-    );
+    Navigator.pop(context);
     return true;
   }
 
@@ -43,21 +38,14 @@ class _UpdatePodcastPageState extends State<UpdatePodcastPage> {
 
     return BlocBuilder<PodcastDetailBloc, PodcastDetailState>(
       builder: (context, state) {
-        if (state.status.isError) {
-          WidgetsBinding.instance.addPostFrameCallback((_) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(state.errorType.name),
-                duration: Constants.longDuration,
-                showCloseIcon: true,
-              ),
-            );
-          });
-        }
         if (state.status.isLoaded) {
           WidgetsBinding.instance.addPostFrameCallback((_) {
-            Navigator.pushReplacementNamed(context, PodcastDetailPage.routeName,
-                arguments: PodcastScreenArgument(state.podcast!));
+            Navigator.of(context).pushReplacementNamed(
+              PodcastDetailPage.routeName,
+              arguments: PodcastScreenArgument(
+                state.podcast!,
+              ),
+            );
           });
         }
 
@@ -219,6 +207,7 @@ class _UpdatePodcastPageState extends State<UpdatePodcastPage> {
                                   widget.podcast,
                                 ),
                               );
+                              // Navigator.pop(context);
                             },
                             style: ButtonStyle(
                               backgroundColor:
