@@ -22,13 +22,19 @@ class StudioBloc extends Bloc<StudioEvent, StudioState> {
 
     on<GetAllPodcastsByUserEvent>((event, emit) async {
       emit(state.copyWith(status: StudioStatus.loading));
-      await studioRepository.getPodcastsByUser(event.userId).then((value) {
-        emit(state.copyWith(status: StudioStatus.loaded, podcasts: value));
-      }, onError: (error) {
-        notificationCubit.errorNotification(
-            message: error.toString());
+      try {
+        List<StudioPodcast> podcasts =
+            await studioRepository.getPodcastsByUser(event.userId);
+        emit(
+          state.copyWith(
+            status: StudioStatus.loaded,
+            podcasts: podcasts,
+          ),
+        );
+      } on AppException catch (e) {
+        notificationCubit.errorNotification(message: e.errorType.getMessage);
         emit(state.copyWith(status: StudioStatus.error));
-      });
+      }
     });
   }
 }

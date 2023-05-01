@@ -75,20 +75,15 @@ class HttpStudioRepository implements StudioRepository {
 
     try {
       final response = await httpClient.get(uri);
-      if (response.statusCode >= 400) {
-        throw Exception("No");
-      }
-      // print(response.body);
       var data = json.decode(response.body);
-      // print(data);
       List<StudioPodcast> allPodcasts = [];
 
       for (var podcast in data) {
         allPodcasts.add(StudioPodcast.fromJson(podcast));
       }
       return allPodcasts;
-    } catch (e) {
-      throw Exception(e);
+    } on AppException {
+      rethrow;
     }
   }
 
@@ -116,7 +111,7 @@ class HttpStudioRepository implements StudioRepository {
           response.body,
         ),
       );
-    } on SocketException catch (e) {
+    } on SocketException {
       throw NetworkException(ErrorType.CONNECTION_ERROR);
     }
   }
@@ -190,7 +185,7 @@ class HttpStudioRepository implements StudioRepository {
       return false;
     } on SocketException {
       throw NetworkException(ErrorType.CONNECTION_ERROR);
-    } catch(e){
+    } catch (e) {
       throw NetworkException(ErrorType.CONNECTION_ERROR);
     }
   }
