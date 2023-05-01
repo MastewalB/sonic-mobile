@@ -6,6 +6,7 @@ import 'package:sonic_mobile/features/audio_player/bloc/audio_player_bloc.dart';
 import 'package:sonic_mobile/features/audio_player/presentation/player_page.dart';
 import 'package:flutter/material.dart';
 import 'package:sonic_mobile/features/audio_player/presentation/widgets/time_slider.dart';
+import 'package:sonic_mobile/features/studio/presentation/local_songs.dart';
 import 'package:sonic_mobile/features/studio/presentation/recording_list_page.dart';
 import 'package:sonic_mobile/features/studio/presentation/widgets/your_podcasts.dart';
 import 'package:sonic_mobile/routes.dart';
@@ -35,6 +36,7 @@ class _StudioLibraryState extends State<StudioLibrary> {
 
   final _yourPodcastPageKey = GlobalKey<NavigatorState>();
   final _recordPageKey = GlobalKey<NavigatorState>();
+  final _localSongsPageKey = GlobalKey<NavigatorState>();
 
   Future<bool> _onWillPop() async {
     if (_yourPodcastPageKey.currentState != null) {
@@ -47,6 +49,14 @@ class _StudioLibraryState extends State<StudioLibrary> {
   Future<bool> _onRecordWillPop() async {
     if (_recordPageKey.currentState != null) {
       _recordPageKey.currentState!.maybePop();
+      return false;
+    }
+    return true;
+  }
+
+  Future<bool> _onLocalSongsWillPop() async {
+    if (_localSongsPageKey.currentState != null) {
+      _localSongsPageKey.currentState!.maybePop();
       return false;
     }
     return true;
@@ -77,7 +87,15 @@ class _StudioLibraryState extends State<StudioLibrary> {
               onGenerateRoute: pageRouter.generateRoute,
               initialRoute: RecordingListPage.routeName,
             ),
-          )
+          ),
+          WillPopScope(
+            onWillPop: _onLocalSongsWillPop,
+            child: Navigator(
+              key: _localSongsPageKey,
+              onGenerateRoute: pageRouter.generateRoute,
+              initialRoute: LocalSongs.routeName,
+            ),
+          ),
         ],
       ),
       bottomNavigationBar: BlocBuilder<AudioPlayerBloc, AudioPlayerState>(
@@ -110,8 +128,8 @@ class _StudioLibraryState extends State<StudioLibrary> {
                                           ),
                                         )
                                       : const DecorationImage(
-                                          image: NetworkImage(
-                                            "https://media.istockphoto.com/id/486121005/photo/sun-rays-inside-coconut-palms.jpg?b=1&s=170667a&w=0&k=20&c=RsE02692qNh7SapxtJ7CzuzsmBpuuOm25NRxUazCgcE=",
+                                          image: AssetImage(
+                                            'assets/music_icon_image.jpg',
                                           ),
                                           fit: BoxFit.cover,
                                         ),
@@ -237,54 +255,61 @@ class _StudioLibraryState extends State<StudioLibrary> {
                                   StreamBuilder(
                                 stream: audioPlayerBloc.currentPosition(),
                                 builder: (_, AsyncSnapshot<Duration> snapshot) {
-                                  switch (snapshot.connectionState) {
-                                    case ConnectionState.none:
-                                      return sliderPlaceholder();
-                                    case ConnectionState.active:
-                                      return sliderPlaceholder();
-                                    case ConnectionState.done:
-                                      return sliderPlaceholder();
-                                    case ConnectionState.waiting:
-                                      if (snapshot.hasData &&
-                                          totalDurationSnapshot.hasData) {
-                                        int seconds = snapshot.data!.inSeconds;
-                                        Duration duration = snapshot.data!;
-                                        Duration totalDuration =
-                                            totalDurationSnapshot.data!;
+                                  // debugPrint(snapshot.connectionState.name);
+                                  // switch (snapshot.connectionState) {
+                                  // case ConnectionState.none:
+                                  //   return sliderPlaceholder();
+                                  // case ConnectionState.waiting:
+                                  //   return sliderPlaceholder();
+                                  // case ConnectionState.done:
+                                  //   return sliderPlaceholder();
+                                  if (snapshot.connectionState ==
+                                          ConnectionState.active ||
+                                      snapshot.connectionState ==
+                                          ConnectionState.waiting) {
+                                    if (snapshot.hasData &&
+                                        totalDurationSnapshot.hasData) {
+                                      int seconds = snapshot.data!.inSeconds;
+                                      Duration duration = snapshot.data!;
+                                      Duration totalDuration =
+                                          totalDurationSnapshot.data!;
 
-                                        final value = min(
-                                            duration.inMilliseconds.toDouble(),
-                                            totalDuration.inMilliseconds
-                                                .toDouble());
+                                      final value = min(
+                                          duration.inMilliseconds.toDouble(),
+                                          totalDuration.inMilliseconds
+                                              .toDouble());
 
-                                        return SliderTheme(
-                                          data: const SliderThemeData(
-                                            activeTrackColor: Colors.white,
-                                            inactiveTrackColor: Colors.grey,
-                                            thumbColor: Colors.transparent,
-                                            thumbShape: RoundSliderThumbShape(
-                                                enabledThumbRadius: 0.0),
-                                            trackHeight: 1,
+                                      return SliderTheme(
+                                        data: const SliderThemeData(
+                                          activeTrackColor: Colors.white,
+                                          inactiveTrackColor: Colors.grey,
+                                          thumbColor: Colors.transparent,
+                                          thumbShape: RoundSliderThumbShape(
+                                              enabledThumbRadius: 0.0),
+                                          trackHeight: 1,
+                                        ),
+                                        child: SizedBox(
+                                          width: 470,
+                                          child: Slider(
+                                            max: totalDuration.inMilliseconds
+                                                .toDouble(),
+                                            value: value,
+                                            onChanged: (double value) {},
                                           ),
-                                          child: SizedBox(
-                                            width: 550,
-                                            child: Slider(
-                                              max: totalDuration.inMilliseconds
-                                                  .toDouble(),
-                                              value: value,
-                                              onChanged: (double value) {},
-                                            ),
-                                          ),
-                                        );
-                                      }
+                                        ),
+                                      );
+                                    }
                                   }
 
                                   return SliderTheme(
                                     data: const SliderThemeData(
-                                        activeTrackColor: Colors.white,
-                                        inactiveTrackColor: Colors.grey,
-                                        thumbColor: Colors.transparent,
-                                        trackHeight: 1),
+                                      activeTrackColor: Colors.white,
+                                      inactiveTrackColor: Colors.grey,
+                                      thumbColor: Colors.transparent,
+                                      thumbShape: RoundSliderThumbShape(
+                                          enabledThumbRadius: 0.0),
+                                      trackHeight: 1,
+                                    ),
                                     child: SizedBox(
                                       width: 550,
                                       child: Slider(
@@ -323,6 +348,12 @@ class _StudioLibraryState extends State<StudioLibrary> {
                           Icons.mic,
                         ),
                         label: "Recording",
+                      ),
+                      BottomNavigationBarItem(
+                        icon: Icon(
+                          Icons.music_note,
+                        ),
+                        label: "Local Songs",
                       ),
                     ],
                   ),

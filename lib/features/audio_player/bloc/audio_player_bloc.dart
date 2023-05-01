@@ -80,7 +80,11 @@ class AudioPlayerBloc extends Bloc<AudioPlayerEvent, AudioPlayerState> {
       // await player.setUrl(url);
       // await player.play();
       // await state.audioPlayer.setUrl(url);
-      await state.audioPlayer.play(audioQueue.elementAt(currentIndex).fileUrl);
+
+      await state.audioPlayer.play(
+        audioQueue.elementAt(currentIndex).fileUrl,
+        isLocal: event.isLocal,
+      );
     });
 
     on<ResumeAudioEvent>((event, emit) async {

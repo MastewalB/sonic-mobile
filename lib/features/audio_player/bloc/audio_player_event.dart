@@ -17,11 +17,13 @@ class PlayAudioEvent extends AudioPlayerEvent {
   ListQueue<Audio>? playlist;
   int? currentIndex;
   bool fromCurrentPlaylist;
+  bool isLocal;
 
   PlayAudioEvent({
     this.playlist,
     this.currentIndex,
     this.fromCurrentPlaylist = false,
+    this.isLocal = false,
   });
 
   @override

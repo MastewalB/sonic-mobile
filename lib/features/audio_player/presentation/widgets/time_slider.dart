@@ -42,83 +42,85 @@ class _TimeSliderState extends State<TimeSlider> {
             StreamBuilder(
           stream: audioPlayerBloc.currentPosition(),
           builder: (_, AsyncSnapshot<Duration> snapshot) {
-            switch (snapshot.connectionState) {
-              case ConnectionState.none:
-                return sliderPlaceholder();
-              case ConnectionState.active:
-                return sliderPlaceholder();
-              case ConnectionState.done:
-                return sliderPlaceholder();
-              case ConnectionState.waiting:
-                if (snapshot.hasData && totalDurationSnapshot.hasData) {
-                  int seconds = snapshot.data!.inSeconds;
-                  Duration duration = snapshot.data!;
-                  Duration totalDuration = totalDurationSnapshot.data!;
+            // switch (snapshot.connectionState) {
+            //   case ConnectionState.none:
+            //     return sliderPlaceholder();
+            //   case ConnectionState.done:
+            //     return sliderPlaceholder();
+            //   case ConnectionState.waiting:
+            //     return sliderPlaceholder();
+            debugPrint(snapshot.connectionState.name);
+            if (snapshot.connectionState == ConnectionState.active ||
+                snapshot.connectionState == ConnectionState.waiting) {
+              if (snapshot.hasData && totalDurationSnapshot.hasData) {
+                int seconds = snapshot.data!.inSeconds;
+                Duration duration = snapshot.data!;
+                Duration totalDuration = totalDurationSnapshot.data!;
 
-                  final value = min(
-                    _dragValue ?? duration.inMilliseconds.toDouble(),
-                    totalDuration.inMilliseconds.toDouble(),
-                  );
+                final value = min(
+                  _dragValue ?? duration.inMilliseconds.toDouble(),
+                  totalDuration.inMilliseconds.toDouble(),
+                );
 
-                  if (_dragValue != null && !_dragging) {
-                    _dragValue = null;
-                  }
-
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 5.0),
-                    child: Column(
-                      children: [
-                        SliderTheme(
-                          data: const SliderThemeData(
-                            activeTrackColor: Colors.white,
-                            inactiveTrackColor: Colors.grey,
-                            thumbColor: Colors.white,
-                          ),
-                          child: Slider(
-                            max: totalDuration.inMilliseconds.toDouble(),
-                            value: value,
-                            onChanged: (double value) {
-                              if (!_dragging) {
-                                _dragging = true;
-                              }
-                              setState(() {
-                                _dragValue = value;
-                              });
-                              audioPlayerBloc.add(
-                                SeekAudioEvent(
-                                  newPosition: Duration(
-                                    milliseconds: value.toInt(),
-                                  ),
-                                ),
-                              );
-                            },
-                            onChangeEnd: (value) {
-                              _dragging = false;
-                            },
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                _getFormattedTime(duration),
-                                textDirection: TextDirection.ltr,
-                                style: TextStyle(color: Colors.white),
-                              ),
-                              Text(
-                                _getFormattedTime(totalDuration),
-                                textDirection: TextDirection.ltr,
-                                style: TextStyle(color: Colors.white),
-                              )
-                            ],
-                          ),
-                        )
-                      ],
-                    ),
-                  );
+                if (_dragValue != null && !_dragging) {
+                  _dragValue = null;
                 }
+
+                return Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                  child: Column(
+                    children: [
+                      SliderTheme(
+                        data: const SliderThemeData(
+                          activeTrackColor: Colors.white,
+                          inactiveTrackColor: Colors.grey,
+                          thumbColor: Colors.white,
+                        ),
+                        child: Slider(
+                          max: totalDuration.inMilliseconds.toDouble(),
+                          value: value,
+                          onChanged: (double value) {
+                            if (!_dragging) {
+                              _dragging = true;
+                            }
+                            setState(() {
+                              _dragValue = value;
+                            });
+                            audioPlayerBloc.add(
+                              SeekAudioEvent(
+                                newPosition: Duration(
+                                  milliseconds: value.toInt(),
+                                ),
+                              ),
+                            );
+                          },
+                          onChangeEnd: (value) {
+                            _dragging = false;
+                          },
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              _getFormattedTime(duration),
+                              textDirection: TextDirection.ltr,
+                              style: TextStyle(color: Colors.white),
+                            ),
+                            Text(
+                              _getFormattedTime(totalDuration),
+                              textDirection: TextDirection.ltr,
+                              style: TextStyle(color: Colors.white),
+                            )
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
+                );
+              }
             }
 
             return sliderPlaceholder();

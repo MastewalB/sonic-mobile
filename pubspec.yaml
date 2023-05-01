@@ -51,6 +51,7 @@ dependencies:
   hive_flutter: ^1.1.0
   audioplayers: ^0.18.0
   just_audio: ^0.9.32
+  on_audio_query: ^2.8.1
 
 
 dev_dependencies:

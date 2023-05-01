@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sonic_mobile/dependency_provider.dart';
 import 'package:sonic_mobile/features/studio/bloc/podcast_detail_bloc/podcast_detail_bloc.dart';
 import 'package:sonic_mobile/features/studio/bloc/studio_bloc/studio_bloc.dart';
+import 'package:sonic_mobile/features/studio/presentation/local_songs.dart';
 import 'package:sonic_mobile/features/studio/presentation/podcast_detail_page.dart';
 import 'package:sonic_mobile/features/studio/presentation/recording_list_page.dart';
 import 'package:sonic_mobile/features/studio/presentation/studio_library.dart';
@@ -20,6 +21,10 @@ import 'features/studio/presentation/widgets/create_episode_page.dart';
 class PageRouter {
   Route<dynamic>? generateRoute(RouteSettings routeSettings) {
     switch (routeSettings.name) {
+      case LocalSongs.routeName:
+        return MaterialPageRoute(builder: (context) {
+          return const LocalSongs();
+        });
       case PlayerPage.routeName:
         return MaterialPageRoute(builder: (context) {
           return const PlayerPage();

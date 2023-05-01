@@ -28,9 +28,9 @@ class PlayerPage extends StatelessWidget {
             Navigator.pop(context);
           },
         ),
-        actions: [
-          const Icon(
-            Icons.more_horiz,
+        actions: const [
+          Icon(
+            Icons.more_vert,
             textDirection: TextDirection.ltr,
             color: Colors.white,
           ),
