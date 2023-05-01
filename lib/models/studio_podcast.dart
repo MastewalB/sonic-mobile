@@ -1,6 +1,6 @@
 import 'package:sonic_mobile/models/models.dart';
 
-class StudioPodcast {
+class StudioPodcast implements AudioList {
   final String id;
   final String title;
   final PublicUser author;
@@ -9,7 +9,13 @@ class StudioPodcast {
   final int numberOfEpisodes;
   final List<StudioEpisode> episodes;
 
-  const StudioPodcast({
+  @override
+  String get audioListTitle => title;
+
+  @override
+  List<StudioEpisode> get audioListItems => episodes;
+
+  StudioPodcast({
     required this.id,
     required this.title,
     required this.author,
