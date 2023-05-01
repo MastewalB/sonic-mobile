@@ -205,6 +205,7 @@ class AuthenticatedHttpClient extends http.BaseClient {
           throw UnauthorizedUserException(ErrorType.HTTP_401_EXPIRED_TOKEN);
         }
       });
+      return responseValue;
     }
 
     if (response.statusCode == 401 && body["code"] == "user_inactive") {
