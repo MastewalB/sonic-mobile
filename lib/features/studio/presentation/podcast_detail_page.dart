@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -7,7 +9,7 @@ import 'package:sonic_mobile/features/studio/presentation/studio_library.dart';
 import 'package:sonic_mobile/features/studio/presentation/widgets/create_episode_page.dart';
 import 'package:sonic_mobile/features/studio/presentation/widgets/screen_arguments.dart';
 import 'package:sonic_mobile/features/studio/presentation/widgets/update_podcast_page.dart';
-import 'package:sonic_mobile/features/studio/presentation/widgets/your_podcasts.dart';
+import 'package:sonic_mobile/features/audio_player/bloc/audio_player_bloc.dart';
 import 'package:sonic_mobile/models/models.dart';
 import 'package:sonic_mobile/features/studio/presentation/episode_detail_page.dart';
 
@@ -244,17 +246,28 @@ class _PodcastDetailPageState extends State<PodcastDetailPage> {
                           child: Row(
                             mainAxisSize: MainAxisSize.max,
                             children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    (index + 1).toString(),
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 15,
+                              InkWell(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      (index + 1).toString(),
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 15,
+                                      ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
+                                onTap: (){
+                                  ListQueue<Audio> playlist =
+                                  ListQueue.from(widget.podcast.episodes);
+                                  context.read<AudioPlayerBloc>().add(PlayAudioEvent(
+                                    playlist: playlist,
+                                    currentIndex: index,
+                                    fromCurrentPlaylist: false,
+                                  ));
+                                },
                               ),
                               SizedBox(
                                 width: 20,

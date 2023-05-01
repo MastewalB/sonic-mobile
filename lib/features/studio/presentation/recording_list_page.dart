@@ -1,7 +1,10 @@
+import 'dart:collection';
+import 'package:sonic_mobile/models/models.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sonic_mobile/features/studio/bloc/record_bloc/record_bloc.dart';
 import 'package:sonic_mobile/features/studio/presentation/record_page.dart';
+import 'package:sonic_mobile/features/audio_player/bloc/audio_player_bloc.dart';
 
 class RecordingListPage extends StatefulWidget {
   static const String routeName = "recording_list";
@@ -45,7 +48,6 @@ class _RecordingListPageState extends State<RecordingListPage> {
             child: SafeArea(
               child: Scaffold(
                 appBar: AppBar(
-
                   title: const Text("Your Recordings"),
                   actions: [
                     PopupMenuButton(
@@ -133,7 +135,18 @@ class _RecordingListPageState extends State<RecordingListPage> {
                                   durationString(e.fileDuration),
                                   style: const TextStyle(color: Colors.white),
                                 ),
-                                onTap: () {},
+                                onTap: () {
+                                  ListQueue<Audio> playlist =
+                                      ListQueue.from(state.recordingList);
+                                  context.read<AudioPlayerBloc>().add(
+                                        PlayAudioEvent(
+                                          playlist: playlist,
+                                          currentIndex:
+                                              state.recordingList.indexOf(e),
+                                          fromCurrentPlaylist: false,
+                                        ),
+                                      );
+                                },
                               ),
                             ),
                           ),
@@ -145,7 +158,16 @@ class _RecordingListPageState extends State<RecordingListPage> {
             ),
           );
         }
-        return Container();
+        return Scaffold(
+          body: Center(
+            child: Text(
+              "Could not fetch recordings.",
+              style: TextStyle(
+                color: Colors.white,
+              ),
+            ),
+          ),
+        );
       },
     );
   }

@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:audioplayers/audio_cache.dart';
+import 'package:audioplayers/audioplayers.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:record/record.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -65,12 +67,23 @@ class RecordBloc extends Bloc<RecordEvent, RecordState> {
             Directory(recordingPath).listSync();
 
         for (final file in files) {
-          recordings.add(
-            Recording(
-              file: file,
-              fileDuration: Duration(seconds: 5),
-            ),
-          );
+          Duration fileDuration = Duration(seconds: 0);
+          final AudioPlayer playerCache = AudioPlayer();
+          await playerCache.setUrl(file.path, isLocal: true);
+          playerCache.onDurationChanged.listen((Duration duration) {
+            playerCache.stop();
+            fileDuration = duration;
+            String title = file.path.split('/').last.split('.').first;
+            recordings.add(
+              Recording(
+                title,
+                "Recordings",
+                file.path,
+                file: file,
+                fileDuration: fileDuration,
+              ),
+            );
+          });
         }
         emit(RecordingsLoaded(recordings: recordings));
       } catch (e) {

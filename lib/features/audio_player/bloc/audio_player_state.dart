@@ -21,7 +21,7 @@ class AudioPlayerState extends Equatable {
   final bool isLooping;
   int currentIndex;
   bool finishedQueue;
-  ListQueue<AudioMock>? audioQueue;
+  ListQueue<Audio>? audioQueue;
 
   AudioPlayerState({
     required this.audioPlayer,
@@ -31,7 +31,7 @@ class AudioPlayerState extends Equatable {
     this.currentIndex = 0,
     this.finishedQueue = false,
     audioQueue,
-  }) : audioQueue = audioQueue ?? ListQueue<AudioMock>(0);
+  }) : audioQueue = audioQueue ?? ListQueue<Audio>(0);
 
   @override
   List<Object?> get props =>
@@ -44,15 +44,16 @@ class AudioPlayerState extends Equatable {
       bool? isPlaying,
       int? currentIndex,
       bool? finishedQueue,
-      ListQueue<AudioMock>? audioQueue}) {
+      ListQueue<Audio>? audioQueue}) {
     return AudioPlayerState(
-        audioPlayer: audioPlayer ?? this.audioPlayer,
-        isLooping: isLooping ?? this.isLooping,
-        status: status ?? this.status,
-        isPlaying: isPlaying ?? this.isPlaying,
-        currentIndex: currentIndex ?? this.currentIndex,
-        finishedQueue: finishedQueue ?? this.finishedQueue,
-        audioQueue: audioQueue ?? this.audioQueue);
+      audioPlayer: audioPlayer ?? this.audioPlayer,
+      isLooping: isLooping ?? this.isLooping,
+      status: status ?? this.status,
+      isPlaying: isPlaying ?? this.isPlaying,
+      currentIndex: currentIndex ?? this.currentIndex,
+      finishedQueue: finishedQueue ?? this.finishedQueue,
+      audioQueue: audioQueue ?? this.audioQueue,
+    );
   }
 }
 

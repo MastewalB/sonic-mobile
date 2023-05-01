@@ -80,8 +80,12 @@ class PodcastDetailBloc extends Bloc<PodcastDetailEvent, PodcastDetailState> {
             Directory(recordingPath).listSync();
 
         for (final file in files) {
+          String title = file.path.split('/').last.split('.').first;
           recordings.add(
             Recording(
+              title,
+              "Recordings",
+              file.path,
               file: file,
               fileDuration: Duration(seconds: 5),
             ),
@@ -147,8 +151,12 @@ class PodcastDetailBloc extends Bloc<PodcastDetailEvent, PodcastDetailState> {
             Directory(recordingPath).listSync();
 
         for (final file in files) {
+          String title = file.path.split('/').last.split('.').first;
           recordings.add(
             Recording(
+              title,
+              "Recordings",
+              file.path,
               file: file,
               fileDuration: Duration(seconds: 5),
             ),

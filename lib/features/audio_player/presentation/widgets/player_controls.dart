@@ -39,99 +39,98 @@ class _PlayerControlsState extends State<PlayerControls> {
                               borderRadius: BorderRadius.circular(10.0)),
                           backgroundColor: const Color.fromRGBO(0, 0, 0, 0.05),
                           builder: (context) {
-                            return SizedBox(
-                              height: 300,
-                              child: ClipRRect(
-                                child: BackdropFilter(
-                                  filter: ImageFilter.blur(
-                                    sigmaX: 8.0,
-                                    sigmaY: 8.0,
+                            return BlocConsumer<AudioPlayerBloc,
+                                AudioPlayerState>(
+                              listener: (context, state) {
+                                // TODO: implement listener
+                              },
+                              builder: (context, queueState) {
+                                return SizedBox(
+                                  height: 300,
+                                  child: ClipRRect(
+                                    child: BackdropFilter(
+                                      filter: ImageFilter.blur(
+                                        sigmaX: 8.0,
+                                        sigmaY: 8.0,
+                                      ),
+                                      child: ListView.builder(
+                                          itemCount:
+                                              queueState.audioQueue!.length,
+                                          shrinkWrap: true,
+                                          itemBuilder: (context, index) {
+                                            return Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 5.0),
+                                              child: GestureDetector(
+                                                onTap: () {
+                                                  context
+                                                      .read<AudioPlayerBloc>()
+                                                      .add(PlayAudioEvent(
+                                                        currentIndex: index,
+                                                        fromCurrentPlaylist:
+                                                            true,
+                                                      ));
+                                                },
+                                                child: ListTile(
+                                                  leading: SvgPicture.asset(
+                                                    'assets/icons/music-circle.svg',
+                                                    color: Colors.white,
+                                                  ),
+                                                  title: Text(
+                                                    queueState.audioQueue!
+                                                        .elementAt(index)
+                                                        .title,
+                                                    style: TextStyle(
+                                                      color: (queueState
+                                                                  .currentIndex ==
+                                                              index)
+                                                          ? Colors.lightBlue
+                                                          : Colors.white,
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                      fontSize: 15,
+                                                    ),
+                                                  ),
+                                                  subtitle: Text(
+                                                    queueState.audioQueue!
+                                                        .elementAt(index)
+                                                        .artistName,
+                                                    style: TextStyle(
+                                                      color: (queueState
+                                                                  .currentIndex ==
+                                                              index)
+                                                          ? Colors.lightBlue
+                                                          : Colors.white,
+                                                      fontWeight:
+                                                          FontWeight.w400,
+                                                      fontSize: 12,
+                                                    ),
+                                                  ),
+                                                  trailing: (queueState
+                                                              .currentIndex ==
+                                                          index)
+                                                      ? Icon(
+                                                          Icons
+                                                              .stacked_bar_chart_rounded,
+                                                          color:
+                                                              Colors.lightBlue,
+                                                        )
+                                                      : const SizedBox.shrink(),
+                                                ),
+                                              ),
+                                            );
+                                          }),
+                                    ),
                                   ),
-                                  child: ListView.builder(
-                                      itemCount: state.audioQueue!.length,
-                                      shrinkWrap: true,
-                                      itemBuilder: (context, index) {
-                                        return Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 5.0),
-                                          child: GestureDetector(
-                                            onTap: () {
-                                              context
-                                                  .read<AudioPlayerBloc>()
-                                                  .add(PlayAudioEvent(
-                                                    currentIndex: index,
-                                                    fromCurrentPlaylist: true,
-                                                  ));
-                                            },
-                                            child: ListTile(
-                                              leading: CachedNetworkImage(
-                                                fit: BoxFit.cover,
-                                                errorWidget: (BuildContext
-                                                            context,
-                                                        _,
-                                                        __) =>
-                                                    SvgPicture.asset(
-                                                        'assets/icons/music-circle.svg'),
-                                                placeholder:
-                                                    (BuildContext context, _) =>
-                                                        Container(
-                                                  // fit: BoxFit.cover,
-                                                  color: Colors.black26,
-                                                  child: SvgPicture.asset(
-                                                      'assets/icons/music-circle.svg'),
-                                                ),
-                                                imageUrl: state.audioQueue!
-                                                    .elementAt(index)
-                                                    .thumbnail,
-                                                height: 50,
-                                                width: 50,
-                                              ),
-                                              title: Text(
-                                                state.audioQueue!
-                                                    .elementAt(index)
-                                                    .description,
-                                                style: TextStyle(
-                                                  color: (state.currentIndex ==
-                                                          index)
-                                                      ? Colors.lightBlue
-                                                      : Colors.white,
-                                                  fontWeight: FontWeight.w600,
-                                                  fontSize: 15,
-                                                ),
-                                              ),
-                                              subtitle: Text(
-                                                state.audioQueue!
-                                                    .elementAt(index)
-                                                    .category,
-                                                style: TextStyle(
-                                                  color: (state.currentIndex ==
-                                                          index)
-                                                      ? Colors.lightBlue
-                                                      : Colors.white,
-                                                  fontWeight: FontWeight.w400,
-                                                  fontSize: 12,
-                                                ),
-                                              ),
-                                              trailing: (state.currentIndex ==
-                                                      index)
-                                                  ? Icon(
-                                                      Icons
-                                                          .stacked_bar_chart_rounded,
-                                                      color: Colors.lightBlue,
-                                                    )
-                                                  : const SizedBox.shrink(),
-                                            ),
-                                          ),
-                                        );
-                                      }),
-                                ),
-                              ),
+                                );
+                              },
                             );
                           });
                     }
                   },
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 40,
                 ),
                 GestureDetector(

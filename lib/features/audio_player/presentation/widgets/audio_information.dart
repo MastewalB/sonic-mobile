@@ -26,46 +26,45 @@ class AudioInformation extends StatelessWidget {
                 BoxShadow(color: Colors.black45, blurRadius: 15)
               ]),
               child: Card(
-                elevation: 20.0,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(5.0),
-                ),
-                clipBehavior: Clip.antiAlias,
-                child: audioQueue
-                        .elementAt(state.currentIndex)
-                        .audioUrl
-                        .startsWith('file')
-                    ? Image(
-                        fit: BoxFit.cover,
-                        height: 300,
-                        width: 300,
-                        gaplessPlayback: true,
-                        image: FileImage(File(Uri.parse(audioQueue
-                                .elementAt(state.currentIndex)
-                                .audioUrl)
-                            .toFilePath())),
-                      )
-                    : CachedNetworkImage(
-                        fit: BoxFit.cover,
-                        errorWidget: (BuildContext context, _, __) =>
-                            Container(
-                          // fit: BoxFit.cover,
-                          child: SvgPicture.asset(
-                              'assets/icons/music-circle.svg'),
-                        ),
-                        placeholder: (BuildContext context, _) => Container(
-                          // fit: BoxFit.cover,
-                          color: Colors.black26,
-                          child: SvgPicture.asset(
-                              'assets/icons/music-circle.svg'),
-                        ),
-                        imageUrl: audioQueue
-                            .elementAt(state.currentIndex)
-                            .thumbnail,
-                        height: 350,
-                        width: 350,
-                      ),
-              ),
+                  elevation: 20.0,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(5.0),
+                  ),
+                  clipBehavior: Clip.antiAlias,
+                  child:
+                      // audioQueue
+                      //         .elementAt(state.currentIndex)
+                      //         .fileUrl
+                      //         .startsWith('file')
+                      //     ?
+                      Image(
+                    fit: BoxFit.cover,
+                    height: 350,
+                    width: 400,
+                    gaplessPlayback: true,
+                    image: NetworkImage(
+                        "https://images.ecestaticos.com/xnNbBZp8-d8EtrRzQNEnUp3hOL4=/0x60:1919x1138/557x418/filters:fill(white):format(jpg)/f.elconfidencial.com%2Foriginal%2Fcc3%2F6d5%2F5eb%2Fcc36d55ebd0a8c375b6530ab68b0252b.jpg"),
+
+                  )
+                  // : CachedNetworkImage(
+                  //     fit: BoxFit.cover,
+                  //     errorWidget: (BuildContext context, _, __) => Container(
+                  //       // fit: BoxFit.cover,
+                  //       child:
+                  //           SvgPicture.asset('assets/icons/music-circle.svg'),
+                  //     ),
+                  //     placeholder: (BuildContext context, _) => Container(
+                  //       // fit: BoxFit.cover,
+                  //       color: Colors.black26,
+                  //       child:
+                  //           SvgPicture.asset('assets/icons/music-circle.svg'),
+                  //     ),
+                  //     imageUrl:
+                  //         audioQueue.elementAt(state.currentIndex).thumbnail,
+                  //     height: 350,
+                  //     width: 350,
+                  //   ),
+                  ),
             ),
           ),
           SizedBox(
@@ -74,7 +73,7 @@ class AudioInformation extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 30.0),
             child: Text(
-              audioQueue.elementAt(state.currentIndex).description,
+              audioQueue.elementAt(state.currentIndex).title,
               textDirection: TextDirection.ltr,
               style: TextStyle(
                   color: Colors.white,
@@ -88,7 +87,7 @@ class AudioInformation extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 30.0),
             child: Text(
-              audioQueue.elementAt(state.currentIndex).category,
+              audioQueue.elementAt(state.currentIndex).artistName,
               textDirection: TextDirection.ltr,
               style: TextStyle(
                 fontSize: 18,

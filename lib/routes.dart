@@ -11,6 +11,7 @@ import 'package:sonic_mobile/features/studio/presentation/widgets/screen_argumen
 import 'package:sonic_mobile/features/studio/presentation/widgets/update_podcast_page.dart';
 import 'package:sonic_mobile/features/studio/presentation/widgets/your_podcasts.dart';
 
+import 'features/audio_player/presentation/player_page.dart';
 import 'features/studio/bloc/create_podcast_bloc/create_podcast_bloc.dart';
 import 'features/studio/bloc/record_bloc/record_bloc.dart';
 import 'features/studio/presentation/record_page.dart';
@@ -19,6 +20,10 @@ import 'features/studio/presentation/widgets/create_episode_page.dart';
 class PageRouter {
   Route<dynamic>? generateRoute(RouteSettings routeSettings) {
     switch (routeSettings.name) {
+      case PlayerPage.routeName:
+        return MaterialPageRoute(builder: (context) {
+          return const PlayerPage();
+        });
       case YourPodcastsPage.routeName:
         return MaterialPageRoute(builder: (context) {
           return BlocProvider(
@@ -140,6 +145,7 @@ class PageRouter {
             ),
           ),
         );
+
     }
     return null;
   }

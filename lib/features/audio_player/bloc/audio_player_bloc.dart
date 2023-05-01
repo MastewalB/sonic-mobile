@@ -1,8 +1,9 @@
 import 'dart:async';
 import 'dart:collection';
 import 'package:audioplayers/audioplayers.dart';
+import 'package:just_audio/just_audio.dart' as Just;
 import 'package:sonic_mobile/models/models.dart';
-import 'package:bloc/bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 
 part 'audio_player_event.dart';
@@ -15,7 +16,7 @@ class AudioPlayerBloc extends Bloc<AudioPlayerEvent, AudioPlayerState> {
   bool isPlaying = false;
   bool isLooping = false;
 
-  ListQueue<AudioMock> audioQueue = ListQueue<AudioMock>();
+  ListQueue<Audio> audioQueue = ListQueue<Audio>();
 
   AudioPlayerBloc({required this.audioPlayer})
       : super(AudioPlayerState(audioPlayer: audioPlayer, isLooping: false)) {
@@ -24,7 +25,7 @@ class AudioPlayerBloc extends Bloc<AudioPlayerEvent, AudioPlayerState> {
     state.audioPlayer.onPlayerCompletion.listen((event) async {
       if (isLooping) {
         await state.audioPlayer.setUrl(
-          audioQueue.elementAt(currentIndex).audioUrl,
+          audioQueue.elementAt(currentIndex).fileUrl,
         );
         add(PlayAudioEvent(
           currentIndex: currentIndex,
@@ -72,8 +73,14 @@ class AudioPlayerBloc extends Bloc<AudioPlayerEvent, AudioPlayerState> {
         currentIndex: currentIndex,
         audioQueue: audioQueue,
       ));
-
-      await state.audioPlayer.play(audioQueue.elementAt(currentIndex).audioUrl);
+      String url = audioQueue.elementAt(currentIndex).fileUrl;
+      // String urlw = "https://github.com/MastewalB/competitive-programming/raw/master/Algorithms%20and%20Programming/Timelapse%20.mp3";
+      // print(url);
+      // final player = Just.AudioPlayer();
+      // await player.setUrl(url);
+      // await player.play();
+      // await state.audioPlayer.setUrl(url);
+      await state.audioPlayer.play(audioQueue.elementAt(currentIndex).fileUrl);
     });
 
     on<ResumeAudioEvent>((event, emit) async {
@@ -110,7 +117,7 @@ class AudioPlayerBloc extends Bloc<AudioPlayerEvent, AudioPlayerState> {
       ));
 
       await state.audioPlayer
-          .setUrl(audioQueue.elementAt(currentIndex).audioUrl);
+          .setUrl(audioQueue.elementAt(currentIndex).fileUrl);
       if (prevState == AudioPlayerStatus.playing) {
         add(PlayAudioEvent(
           currentIndex: currentIndex,
@@ -140,7 +147,7 @@ class AudioPlayerBloc extends Bloc<AudioPlayerEvent, AudioPlayerState> {
       ));
 
       await state.audioPlayer
-          .setUrl(audioQueue.elementAt(currentIndex).audioUrl);
+          .setUrl(audioQueue.elementAt(currentIndex).fileUrl);
       if (prevState == AudioPlayerStatus.playing) {
         add(PlayAudioEvent(
           currentIndex: currentIndex,

@@ -3,9 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sonic_mobile/features/audio_player/bloc/audio_player_bloc.dart';
 import 'package:sonic_mobile/features/audio_player/presentation/widgets/widgets.dart';
 
-import '../../../models/AudioModelMock.dart';
 
 class PlayerPage extends StatelessWidget {
+  static const String routeName = "/player";
   const PlayerPage({Key? key}) : super(key: key);
 
   @override

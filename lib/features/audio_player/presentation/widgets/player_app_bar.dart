@@ -17,7 +17,9 @@ class PlayerAppBar extends StatelessWidget {
               textDirection: TextDirection.ltr,
               color: Colors.black,
             ),
-            onTap: () {},
+            onTap: () {
+              Navigator.pop(context);
+            },
           ),
           const Icon(
             Icons.more_horiz,

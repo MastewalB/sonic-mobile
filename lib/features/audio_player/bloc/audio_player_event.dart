@@ -14,7 +14,7 @@ class AudioPlayerFailedEvent extends AudioPlayerEvent {
 }
 
 class PlayAudioEvent extends AudioPlayerEvent {
-  ListQueue<AudioMock>? playlist;
+  ListQueue<Audio>? playlist;
   int? currentIndex;
   bool fromCurrentPlaylist;
 

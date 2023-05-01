@@ -2,18 +2,26 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:sonic_mobile/features/studio/repository/http_studio_repository.dart';
 import 'package:sonic_mobile/core/core.dart';
+import 'package:audioplayers/audioplayers.dart';
 
 class DependencyProvider {
   static http.Client? _httpClient;
   static AuthenticatedHttpClient? _authenticatedHttpClient;
   static HttpStudioRepository? _httpStudioRepository;
   static SecureStorage? _secureStorage;
+  static AudioPlayer? _audioPlayer;
+
   static NotificationCubit? _notificationCubit;
   static GlobalKey<ScaffoldMessengerState>? _messengerKey;
 
   static http.Client? getHttpClient() {
     _httpClient ??= http.Client();
     return _httpClient;
+  }
+
+  static AudioPlayer? getAudioPlayer() {
+    _audioPlayer ??= AudioPlayer();
+    return _audioPlayer;
   }
 
   static AuthenticatedHttpClient? getAuthenticatedHttpClient() {
