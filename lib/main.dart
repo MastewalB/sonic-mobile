@@ -43,7 +43,7 @@ void main() {
               Color? color = (state is NotificationSuccess)
                   ? Colors.green.shade300
                   : (state is NotificationError)
-                      ? Colors.red.shade200
+                      ? Colors.red.shade400
                       : null;
 
               if (state is NotificationSuccess ||

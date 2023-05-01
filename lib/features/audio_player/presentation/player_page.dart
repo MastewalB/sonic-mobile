@@ -14,6 +14,28 @@ class PlayerPage extends StatelessWidget {
 
     debugPrint(audioPlayerBloc.audioQueue.length.toString());
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: const Color.fromARGB(255, 50, 50, 50),
+        elevation: 20,
+        shadowColor: const Color.fromARGB(255, 100, 100, 100),
+        leading: GestureDetector(
+          child: const Icon(
+            Icons.keyboard_arrow_down,
+            textDirection: TextDirection.ltr,
+            color: Colors.white,
+          ),
+          onTap: () {
+            Navigator.pop(context);
+          },
+        ),
+        actions: [
+          const Icon(
+            Icons.more_horiz,
+            textDirection: TextDirection.ltr,
+            color: Colors.white,
+          ),
+        ],
+      ),
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
@@ -30,7 +52,7 @@ class PlayerPage extends StatelessWidget {
         ),
         child: ListView(
           children: const [
-            PlayerAppBar(),
+            // PlayerAppBar(),
             AudioInformation(),
             TimeSlider(),
             PlayerControls(),

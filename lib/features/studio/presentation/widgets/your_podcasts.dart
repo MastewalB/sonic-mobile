@@ -14,7 +14,6 @@ class YourPodcastsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     double safeAreaWidth = MediaQueryManager.safeAreaHorizontal;
     double circleAvatarWidth = safeAreaWidth * 8;
 
@@ -30,7 +29,9 @@ class YourPodcastsPage extends StatelessWidget {
         if (state.status.isInitial || state.status.isLoading) {
           return const Scaffold(
             body: Center(
-              child: CircularProgressIndicator(),
+              child: CircularProgressIndicator(
+                color: Colors.white,
+              ),
             ),
           );
         }
@@ -66,11 +67,24 @@ class YourPodcastsPage extends StatelessWidget {
               ],
             ),
             body: Center(
-              child: Text(
-                "Could not fetch podcasts.",
-                style: TextStyle(
-                  color: Colors.white,
-                ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "Could not fetch podcasts.",
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      context.read<StudioBloc>().add(
+                            GetAllPodcastsByUserEvent(userId: "userId"),
+                          );
+                    },
+                    child: Text("Retry"),
+                  )
+                ],
               ),
             ),
           );

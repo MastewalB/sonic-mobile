@@ -67,7 +67,7 @@ class RecordBloc extends Bloc<RecordEvent, RecordState> {
             Directory(recordingPath).listSync();
 
         for (final file in files) {
-          Duration fileDuration = Duration(seconds: 0);
+          Duration fileDuration = const Duration(seconds: 0);
           final AudioPlayer playerCache = AudioPlayer();
           await playerCache.setUrl(file.path, isLocal: true);
           playerCache.onDurationChanged.listen((Duration duration) {

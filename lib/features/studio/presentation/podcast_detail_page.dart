@@ -243,6 +243,17 @@ class _PodcastDetailPageState extends State<PodcastDetailPage> {
                               ),
                             );
                           },
+                          onDoubleTap: (){
+                            ListQueue<Audio> playlist =
+                            ListQueue.from(widget.podcast.episodes);
+                            context.read<AudioPlayerBloc>().add(
+                              PlayAudioEvent(
+                                playlist: playlist,
+                                currentIndex: index,
+                                fromCurrentPlaylist: false,
+                              ),
+                            );
+                          },
                           child: Row(
                             mainAxisSize: MainAxisSize.max,
                             children: [
@@ -259,14 +270,16 @@ class _PodcastDetailPageState extends State<PodcastDetailPage> {
                                     ),
                                   ],
                                 ),
-                                onTap: (){
+                                onTap: () {
                                   ListQueue<Audio> playlist =
-                                  ListQueue.from(widget.podcast.episodes);
-                                  context.read<AudioPlayerBloc>().add(PlayAudioEvent(
-                                    playlist: playlist,
-                                    currentIndex: index,
-                                    fromCurrentPlaylist: false,
-                                  ));
+                                      ListQueue.from(widget.podcast.episodes);
+                                  context.read<AudioPlayerBloc>().add(
+                                        PlayAudioEvent(
+                                          playlist: playlist,
+                                          currentIndex: index,
+                                          fromCurrentPlaylist: false,
+                                        ),
+                                      );
                                 },
                               ),
                               SizedBox(
@@ -276,7 +289,7 @@ class _PodcastDetailPageState extends State<PodcastDetailPage> {
                                 title: widget.podcast.episodes[index].title,
                                 duration: "00:12",
                                 image:
-                                    "https://s1.eestatic.com/2020/01/20/como/podcast-marketing-radio_461216627_142878540_1706x960.jpg",
+                                'assets/music_icon_image.jpg',
                               ),
                             ],
                           ),

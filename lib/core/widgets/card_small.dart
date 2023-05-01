@@ -4,12 +4,14 @@ class CardSmall extends StatelessWidget {
   final String title;
   final String duration;
   final String image;
+  final Color? color;
 
   const CardSmall({
     Key? key,
     required this.title,
     required this.duration,
     required this.image,
+    this.color,
   }) : super(key: key);
 
   @override
@@ -18,7 +20,6 @@ class CardSmall extends StatelessWidget {
       decoration: BoxDecoration(
         color: Color.fromARGB(255, 31, 29, 43),
       ),
-
       height: 50,
       alignment: Alignment.center,
       child: Row(
@@ -27,7 +28,7 @@ class CardSmall extends StatelessWidget {
             width: 50,
             height: 50,
             child: ClipRRect(
-              child: Image.network(
+              child: Image.asset(
                 image,
                 fit: BoxFit.cover,
               ),
@@ -43,7 +44,7 @@ class CardSmall extends StatelessWidget {
                 child: Text(
                   title,
                   style: TextStyle(
-                      color: Colors.white,
+                      color: color ?? Colors.white,
                       fontSize: 16,
                       overflow: TextOverflow.ellipsis),
                   maxLines: 2,

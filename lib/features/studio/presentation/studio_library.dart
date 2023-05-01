@@ -1,8 +1,11 @@
+import 'dart:math';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:marquee/marquee.dart';
 import 'package:sonic_mobile/features/audio_player/bloc/audio_player_bloc.dart';
 import 'package:sonic_mobile/features/audio_player/presentation/player_page.dart';
 import 'package:flutter/material.dart';
+import 'package:sonic_mobile/features/audio_player/presentation/widgets/time_slider.dart';
 import 'package:sonic_mobile/features/studio/presentation/recording_list_page.dart';
 import 'package:sonic_mobile/features/studio/presentation/widgets/your_podcasts.dart';
 import 'package:sonic_mobile/routes.dart';
@@ -53,7 +56,7 @@ class _StudioLibraryState extends State<StudioLibrary> {
   Widget build(BuildContext context) {
     final audioPlayerBloc = BlocProvider.of<AudioPlayerBloc>(context);
     final TextStyle miniPlayerTitleStyle =
-        TextStyle(color: Colors.white, fontSize: 18);
+        TextStyle(color: Colors.white, fontSize: 15);
 
     return Scaffold(
       body: IndexedStack(
@@ -79,23 +82,24 @@ class _StudioLibraryState extends State<StudioLibrary> {
       ),
       bottomNavigationBar: BlocBuilder<AudioPlayerBloc, AudioPlayerState>(
         builder: (context, state) {
-          return Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Visibility(
-                visible: state.isPlaying,
-                child: Container(
-                  decoration: const BoxDecoration(color: Colors.black),
-                  child: SizedBox(
-                    height: 70,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        GestureDetector(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Container(
+          return SizedBox(
+            // height: 140,
+            child: Column(
+              // mainAxisAlignment: MainAxisAlignment.spaceAround,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Visibility(
+                  visible: state.isPlaying,
+                  child: Container(
+                    decoration: const BoxDecoration(
+                        color: Color.fromARGB(255, 35, 35, 45)),
+                    child: SizedBox(
+                      // height: 58,
+                      child: Stack(
+                        alignment: Alignment.topCenter,
+                        children: [
+                          ListTile(
+                              leading: Container(
                                 decoration: BoxDecoration(
                                   image: (state.status.isLoading ||
                                           state.status.isInitial ||
@@ -105,39 +109,29 @@ class _StudioLibraryState extends State<StudioLibrary> {
                                             'assets/music_icon_image.jpg',
                                           ),
                                         )
-                                      : DecorationImage(
+                                      : const DecorationImage(
                                           image: NetworkImage(
-                                              "https://images.ecestaticos.com/xnNbBZp8-d8EtrRzQNEnUp3hOL4=/0x60:1919x1138/557x418/filters:fill(white):format(jpg)/f.elconfidencial.com%2Foriginal%2Fcc3%2F6d5%2F5eb%2Fcc36d55ebd0a8c375b6530ab68b0252b.jpg"),
+                                            "https://media.istockphoto.com/id/486121005/photo/sun-rays-inside-coconut-palms.jpg?b=1&s=170667a&w=0&k=20&c=RsE02692qNh7SapxtJ7CzuzsmBpuuOm25NRxUazCgcE=",
+                                          ),
+                                          fit: BoxFit.cover,
                                         ),
                                 ),
                                 constraints: const BoxConstraints(
-                                  maxHeight: 60,
+                                  // maxHeight: 60,
+                                  minHeight: 60,
                                   maxWidth: 60,
                                 ),
-                                // padding: EdgeInsets.symmetric(
-                                //     horizontal: 10, vertical: 10),
-                                // child: Image(
-                                //   image: FileImage(File(state.audioQueue!
-                                //       .elementAt(state.currentIndex)
-                                //       .thumbnail)),
-                                // )
                               ),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              Container(
+                              title: Container(
                                 constraints: BoxConstraints(
                                     maxHeight: 60, maxWidth: 150),
                                 child: (state.audioQueue!.isNotEmpty)
-                                    ? (state.audioQueue!
-                                                .elementAt(state.currentIndex)
-                                                .title
+                                    ? ("${state.audioQueue!.elementAt(state.currentIndex).title} - ${state.audioQueue!.elementAt(state.currentIndex).artistName}"
                                                 .length >
-                                            15)
+                                            30)
                                         ? Marquee(
-                                            text: state.audioQueue!
-                                                .elementAt(state.currentIndex)
-                                                .title,
+                                            text:
+                                                "${state.audioQueue!.elementAt(state.currentIndex).title} - ${state.audioQueue!.elementAt(state.currentIndex).artistName}",
                                             //state.audioQueue!.elementAt(state.currentIndex).id,
                                             style: miniPlayerTitleStyle,
                                             pauseAfterRound:
@@ -149,91 +143,192 @@ class _StudioLibraryState extends State<StudioLibrary> {
                                             velocity: 30.0,
                                           )
                                         : Text(
-                                            state.audioQueue!
-                                                .elementAt(state.currentIndex)
-                                                .title,
+                                            "${state.audioQueue!.elementAt(state.currentIndex).title} - ${state.audioQueue!.elementAt(state.currentIndex).artistName}",
                                             style: miniPlayerTitleStyle,
                                           )
                                     : Text(""),
                               ),
-                            ],
+                              trailing: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  GestureDetector(
+                                    child: (state.status.isLoading)
+                                        ? const Center(
+                                            child: CircularProgressIndicator(),
+                                          )
+                                        : Icon(
+                                            (state.status.isPlaying)
+                                                ? Icons.pause
+                                                : Icons.play_arrow,
+                                            color: Colors.white,
+                                            size: 40,
+                                          ),
+                                    onTap: () {
+                                      (state.audioPlayer.state.name ==
+                                              "PLAYING")
+                                          ? audioPlayerBloc
+                                              .add(PauseAudioEvent())
+                                          : audioPlayerBloc
+                                              .add(ResumeAudioEvent());
+                                    },
+                                  ),
+                                  IconButton(
+                                    icon: const Icon(Icons.close),
+                                    color: Colors.white,
+                                    onPressed: () {
+                                      context
+                                          .read<AudioPlayerBloc>()
+                                          .add(StopAudioEvent());
+                                    },
+                                  )
+                                ],
+                              ),
+                              onTap: () {
+                                Navigator.pushNamed(
+                                    context, PlayerPage.routeName);
+                              }
+                              // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              // children: [
+                              //   InkWell(
+                              //     child: Row(
+                              //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              //       children: [
+                              //
+                              //         SizedBox(
+                              //           width: 10,
+                              //         ),
+                              //       ],
+                              //     ),
+                              //     onTap: () {
+                              //       Navigator.pushNamed(context, PlayerPage.routeName);
+                              //     },
+                              //   ),
+                              //   GestureDetector(
+                              //       onTap: () {
+                              //         audioPlayerBloc.add(PlayPreviousEvent());
+                              //       },
+                              //       child: Icon(
+                              //         Icons.skip_previous_rounded,
+                              //         color: Colors.white,
+                              //         size: 40,
+                              //       )),
+                              //
+                              //   GestureDetector(
+                              //       onTap: () {
+                              //         audioPlayerBloc.add(PlayNextEvent());
+                              //       },
+                              //       child: Icon(
+                              //         Icons.skip_next_rounded,
+                              //         color: Colors.white,
+                              //         size: 40,
+                              //       )),
+                              //
+                              // ],
+                              ),
+                          Positioned(
+                            top: -24,
+                            child: StreamBuilder(
+                              stream: audioPlayerBloc.fileDuration(),
+                              builder: (_,
+                                      AsyncSnapshot<Duration>
+                                          totalDurationSnapshot) =>
+                                  StreamBuilder(
+                                stream: audioPlayerBloc.currentPosition(),
+                                builder: (_, AsyncSnapshot<Duration> snapshot) {
+                                  switch (snapshot.connectionState) {
+                                    case ConnectionState.none:
+                                      return sliderPlaceholder();
+                                    case ConnectionState.active:
+                                      return sliderPlaceholder();
+                                    case ConnectionState.done:
+                                      return sliderPlaceholder();
+                                    case ConnectionState.waiting:
+                                      if (snapshot.hasData &&
+                                          totalDurationSnapshot.hasData) {
+                                        int seconds = snapshot.data!.inSeconds;
+                                        Duration duration = snapshot.data!;
+                                        Duration totalDuration =
+                                            totalDurationSnapshot.data!;
+
+                                        final value = min(
+                                            duration.inMilliseconds.toDouble(),
+                                            totalDuration.inMilliseconds
+                                                .toDouble());
+
+                                        return SliderTheme(
+                                          data: const SliderThemeData(
+                                            activeTrackColor: Colors.white,
+                                            inactiveTrackColor: Colors.grey,
+                                            thumbColor: Colors.transparent,
+                                            thumbShape: RoundSliderThumbShape(
+                                                enabledThumbRadius: 0.0),
+                                            trackHeight: 1,
+                                          ),
+                                          child: SizedBox(
+                                            width: 550,
+                                            child: Slider(
+                                              max: totalDuration.inMilliseconds
+                                                  .toDouble(),
+                                              value: value,
+                                              onChanged: (double value) {},
+                                            ),
+                                          ),
+                                        );
+                                      }
+                                  }
+
+                                  return SliderTheme(
+                                    data: const SliderThemeData(
+                                        activeTrackColor: Colors.white,
+                                        inactiveTrackColor: Colors.grey,
+                                        thumbColor: Colors.transparent,
+                                        trackHeight: 1),
+                                    child: SizedBox(
+                                      width: 550,
+                                      child: Slider(
+                                        // max: totalDuration.inMilliseconds.toDouble(),
+                                        value: 0,
+                                        onChanged: (double value) {},
+                                      ),
+                                    ),
+                                  );
+                                },
+                              ),
+                            ),
                           ),
-                          onTap: () {
-                            Navigator.pushNamed(context, PlayerPage.routeName);
-                          },
-                        ),
-                        GestureDetector(
-                            onTap: () {
-                              audioPlayerBloc.add(PlayPreviousEvent());
-                            },
-                            child: Icon(
-                              Icons.skip_previous_rounded,
-                              color: Colors.white,
-                              size: 40,
-                            )),
-                        GestureDetector(
-                          child: (state.status.isLoading)
-                              ? const Center(
-                                  child: CircularProgressIndicator(),
-                                )
-                              : Icon(
-                                  (state.status.isPlaying)
-                                      ? Icons.pause_circle
-                                      : Icons.play_circle,
-                                  color: Colors.white,
-                                  size: 50,
-                                ),
-                          onTap: () {
-                            (state.audioPlayer.state.name == "PLAYING")
-                                ? audioPlayerBloc.add(PauseAudioEvent())
-                                : audioPlayerBloc.add(ResumeAudioEvent());
-                          },
-                        ),
-                        GestureDetector(
-                            onTap: () {
-                              audioPlayerBloc.add(PlayNextEvent());
-                            },
-                            child: Icon(
-                              Icons.skip_next_rounded,
-                              color: Colors.white,
-                              size: 40,
-                            )),
-                        IconButton(
-                          icon: const Icon(Icons.close),
-                          color: Colors.white,
-                          onPressed: () {
-                            context
-                                .read<AudioPlayerBloc>()
-                                .add(StopAudioEvent());
-                          },
-                        )
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 ),
-              ),
-              BottomNavigationBar(
-                elevation: 3,
-                currentIndex: _selectedIndex,
-                onTap: (index) => setState(() {
-                  _selectedIndex = index;
-                }),
-                items: const [
-                  BottomNavigationBarItem(
-                    icon: Icon(
-                      Icons.podcasts,
-                    ),
-                    label: "Your Podcasts",
+                SizedBox(
+                  height: 55,
+                  child: BottomNavigationBar(
+                    elevation: 3,
+                    currentIndex: _selectedIndex,
+                    onTap: (index) => setState(() {
+                      _selectedIndex = index;
+                    }),
+                    items: const [
+                      BottomNavigationBarItem(
+                        icon: Icon(
+                          Icons.podcasts,
+                        ),
+                        label: "Your Podcasts",
+                      ),
+                      BottomNavigationBarItem(
+                        icon: Icon(
+                          Icons.mic,
+                        ),
+                        label: "Recording",
+                      ),
+                    ],
                   ),
-                  BottomNavigationBarItem(
-                    icon: Icon(
-                      Icons.mic,
-                    ),
-                    label: "Recording",
-                  ),
-                ],
-              ),
-            ],
+                ),
+              ],
+            ),
           );
         },
       ),
