@@ -1,7 +1,9 @@
+import 'dart:io';
 import 'package:sonic_mobile/models/models.dart';
 
 abstract class StudioRepository {
-  Future<void> createPodcast(String title, String description, String genre);
+  Future<StudioPodcast> createPodcast(
+      String title, String description, String genre);
 
   Future<List<StudioPodcast>> getPodcastsByUser(String userId);
 
@@ -10,5 +12,7 @@ abstract class StudioRepository {
   Future<void> deletePodcast(String podcastId);
 
   Future<StudioPodcast> updatePodcast(
-      String? title, String? description, String? genre);
+      String id, String title, String description, String genre);
+
+  Future<bool> createEpisode(String title, String description, String podcastId, File episodeFile);
 }

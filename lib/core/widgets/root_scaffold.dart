@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:sonic_mobile/core/core.dart';
 
 class RootScaffold extends StatefulWidget {
   const RootScaffold({
@@ -7,13 +6,15 @@ class RootScaffold extends StatefulWidget {
     required this.screens,
     required this.icons,
     required this.names,
-    this.floatingActionButton,
+    this.initialIndex = 0,
+    this.floatingActions,
   }) : super(key: key);
 
   final List<Widget> screens;
   final List<IconData> icons;
   final List<String> names;
-  final FloatingActionButton? floatingActionButton;
+  final int initialIndex;
+  final List<FloatingActionButton>? floatingActions;
 
   @override
   State<RootScaffold> createState() => _RootScaffoldState();
@@ -21,6 +22,12 @@ class RootScaffold extends StatefulWidget {
 
 class _RootScaffoldState extends State<RootScaffold> {
   int _selectedIndex = 0;
+
+  @override
+  void initState() {
+    _selectedIndex = widget.initialIndex;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +49,9 @@ class _RootScaffoldState extends State<RootScaffold> {
         }),
         items: bottomNavItems,
       ),
-      floatingActionButton: widget.floatingActionButton,
+      floatingActionButton: (widget.floatingActions != null)
+          ? widget.floatingActions![_selectedIndex]
+          : null,
     );
   }
 }
