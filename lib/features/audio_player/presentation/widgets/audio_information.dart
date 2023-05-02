@@ -1,10 +1,6 @@
 import 'dart:core';
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:hive/hive.dart';
 import 'package:marquee/marquee.dart';
 import 'package:sonic_mobile/features/audio_player/bloc/audio_player_bloc.dart';
 
@@ -16,7 +12,6 @@ class AudioInformation extends StatelessWidget {
     final audioPlayerBloc = BlocProvider.of<AudioPlayerBloc>(context);
     final audioQueue = audioPlayerBloc.audioQueue;
 
-    // debugPrint(audioPlayerBloc.audioQueue.length.toString());
     return BlocBuilder<AudioPlayerBloc, AudioPlayerState>(
       builder: (_, state) => Column(
         mainAxisSize: MainAxisSize.min,
@@ -25,7 +20,7 @@ class AudioInformation extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 30),
             child: Container(
-              decoration: BoxDecoration(boxShadow: [
+              decoration: const BoxDecoration(boxShadow: [
                 BoxShadow(color: Colors.black45, blurRadius: 15)
               ]),
               child: Card(
@@ -34,13 +29,7 @@ class AudioInformation extends StatelessWidget {
                     borderRadius: BorderRadius.circular(5.0),
                   ),
                   clipBehavior: Clip.antiAlias,
-                  child:
-                      // audioQueue
-                      //         .elementAt(state.currentIndex)
-                      //         .fileUrl
-                      //         .startsWith('file')
-                      //     ?
-                      Image(
+                  child: const Image(
                     fit: BoxFit.cover,
                     height: 350,
                     width: 400,
@@ -70,53 +59,60 @@ class AudioInformation extends StatelessWidget {
                   ),
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 90,
           ),
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 30),
+            padding: const EdgeInsets.symmetric(horizontal: 30),
             child: (state.audioQueue!.isNotEmpty)
                 ? ("${state.audioQueue!.elementAt(state.currentIndex).title} - ${state.audioQueue!.elementAt(state.currentIndex).artistName}"
                             .length >
-                        10)
+                        45)
                     ? Container(
-                        constraints: BoxConstraints(
+                        constraints: const BoxConstraints(
                           maxHeight: 50,
                           maxWidth: 400,
                         ),
                         child: Marquee(
-                          text:
-                              "${state.audioQueue!.elementAt(state.currentIndex).title} - ${state.audioQueue!.elementAt(state.currentIndex).artistName}",
+                          text: state.audioQueue!
+                              .elementAt(state.currentIndex)
+                              .title,
                           //state.audioQueue!.elementAt(state.currentIndex).id,
-                          style: TextStyle(
+                          style: const TextStyle(
                               color: Colors.white,
-                              fontSize: 25.0,
+                              fontSize: 22.0,
                               fontWeight: FontWeight.w700),
-                          pauseAfterRound: Duration(seconds: 3),
-                          blankSpace: 20.0,
+                          pauseAfterRound: const Duration(seconds: 5),
+                          blankSpace: 30.0,
                           scrollAxis: Axis.horizontal,
-                          accelerationDuration: Duration(seconds: 1),
+                          accelerationDuration: const Duration(seconds: 1),
                           velocity: 30.0,
                         ),
                       )
-                    : Text(
-                        "${state.audioQueue!.elementAt(state.currentIndex).title} - ${state.audioQueue!.elementAt(state.currentIndex).artistName}",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 25.0,
-                            fontWeight: FontWeight.w700),
+                    : Container(
+                        constraints: const BoxConstraints(
+                          maxHeight: 50,
+                          maxWidth: 400,
+                        ),
+                        child: Text(
+                          state.audioQueue!.elementAt(state.currentIndex).title,
+                          style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 22.0,
+                              fontWeight: FontWeight.w700),
+                        ),
                       )
-                : Text(""),
+                : const Text(""),
           ),
-          SizedBox(
-            height: 10,
+          const SizedBox(
+            height: 0,
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 30.0),
             child: Text(
               audioQueue.elementAt(state.currentIndex).artistName,
               textDirection: TextDirection.ltr,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 18,
                 color: Colors.white,
                 fontWeight: FontWeight.w400,

@@ -1,11 +1,8 @@
-import 'dart:collection';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:on_audio_query/on_audio_query.dart';
-import 'package:sonic_mobile/features/audio_player/bloc/audio_player_bloc.dart';
+import 'package:sonic_mobile/features/studio/presentation/widgets/list_songs.dart';
+import 'package:sonic_mobile/features/studio/presentation/widgets/screen_arguments.dart';
 
-import '../../../models/audio.dart';
 
 class LocalSongs extends StatefulWidget {
   static const String routeName = "local_songs";
@@ -25,7 +22,7 @@ class _LocalSongsState extends State<LocalSongs> {
   @override
   void initState() {
     super.initState();
-    // (Optinal) Set logging level. By default will be set to 'WARN'.
+    // (Optional) Set logging level. By default will be set to 'WARN'.
     //
     // Log will appear on:
     //  * XCode: Debug Console
@@ -47,6 +44,8 @@ class _LocalSongsState extends State<LocalSongs> {
     // Only call update the UI if application has all required permissions.
     _hasPermission ? setState(() {}) : null;
   }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -81,56 +80,52 @@ class _LocalSongsState extends State<LocalSongs> {
                   if (item.data!.isEmpty) return const Text("Nothing found!");
 
                   // You can use [item.data!] direct or you can create a:
-                  // List<SongModel> songs = item.data!;
-                  return ListView.builder(
-                    itemCount: item.data!.length,
-                    itemBuilder: (context, index) {
-                      return ListTile(
-                        onTap: () {
-                          ListQueue<Audio> playlist = ListQueue<Audio>();
-                          // ListQueue.from(item.data!);
-                          for (SongModel song in item.data!) {
-                            if (song.uri != null) {
-                              playlist.add(Audio.fromSongModel(song));
-                            }
-                          }
+                  List<SongModel> songs = item.data!;
+                  Map<String, List<SongModel>> songsPerFolders =
+                      <String, List<SongModel>>{};
 
-                          // if (item.data![index].uri != null) {
-                            context.read<AudioPlayerBloc>().add(
-                                  PlayAudioEvent(
-                                    playlist: playlist,
-                                    currentIndex: index,
-                                    fromCurrentPlaylist: false,
-                                    isLocal: true,
-                                  ),
-                                );
-                          // }
+
+                  Set<String> dirs = songs.map((e) {
+                    List<String> split = e.data.split("/").toList();
+                    String itemName = split.last;
+                    String pathName = e.data.substring(0, e.data.length - itemName.length - 1);
+                    songsPerFolders[pathName] ??= [];
+                    songsPerFolders[pathName]?.add(e);
+                    return pathName;
+                  }).toSet();
+
+                  List<String> directories = dirs.toList();
+                  directories.sort((a, b)=> a.split("/").last.compareTo(b.split("/").last));
+
+
+                  return ListView.builder(
+                    itemCount: directories.length,
+                    itemBuilder: (context, index) {
+                      return InkWell(
+                        onTap: () {
+                          Navigator.pushNamed(context, FolderSongs.routeName,
+                              arguments: FolderSongsArguments(
+                                songs:
+                                    songsPerFolders[directories[index]] ?? [],
+                                folderName: directories[index].split("/").last,
+                              ));
                         },
-                        title: Text(
-                          item.data![index].title,
-                          style: TextStyle(
-                            color: Colors.white,
+                        child: Padding(
+                          padding: const EdgeInsets.all(5.0),
+                          child: ListTile(
+                            title: Text(
+                              directories[index].split("/").last,
+                              style: const TextStyle(
+                                color: Colors.white,
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
+                            ),
+                            leading: Image.asset(
+                              'assets/music_icon_image.jpg',
+                            ),
                           ),
                         ),
-                        subtitle: Text(
-                          item.data![index].artist ?? "Unknown",
-                          style: TextStyle(
-                            color: Colors.white,
-                          ),
-                        ),
-                        // trailing: Text(item.data![index].uri ?? "", style: TextStyle(
-                        //   color: Colors.white,
-                        // ),),
-                        // This Widget will query/load image.
-                        // You can use/create your own widget/method using [queryArtwork].
-                        leading: Image.asset(
-                          'assets/music_icon_image.jpg',
-                        ),
-                        // QueryArtworkWidget(
-                        //   controller: _audioQuery,
-                        //   id: item.data![index].id,
-                        //   type: ArtworkType.AUDIO,
-                        // ),
                       );
                     },
                   );

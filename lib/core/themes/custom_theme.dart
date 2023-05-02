@@ -38,7 +38,7 @@ class CustomTheme {
           titleTextStyle: TextStyle(
             fontFamily: 'Poppins',
             color: Colors.white,
-            fontSize: 28,
+            fontSize: 23,
             fontWeight: FontWeight.w400,
           )),
       fontFamily: 'Poppins',

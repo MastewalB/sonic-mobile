@@ -289,7 +289,7 @@ class _StudioLibraryState extends State<StudioLibrary> {
                                           trackHeight: 1,
                                         ),
                                         child: SizedBox(
-                                          width: 470,
+                                          width: 460,
                                           child: Slider(
                                             max: totalDuration.inMilliseconds
                                                 .toDouble(),

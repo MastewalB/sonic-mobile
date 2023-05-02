@@ -8,6 +8,7 @@ import 'package:sonic_mobile/features/studio/presentation/podcast_detail_page.da
 import 'package:sonic_mobile/features/studio/presentation/recording_list_page.dart';
 import 'package:sonic_mobile/features/studio/presentation/studio_library.dart';
 import 'package:sonic_mobile/features/studio/presentation/widgets/create_podcast_page.dart';
+import 'package:sonic_mobile/features/studio/presentation/widgets/list_songs.dart';
 import 'package:sonic_mobile/features/studio/presentation/widgets/screen_arguments.dart';
 import 'package:sonic_mobile/features/studio/presentation/widgets/update_podcast_page.dart';
 import 'package:sonic_mobile/features/studio/presentation/widgets/your_podcasts.dart';
@@ -21,6 +22,15 @@ import 'features/studio/presentation/widgets/create_episode_page.dart';
 class PageRouter {
   Route<dynamic>? generateRoute(RouteSettings routeSettings) {
     switch (routeSettings.name) {
+      case FolderSongs.routeName:
+        FolderSongsArguments folderSongsArguments =
+            routeSettings.arguments as FolderSongsArguments;
+        return MaterialPageRoute(builder: (context) {
+          return FolderSongs(
+            songs: folderSongsArguments.songs,
+            folderName: folderSongsArguments.folderName,
+          );
+        });
       case LocalSongs.routeName:
         return MaterialPageRoute(builder: (context) {
           return const LocalSongs();
@@ -150,7 +160,6 @@ class PageRouter {
             ),
           ),
         );
-
     }
     return null;
   }

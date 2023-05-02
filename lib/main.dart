@@ -43,7 +43,7 @@ void main() {
               Color? color = (state is NotificationSuccess)
                   ? Colors.green.shade300
                   : (state is NotificationError)
-                      ? Colors.red.shade400
+                      ? Colors.red.shade500 
                       : null;
 
               if (state is NotificationSuccess ||
@@ -55,7 +55,7 @@ void main() {
                     content: Text(
                       state.message,
                       style: const TextStyle(
-                        color: Colors.black,
+                        color: Colors.white,
                       ),
                     ),
                     duration: const Duration(seconds: 10),
@@ -68,7 +68,7 @@ void main() {
                           )
                         : SnackBarAction(
                             label: "Close",
-                            textColor: Colors.black,
+                            textColor: Colors.white,
                             onPressed: () => messengerKey.currentState!
                                 .hideCurrentSnackBar(),
                           ),

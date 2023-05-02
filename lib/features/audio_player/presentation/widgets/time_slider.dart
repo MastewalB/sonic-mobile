@@ -49,7 +49,6 @@ class _TimeSliderState extends State<TimeSlider> {
             //     return sliderPlaceholder();
             //   case ConnectionState.waiting:
             //     return sliderPlaceholder();
-            debugPrint(snapshot.connectionState.name);
             if (snapshot.connectionState == ConnectionState.active ||
                 snapshot.connectionState == ConnectionState.waiting) {
               if (snapshot.hasData && totalDurationSnapshot.hasData) {
@@ -75,6 +74,10 @@ class _TimeSliderState extends State<TimeSlider> {
                           activeTrackColor: Colors.white,
                           inactiveTrackColor: Colors.grey,
                           thumbColor: Colors.white,
+                          thumbShape: RoundSliderThumbShape(
+                            enabledThumbRadius: 4.5,
+                          ),
+                          trackHeight: 3,
                         ),
                         child: Slider(
                           max: totalDuration.inMilliseconds.toDouble(),

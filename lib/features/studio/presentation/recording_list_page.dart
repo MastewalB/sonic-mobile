@@ -23,11 +23,42 @@ class _RecordingListPageState extends State<RecordingListPage> {
 
   @override
   Widget build(BuildContext context) {
+    AppBar appBar = AppBar(
+      title: const Text("Your Recordings"),
+      actions: [
+        PopupMenuButton(
+          onSelected: (value) {
+            switch (value.toString()) {
+              case "add_recording":
+                Navigator.pushNamed(
+                  context,
+                  RecordPage.routeName,
+                );
+            }
+          },
+          itemBuilder: (BuildContext context) {
+            return const [
+              PopupMenuItem(
+                child: Text(
+                  "Add a New Recording",
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
+                value: "add_recording",
+              ),
+            ];
+          },
+        )
+      ],
+    );
+
     return BlocBuilder<RecordBloc, RecordState>(
       builder: (superContext, state) {
         if (state is LoadingState) {
-          return const Center(
-            child: CircularProgressIndicator(
+          return Scaffold(
+            appBar: appBar,
+            body: const CircularProgressIndicator(
               color: Colors.white,
             ),
           );
@@ -42,40 +73,52 @@ class _RecordingListPageState extends State<RecordingListPage> {
             return "$twoDigitMinutes:$twoDigitSeconds";
           }
 
+          if (state.recordingList.isEmpty) {
+            return Scaffold(
+              appBar: appBar,
+              body: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Your recordings will appear here.",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 15
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    RawMaterialButton(
+                      onPressed: () {
+                        Navigator.pushNamed(
+                          context,
+                          RecordPage.routeName,
+                        );
+                      },
+                      elevation: 2.0,
+                      fillColor: const Color.fromARGB(255, 60, 60, 70),
+                      child: const Icon(
+                        Icons.add,
+                        color: Colors.white,
+                        size: 30.0,
+                      ),
+                      padding: const EdgeInsets.all(15.0),
+                      shape: const CircleBorder(),
+                    )
+                  ],
+                ),
+              ),
+            );
+          }
+
           return RefreshIndicator(
             displacement: 100,
             onRefresh: _refreshData,
             child: SafeArea(
               child: Scaffold(
-                appBar: AppBar(
-                  title: const Text("Your Recordings"),
-                  actions: [
-                    PopupMenuButton(
-                      onSelected: (value) {
-                        switch (value.toString()) {
-                          case "add_recording":
-                            Navigator.pushNamed(
-                              context,
-                              RecordPage.routeName,
-                            );
-                        }
-                      },
-                      itemBuilder: (BuildContext context) {
-                        return const [
-                          PopupMenuItem(
-                            child: Text(
-                              "Add a New Recording",
-                              style: TextStyle(
-                                color: Colors.white,
-                              ),
-                            ),
-                            value: "add_recording",
-                          ),
-                        ];
-                      },
-                    )
-                  ],
-                ),
+                appBar: appBar,
                 body: SingleChildScrollView(
                   child: Column(
                     children: state.recordingList
@@ -159,7 +202,8 @@ class _RecordingListPageState extends State<RecordingListPage> {
           );
         }
         return Scaffold(
-          body: Center(
+          appBar: appBar,
+          body: const Center(
             child: Text(
               "Could not fetch recordings.",
               style: TextStyle(
