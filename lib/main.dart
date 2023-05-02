@@ -8,6 +8,13 @@ import 'package:flutter/services.dart';
 import 'package:sonic_mobile/features/audio_player/bloc/audio_player_bloc.dart';
 import 'package:sonic_mobile/features/studio/bloc/record_bloc/record_bloc.dart';
 import 'package:sonic_mobile/features/studio/presentation/studio_library.dart';
+import 'package:sonic_mobile/core/widgets/root_scaffold.dart';
+import 'package:sonic_mobile/features/studio/bloc/create_podcast_bloc/create_podcast_bloc.dart';
+// import 'package:sonic_mobile/features/studio/presentation/record_page.dart';
+import 'package:sonic_mobile/features/studio/presentation/widgets/create_podcast_page.dart';
+import 'package:sonic_mobile/features/studio/presentation/widgets/your_podcasts.dart';
+import 'package:sonic_mobile/features/studio/repository/http_studio_repository.dart';
+import 'package:sonic_mobile/models/models.dart';
 import 'package:sonic_mobile/dependency_provider.dart';
 import 'package:sonic_mobile/routes.dart';
 import 'features/studio/bloc/studio_bloc/studio_bloc.dart';
@@ -43,7 +50,7 @@ void main() {
               Color? color = (state is NotificationSuccess)
                   ? Colors.green.shade300
                   : (state is NotificationError)
-                      ? Colors.red.shade500 
+                      ? Colors.red.shade500
                       : null;
 
               if (state is NotificationSuccess ||
