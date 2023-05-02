@@ -1,6 +1,3 @@
-import 'dart:collection';
-
-import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sonic_mobile/core/core.dart';
@@ -8,13 +5,6 @@ import 'package:flutter/services.dart';
 import 'package:sonic_mobile/features/audio_player/bloc/audio_player_bloc.dart';
 import 'package:sonic_mobile/features/studio/bloc/record_bloc/record_bloc.dart';
 import 'package:sonic_mobile/features/studio/presentation/studio_library.dart';
-import 'package:sonic_mobile/core/widgets/root_scaffold.dart';
-import 'package:sonic_mobile/features/studio/bloc/create_podcast_bloc/create_podcast_bloc.dart';
-// import 'package:sonic_mobile/features/studio/presentation/record_page.dart';
-import 'package:sonic_mobile/features/studio/presentation/widgets/create_podcast_page.dart';
-import 'package:sonic_mobile/features/studio/presentation/widgets/your_podcasts.dart';
-import 'package:sonic_mobile/features/studio/repository/http_studio_repository.dart';
-import 'package:sonic_mobile/models/models.dart';
 import 'package:sonic_mobile/dependency_provider.dart';
 import 'package:sonic_mobile/routes.dart';
 import 'features/studio/bloc/studio_bloc/studio_bloc.dart';
@@ -28,8 +18,6 @@ void main() {
 
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
-    // DeviceOrientation.landscapeLeft,
-    // DeviceOrientation.landscapeRight
   ]).then(
     (value) => runApp(
       MultiBlocProvider(
