@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sonic_mobile/core/core.dart';
+import 'package:sonic_mobile/features/studio/presentation/recording_list_page.dart';
 import 'package:sonic_mobile/features/studio/presentation/studio_library.dart';
 import 'package:sonic_mobile/features/studio/presentation/widgets/audio_visualizer.dart';
 import 'package:sonic_mobile/features/studio/bloc/record_bloc/record_bloc.dart';
@@ -67,7 +68,7 @@ class _RecordPageState extends State<RecordPage> {
           WidgetsBinding.instance.addPostFrameCallback((_) {
             Navigator.pushReplacementNamed(
               context,
-              StudioLibrary.routeName,
+              RecordingListPage.routeName,
               arguments: StudioLibraryScreenArguments(1),
             );
           });

@@ -92,7 +92,7 @@ class _RecordingListPageState extends State<RecordingListPage> {
                     ),
                     RawMaterialButton(
                       onPressed: () {
-                        Navigator.pushNamed(
+                        Navigator.pushReplacementNamed(
                           context,
                           RecordPage.routeName,
                         );
