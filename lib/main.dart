@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 // import 'package:flutter/services.dart';
 import 'package:sonic_mobile/core/constants/constants.dart';
 import 'package:sonic_mobile/features/home/presentation/homepage.dart';
-import 'features/album/presentation/album_page.dart';
 import 'features/album/presentation/widgets/album_art.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sonic_mobile/core/core.dart';
@@ -116,12 +115,6 @@ class _SonicState extends State<Sonic> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Sonic',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const Scaffold(body: Homepage()),
     MediaQueryManager.init(context);
 
     return MultiBlocProvider(

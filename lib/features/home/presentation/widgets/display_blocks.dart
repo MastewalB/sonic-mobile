@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sonic_mobile/models/music.dart';
+import 'package:sonic_mobile/models/models.dart';
 // class SongBlock {
 //   final String title;
 //   final String artist;
