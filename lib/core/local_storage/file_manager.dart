@@ -14,7 +14,7 @@ class FileManager {
     if (await dir.exists()) {
       return dir.path;
     } else {
-      dir.create(recursive: true);
+      await dir.create(recursive: true);
       return dir.path;
     }
   }

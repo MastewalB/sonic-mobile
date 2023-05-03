@@ -36,3 +36,30 @@ class DeletePodcastEvent extends PodcastDetailEvent {
   @override
   List<Object?> get props => [];
 }
+
+class CreateEpisodeInitial extends PodcastDetailEvent{
+  @override
+  List<Object?> get props => [];
+}
+
+class CreateEpisodeEvent extends PodcastDetailEvent {
+  final String title;
+  final String description;
+  final String podcastId;
+  final File file;
+
+  const CreateEpisodeEvent({
+    required this.title,
+    required this.description,
+    required this.podcastId,
+    required this.file,
+  });
+
+  @override
+  List<Object?> get props => [];
+}
+
+class ListEpisodeRecordingsEvent extends PodcastDetailEvent {
+  @override
+  List<Object?> get props => [];
+}

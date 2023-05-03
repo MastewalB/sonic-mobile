@@ -27,6 +27,10 @@ class Constants {
   static const String notEnoughPermission = "You don't have enough permission.";
   static const String loginRequired =
       "You Need to Login to complete this action.";
+  static const String emailVerificationRequired =
+      "You need to verify your account.";
+  static const String notFound = "Not Found";
+  static const String serverError = "The Server Caught Fire";
   static const String podcastCreated = "Podcast Created Successfully";
   static const String podcastDeleted = "Podcast Deleted Successfully";
   static const String connectionError = "A Network Problem Occurred";
@@ -37,9 +41,7 @@ class Constants {
   static const Duration normalDuration = Duration(seconds: 4);
   static const Duration longDuration = Duration(seconds: 5);
 
-
   //Recording Constants
   static const double decibleLimit = -30;
   static const amplitudeCaptureRateInMilliSeconds = 100;
-
 }

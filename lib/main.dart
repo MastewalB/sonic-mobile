@@ -7,11 +7,9 @@ import 'features/album/presentation/widgets/album_art.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sonic_mobile/core/core.dart';
 import 'package:flutter/services.dart';
-import 'package:sonic_mobile/core/widgets/root_scaffold.dart';
+import 'package:sonic_mobile/features/audio_player/bloc/audio_player_bloc.dart';
 import 'package:sonic_mobile/features/studio/bloc/record_bloc/record_bloc.dart';
 import 'package:sonic_mobile/features/studio/presentation/studio_library.dart';
-import 'package:sonic_mobile/features/studio/repository/http_studio_repository.dart';
-import 'package:sonic_mobile/models/models.dart';
 import 'package:sonic_mobile/dependency_provider.dart';
 import 'package:sonic_mobile/routes.dart';
 import 'features/studio/bloc/studio_bloc/studio_bloc.dart';
@@ -22,18 +20,77 @@ void main() {
   // SystemChrome.setPreferredOrientations(DeviceOrientation.portraitUp)
   WidgetsFlutterBinding.ensureInitialized();
   final PageRouter pageRouter = PageRouter();
+  final messengerKey = GlobalKey<ScaffoldMessengerState>();
+  final NotificationCubit notificationCubit =
+      DependencyProvider.getNotificationCubit()!;
+
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
-    // DeviceOrientation.landscapeLeft,
-    // DeviceOrientation.landscapeRight
   ]).then(
     (value) => runApp(
-      MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Sonic',
-        theme: CustomTheme.DarkTheme,
-        home: const Sonic(),
-        onGenerateRoute: pageRouter.generateRoute,
+      MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (context) => notificationCubit,
+          ),
+          BlocProvider(
+            create: (context) => AudioPlayerBloc(
+              audioPlayer: DependencyProvider.getAudioPlayer()!,
+            ),
+          ),
+        ],
+        child: MultiBlocListener(
+          listeners: [
+            BlocListener<NotificationCubit, NotificationState>(
+                listener: (context, state) {
+              Color? color = (state is NotificationSuccess)
+                  ? Colors.green.shade300
+                  : (state is NotificationError)
+                      ? Colors.red.shade500
+                      : null;
+
+              if (state is NotificationSuccess ||
+                  state is NotificationError ||
+                  state is NotificationInfo) {
+                messengerKey.currentState!.hideCurrentSnackBar();
+                messengerKey.currentState!.showSnackBar(
+                  SnackBar(
+                    content: Text(
+                      state.message,
+                      style: const TextStyle(
+                        color: Colors.white,
+                      ),
+                    ),
+                    duration: const Duration(seconds: 10),
+                    behavior: SnackBarBehavior.floating,
+                    backgroundColor: color,
+                    action: (state.action != null)
+                        ? SnackBarAction(
+                            label: state.actionMessage!,
+                            onPressed: state.action!,
+                          )
+                        : SnackBarAction(
+                            label: "Close",
+                            textColor: Colors.white,
+                            onPressed: () => messengerKey.currentState!
+                                .hideCurrentSnackBar(),
+                          ),
+                  ),
+                );
+                notificationCubit.notificationInitital();
+                return;
+              }
+            }),
+          ],
+          child: MaterialApp(
+            scaffoldMessengerKey: messengerKey,
+            debugShowCheckedModeBanner: false,
+            title: 'Sonic',
+            theme: CustomTheme.DarkTheme,
+            home: const Sonic(),
+            onGenerateRoute: pageRouter.generateRoute,
+          ),
+        ),
       ),
     ),
   );
@@ -53,6 +110,11 @@ class _SonicState extends State<Sonic> {
   }
 
   @override
+  void didChangeDependecies() {
+    super.didChangeDependencies();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Sonic',
@@ -66,15 +128,17 @@ class _SonicState extends State<Sonic> {
       providers: [
         BlocProvider(
           create: (context) => StudioBloc(
-              studioRepository: DependencyProvider.getHttpStudioRepository()!)
-            ..add(const GetAllPodcastsByUserEvent(userId: "userId")),
+            studioRepository: DependencyProvider.getHttpStudioRepository()!,
+            notificationCubit: DependencyProvider.getNotificationCubit()!,
+          )..add(const GetAllPodcastsByUserEvent(userId: "userId")),
         ),
         BlocProvider(
-          create: (context) => RecordBloc()..add(ListRecordingsEvent()),
+          create: (context) => RecordBloc(
+            notificationCubit: DependencyProvider.getNotificationCubit()!,
+          )..add(ListRecordingsEvent()),
         ),
       ],
       child: const StudioLibrary(),
     );
-    ;
   }
 }

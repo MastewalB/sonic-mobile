@@ -3,6 +3,7 @@ export 'podcast.dart';
 export 'playlist.dart';
 export 'user.dart';
 export 'audio.dart';
+export 'audio_list.dart';
 export 'album.dart';
 export 'artist.dart';
 export 'studio_episode.dart';

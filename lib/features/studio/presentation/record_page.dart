@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sonic_mobile/core/core.dart';
+import 'package:sonic_mobile/features/studio/presentation/recording_list_page.dart';
 import 'package:sonic_mobile/features/studio/presentation/studio_library.dart';
 import 'package:sonic_mobile/features/studio/presentation/widgets/audio_visualizer.dart';
 import 'package:sonic_mobile/features/studio/bloc/record_bloc/record_bloc.dart';
@@ -8,6 +9,8 @@ import 'package:sonic_mobile/features/studio/presentation/widgets/mic.dart';
 import 'package:sonic_mobile/features/studio/presentation/widgets/screen_arguments.dart';
 
 class RecordPage extends StatefulWidget {
+  static const String routeName = "record_page";
+
   const RecordPage({Key? key}) : super(key: key);
 
   @override
@@ -15,18 +18,49 @@ class RecordPage extends StatefulWidget {
 }
 
 class _RecordPageState extends State<RecordPage> {
+
+  Future<bool> _onWillPop() async {
+    Navigator.pop(context);
+    return true;
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<RecordBloc, RecordState>(
       builder: (superContext, state) {
         if (state is RecordInitial) {
           return Scaffold(
+            appBar: AppBar(
+              title: const Text("Record New Audio"),
+              leading: IconButton(
+                icon: Icon(Icons.arrow_back_ios),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+            ),
             body: Center(
               child: GestureDetector(
                 onTap: () {
                   superContext.read<RecordBloc>().add(StartRecordingEvent());
                 },
-                child: const Mic(),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const [
+                    Mic(),
+                    Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Text(
+                        "Tap to Start Recording",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 25
+                        ),
+                      ),
+                    )
+                  ],
+                ),
               ),
             ),
           );
@@ -34,12 +68,21 @@ class _RecordPageState extends State<RecordPage> {
           WidgetsBinding.instance.addPostFrameCallback((_) {
             Navigator.pushReplacementNamed(
               context,
-              StudioLibrary.routeName,
+              RecordingListPage.routeName,
               arguments: StudioLibraryScreenArguments(1),
             );
           });
         } else if (state is RecordOnState) {
           return Scaffold(
+            appBar: AppBar(
+              title: const Text("Record New Audio"),
+              leading: IconButton(
+                icon: Icon(Icons.arrow_back_ios),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+            ),
             body: SafeArea(
               child: Column(
                 children: [
@@ -89,9 +132,9 @@ class _RecordPageState extends State<RecordPage> {
                               actions: [
                                 ElevatedButton(
                                   onPressed: () {
-                                    superContext
-                                        .read<RecordBloc>()
-                                        .add(StopRecordingEvent(newName: nameController.text));
+                                    superContext.read<RecordBloc>().add(
+                                        StopRecordingEvent(
+                                            newName: nameController.text));
                                     Navigator.pop(context);
                                   },
                                   child: const Text(
@@ -135,7 +178,7 @@ class _RecordPageState extends State<RecordPage> {
         return const Scaffold(
           body: Center(
             child: Text(
-              'An Error occured',
+              'An Error occurred',
               style: TextStyle(color: Colors.white),
             ),
           ),

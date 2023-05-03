@@ -13,13 +13,13 @@ class AuthenticatedHttpClient extends http.BaseClient {
 
   String inMemoryAccessToken = '';
   String inMemoryRefreshToken =
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTY4NDg0ODE5OSwiaWF0IjoxNjgyMjU2MTk5LCJqdGkiOiIwMTJmMTExODk5Yjg0ZTEzYjJmOTBjYWUwODg2OGQ2MSIsInVzZXJfaWQiOiIxODI0Y2E2NC0wMDJkLTRlOTItODIyZS02ZDAwYWJjZmE1MjQiLCJUT0tFTl9UWVBFX0NMQUlNIjoiYWNjZXNzIn0.VeOkiH8rbY6bAHHbtO7lYuLDbdcGG9GVreIx2huBik8';
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTY4NTMzODgyMiwiaWF0IjoxNjgyNzQ2ODIyLCJqdGkiOiIyMTcyNTA1M2VmMGQ0MzM3ODA5YTQwNDJjODZkMGI3YyIsInVzZXJfaWQiOiIxODI0Y2E2NC0wMDJkLTRlOTItODIyZS02ZDAwYWJjZmE1MjQiLCJUT0tFTl9UWVBFX0NMQUlNIjoiYWNjZXNzIn0.kQtLn7ICGL9mHuXasu-bStseS-FZ3kETdx9kj1yvM0Q';
 
   Future<String> get accessToken async {
     if (inMemoryAccessToken.isNotEmpty) return inMemoryAccessToken;
     inMemoryAccessToken =
         await secureStorage.getAccessToken().then((value) async {
-      if (value == null) {
+      if (value == null || value.isEmpty) {
         await refreshToken.then((refreshValue) async {
           if (refreshValue != '') {
             await refreshAccessToken(refreshUrl, refreshValue);
@@ -28,6 +28,7 @@ class AuthenticatedHttpClient extends http.BaseClient {
           }
         });
       }
+      inMemoryAccessToken = value!;
       return inMemoryAccessToken;
     });
     return inMemoryAccessToken;
@@ -52,10 +53,12 @@ class AuthenticatedHttpClient extends http.BaseClient {
   Future<Map<String, String>?> injectToken(Map<String, String>? headers) async {
     if (headers != null) {
       String access = await accessToken;
-      if (headers.containsKey("Authorization")) {
-        headers.update('Authorization', (value) => 'Bearer  $access');
-      } else {
-        headers.putIfAbsent('Authorization', () => 'Bearer  $access');
+      if (access.isNotEmpty) {
+        if (headers.containsKey("Authorization")) {
+          headers.update('Authorization', (value) => 'Bearer  $access');
+        } else {
+          headers.putIfAbsent('Authorization', () => 'Bearer  $access');
+        }
       }
     }
     return headers;
@@ -79,13 +82,13 @@ class AuthenticatedHttpClient extends http.BaseClient {
     if (response.statusCode == 401) {
       inMemoryRefreshToken = "";
       inMemoryAccessToken = "";
-      secureStorage.deleteAll();
+      await secureStorage.deleteAll();
       return;
     }
 
     var data = json.decode(response.body);
     inMemoryAccessToken = data["access"];
-    secureStorage.setAccessToken(data["access"]);
+    await secureStorage.setAccessToken(data["access"]);
   }
 
   @override
@@ -140,8 +143,7 @@ class AuthenticatedHttpClient extends http.BaseClient {
           response = await _sendUnstreamed('PUT', url, head, body, encoding);
         }
       });
-      print(response.statusCode);
-      print(response.body);
+
       return response;
     } catch (e) {
       throw NetworkException(ErrorType.CONNECTION_ERROR);
@@ -203,10 +205,19 @@ class AuthenticatedHttpClient extends http.BaseClient {
           throw UnauthorizedUserException(ErrorType.HTTP_401_EXPIRED_TOKEN);
         }
       });
+      return responseValue;
     }
 
     if (response.statusCode == 401 && body["code"] == "user_inactive") {
       throw InactiveUserException(ErrorType.HTTP_401_USER_INACTIVE);
+    } else if (response.statusCode == 401) {
+      throw UnauthorizedUserException(ErrorType.HTTP_401_EXPIRED_TOKEN);
+    } else if (response.statusCode == 404) {
+      throw NotFoundException(ErrorType.HTTP_404);
+    } else if (response.statusCode == 403) {
+      throw PermissionDeniedException(ErrorType.HTTP_403);
+    } else if (response.statusCode == 500) {
+      throw ServerErrorException(ErrorType.HTTP_500);
     }
 
     return responseValue;

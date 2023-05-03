@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:audioplayers/audio_cache.dart';
+import 'package:audioplayers/audioplayers.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:record/record.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,9 +14,10 @@ part 'record_event.dart';
 part 'record_state.dart';
 
 class RecordBloc extends Bloc<RecordEvent, RecordState> {
+  final NotificationCubit notificationCubit;
   final _recordController = Record();
 
-  RecordBloc() : super(RecordInitial()) {
+  RecordBloc({required this.notificationCubit}) : super(RecordInitial()) {
     on<RecordEvent>((event, emit) {
       // TODO: implement event handler
     });
@@ -34,7 +37,6 @@ class RecordBloc extends Bloc<RecordEvent, RecordState> {
 
         emit(RecordOnState());
       } catch (e) {
-        print(e.toString());
         emit(RecordingError());
       }
     });
@@ -44,8 +46,8 @@ class RecordBloc extends Bloc<RecordEvent, RecordState> {
 
       if (path != null && event.newName != null) {
         File file = File(path);
-        String newPath = await FileManager.renameFile(path, '${event.newName!}.mp3');
-        print(file.path);
+        String newPath =
+            await FileManager.renameFile(path, '${event.newName!}.mp3');
         file.renameSync(newPath);
       }
       emit(RecordStoppedState());
@@ -65,16 +67,26 @@ class RecordBloc extends Bloc<RecordEvent, RecordState> {
             Directory(recordingPath).listSync();
 
         for (final file in files) {
-          recordings.add(
-            Recording(
-              file: file,
-              fileDuration: Duration(seconds: 5),
-            ),
-          );
+          Duration fileDuration = const Duration(seconds: 0);
+          final AudioPlayer playerCache = AudioPlayer();
+          await playerCache.setUrl(file.path, isLocal: true);
+          playerCache.onDurationChanged.listen((Duration duration) async {
+            await playerCache.stop();
+            fileDuration = duration;
+            String title = file.path.split('/').last.split('.').first;
+            recordings.add(
+              Recording(
+                title,
+                "Recordings",
+                file.path,
+                file: file,
+                fileDuration: fileDuration,
+              ),
+            );
+          });
         }
         emit(RecordingsLoaded(recordings: recordings));
       } catch (e) {
-        print(e.toString());
         emit(RecordingError());
       }
     });

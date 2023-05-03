@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:sonic_mobile/core/core.dart';
@@ -12,9 +10,12 @@ part 'create_podcast_state.dart';
 
 class CreatePodcastBloc extends Bloc<CreatePodcastEvent, CreatePodcastState> {
   final StudioRepository studioRepository;
+  final NotificationCubit notificationCubit;
 
-  CreatePodcastBloc({required this.studioRepository})
-      : super(const CreatePodcastState()) {
+  CreatePodcastBloc({
+    required this.studioRepository,
+    required this.notificationCubit,
+  }) : super(const CreatePodcastState()) {
     on<CreatePodcastEvent>((event, emit) {
       // TODO: implement event handler
     });
@@ -26,6 +27,8 @@ class CreatePodcastBloc extends Bloc<CreatePodcastEvent, CreatePodcastState> {
             .createPodcast(event.title, event.description, event.genre)
             .then(
           (value) {
+            notificationCubit.successNotification(
+                message: "Podcast Successfully Created.");
             emit(state.copyWith(
               status: CreatePodcastStatus.podcastCreated,
               podcast: value,
@@ -33,6 +36,7 @@ class CreatePodcastBloc extends Bloc<CreatePodcastEvent, CreatePodcastState> {
           },
         );
       } on AppException catch (e) {
+        notificationCubit.errorNotification(message: "An Error Occurred.");
         emit(state.copyWith(
           status: CreatePodcastStatus.error,
           errorType: e.errorType,
