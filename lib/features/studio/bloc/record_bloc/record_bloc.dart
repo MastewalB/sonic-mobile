@@ -70,8 +70,8 @@ class RecordBloc extends Bloc<RecordEvent, RecordState> {
           Duration fileDuration = const Duration(seconds: 0);
           final AudioPlayer playerCache = AudioPlayer();
           await playerCache.setUrl(file.path, isLocal: true);
-          playerCache.onDurationChanged.listen((Duration duration) {
-            playerCache.stop();
+          playerCache.onDurationChanged.listen((Duration duration) async {
+            await playerCache.stop();
             fileDuration = duration;
             String title = file.path.split('/').last.split('.').first;
             recordings.add(
