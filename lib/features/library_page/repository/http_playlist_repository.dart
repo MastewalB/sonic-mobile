@@ -10,17 +10,14 @@ class PlaylistDataProvider {
   PlaylistDataProvider({required this.httpClient});
 
   // get playlist by id
-  Future<List<Playlist>> getPlaylist(String playlistId) async {
+  Future<Playlist> getPlaylist(String playlistId) async {
     final response = await httpClient.get(Uri.parse('$_baseUrl/$playlistId'));
 
     if (response.statusCode == 200) {
-      final playlists = jsonDecode(response.body) as List;
-      return playlists
-          .map((playlist) => Playlist.fromJson(playlist))
-          .toList()
-          .cast<Playlist>();
+      final playlist = jsonDecode(response.body);
+      return Playlist.fromJson(playlist);
     } else {
-      throw Exception('Failed to load playlists');
+      throw Exception('Failed to load playlist');
     }
   }
 
