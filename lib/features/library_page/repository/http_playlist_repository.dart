@@ -54,7 +54,7 @@ class PlaylistDataProvider {
       }),
     );
 
-    if (response.statusCode != 200) {
+    if (response.statusCode != 201) {
       throw Exception('Failed to update playlist');
     }
   }
