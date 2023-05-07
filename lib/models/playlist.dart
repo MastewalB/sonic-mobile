@@ -18,4 +18,13 @@ class Playlist implements AudioList {
     required this.playlistTitle,
     required this.playlistItems,
   });
+
+  factory Playlist.fromJson(Map<String, dynamic> json) {
+    return Playlist(
+      id: json['id'],
+      createdBy: User.fromJson(json['created_by']),
+      playlistTitle: json['playlist_title'],
+      playlistItems: json['items']
+    );
+  }
 }
