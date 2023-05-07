@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../../models/music.dart';
+import '../../../../models/models.dart';
 
 class AudioListWidget extends StatelessWidget {
   final List<Song> songs;
