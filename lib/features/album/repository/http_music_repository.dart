@@ -36,12 +36,12 @@ class AlbumDataProvider {
   }
 
   //get songs
-  Future<Song> getSongs() async {
+  Future<List<Song>> getSongs(Album album) async {
     final response = await httpClient.get(Uri.parse('$_baseUrl/songs/'));
 
     if (response.statusCode == 200) {
-      final songs = jsonDecode(response.body);
-      return Song.fromJson(songs);
+      final List<dynamic> songs = jsonDecode(response.body);
+      return songs.map((songData) => Song.fromJson(songData)).toList();
     } else {
       throw Exception('Failed to load songs');
     }

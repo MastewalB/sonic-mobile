@@ -9,8 +9,13 @@ import 'package:sonic_mobile/features/studio/presentation/widgets/your_podcasts.
 import 'package:sonic_mobile/dependency_provider.dart';
 import 'package:sonic_mobile/routes.dart';
 import 'features/studio/bloc/studio_bloc/studio_bloc.dart';
+import 'package:http/http.dart' as http;
+import 'features/album/bloc/album/album_bloc.dart';
+import 'features/album/repository/http_music_repository.dart';
 
 void main() {
+  final albumDataProvider = AlbumDataProvider(httpClient: http.Client());
+  final albumBloc = AlbumBloc(albumDataProvider);
   WidgetsFlutterBinding.ensureInitialized();
   final PageRouter pageRouter = PageRouter();
   SystemChrome.setPreferredOrientations([
