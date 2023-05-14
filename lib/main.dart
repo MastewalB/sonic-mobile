@@ -5,8 +5,8 @@ import 'package:sonic_mobile/features/home/presentation/homepage.dart';
 import 'package:sonic_mobile/features/search/presentation/search_page.dart';
 import 'features/album/presentation/album_page.dart';
 import 'features/album/presentation/widgets/album_art.dart';
-import 'features/accounts/presentation/loginpage.dart';
-import 'features/accounts/presentation/signuppage.dart';
+import 'features/accounts/presentation/desktopapp/loginpage.dart';
+import 'features/accounts/presentation/desktopapp/signuppage.dart';
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(const MaterialApp(home: Sonic()));
