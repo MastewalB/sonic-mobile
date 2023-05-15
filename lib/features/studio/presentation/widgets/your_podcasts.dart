@@ -10,7 +10,7 @@ import 'create_podcast_page.dart';
 class YourPodcastsPage extends StatelessWidget {
   static const String routeName = "/my_podcasts";
 
-  YourPodcastsPage({Key? key}) : super(key: key);
+  const YourPodcastsPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

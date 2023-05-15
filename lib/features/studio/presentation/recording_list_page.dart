@@ -174,9 +174,9 @@ class _RecordingListPageState extends State<RecordingListPage> {
                                   e.name.toString(),
                                   style: TextStyle(color: Colors.white),
                                 ),
-                                trailing: Text(
-                                  durationString(e.fileDuration),
-                                  style: const TextStyle(color: Colors.white),
+                                trailing: const Icon(
+                                  Icons.more_vert,
+                                  color: Colors.white,
                                 ),
                                 onTap: () {
                                   ListQueue<Audio> playlist =

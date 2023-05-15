@@ -23,76 +23,97 @@ class FolderSongs extends StatefulWidget {
 }
 
 class _FolderSongsState extends State<FolderSongs> {
+  Future<bool> _onWillPop() async {
+    // Navigator.of(context).maybePop();
+    return true;
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.folderName),
-      ),
-      body: (widget.songs.isEmpty)
-          ? Container()
-          : SingleChildScrollView(
-              child: Column(
-                children: widget.songs
-                    .map(
-                      (e) => BlocBuilder<AudioPlayerBloc, AudioPlayerState>(
-                        builder: (context, state) {
-                          return ListTile(
-                            onTap: () {
-                              ListQueue<Audio> playlist = ListQueue<Audio>();
-                              for (SongModel song in widget.songs) {
-                                if (song.uri != null) {
-                                  playlist.add(Audio.fromSongModel(song));
-                                }
-                              }
+    return WillPopScope(
+      onWillPop: _onWillPop,
+      child: Scaffold(
+        appBar: AppBar(
+          // automaticallyImplyLeading: false,
+          leading:  IconButton(
+            icon: Icon(Icons.arrow_back_ios),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+          title: Text(widget.folderName),
+        ),
+        body: SafeArea(
+          child: (widget.songs.isEmpty)
+              ? Container()
+              : SingleChildScrollView(
+                  child: Column(
+                    children: widget.songs
+                        .map(
+                          (e) => BlocBuilder<AudioPlayerBloc, AudioPlayerState>(
+                            builder: (context, state) {
+                              return ListTile(
+                                onTap: () {
+                                  ListQueue<Audio> playlist = ListQueue<Audio>();
+                                  for (SongModel song in widget.songs) {
+                                    if (song.uri != null) {
+                                      playlist.add(Audio.fromSongModel(song));
+                                    }
+                                  }
 
-                              // if (item.data![index].uri != null) {
-                              context.read<AudioPlayerBloc>().add(
-                                    PlayAudioEvent(
-                                      playlist: playlist,
-                                      currentIndex: widget.songs.indexOf(e),
-                                      fromCurrentPlaylist: false,
-                                      isLocal: true,
-                                    ),
-                                  );
-                              // }
+                                  // if (item.data![index].uri != null) {
+                                  context.read<AudioPlayerBloc>().add(
+                                        PlayAudioEvent(
+                                          playlist: playlist,
+                                          currentIndex: widget.songs.indexOf(e),
+                                          fromCurrentPlaylist: false,
+                                          isLocal: true,
+                                        ),
+                                      );
+                                  // }
+                                },
+                                leading: Image.asset(
+                                  'assets/music_icon_image.jpg',
+                                ),
+                                title: Text(
+                                  e.displayName,
+                                  style: TextStyle(
+                                    color: (state.audioQueue!.isNotEmpty &&
+                                            state.audioQueue!
+                                                    .elementAt(state.currentIndex)
+                                                    .fileUrl ==
+                                                e.data)
+                                        ? Colors.green
+                                        : Colors.white,
+                                  ),
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 1,
+                                ),
+                                subtitle: Text(
+                                  e.artist ?? "Unknown",
+                                  style: TextStyle(
+                                    color: (state.audioQueue!.isNotEmpty &&
+                                            state.audioQueue!
+                                                    .elementAt(state.currentIndex)
+                                                    .fileUrl ==
+                                                e.data)
+                                        ? Colors.green
+                                        : Colors.white,
+                                  ),
+                                ),
+                                trailing: const Icon(
+                                  Icons.more_vert,
+                                  color: Colors.white,
+                                ),
+                              );
                             },
-                            leading: Image.asset(
-                              'assets/music_icon_image.jpg',
-                            ),
-                            title: Text(
-                              e.displayName,
-                              style: TextStyle(
-                                color: (state.audioQueue!.isNotEmpty &&
-                                        state.audioQueue!
-                                                .elementAt(state.currentIndex)
-                                                .fileUrl ==
-                                            e.data)
-                                    ? Colors.green
-                                    : Colors.white,
-                              ),
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 1,
-                            ),
-                            subtitle: Text(
-                              e.artist ?? "Unknown",
-                              style: TextStyle(
-                                color: (state.audioQueue!.isNotEmpty &&
-                                        state.audioQueue!
-                                                .elementAt(state.currentIndex)
-                                                .fileUrl ==
-                                            e.data)
-                                    ? Colors.green
-                                    : Colors.white,
-                              ),
-                            ),
-                          );
-                        },
-                      ),
-                    )
-                    .toList(),
-              ),
-            ),
+                          ),
+                        )
+                        .toList(),
+                  ),
+                ),
+        ),
+      ),
     );
   }
 }

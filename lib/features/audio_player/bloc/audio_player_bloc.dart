@@ -137,7 +137,9 @@ class AudioPlayerBloc extends Bloc<AudioPlayerEvent, AudioPlayerState> {
     });
 
     on<PlayPreviousEvent>((event, emit) async {
-      currentIndex--;
+      if(await state.audioPlayer.getCurrentPosition() < 5000) {
+        currentIndex--;
+      }
       if (currentIndex < 0) {
         currentIndex = audioQueue.length - 1;
       }

@@ -87,7 +87,7 @@ class PodcastDetailBloc extends Bloc<PodcastDetailEvent, PodcastDetailState> {
               "Recordings",
               file.path,
               file: file,
-              fileDuration: Duration(seconds: 5),
+              // fileDuration: Duration(seconds: 5),
             ),
           );
         }
@@ -158,7 +158,7 @@ class PodcastDetailBloc extends Bloc<PodcastDetailEvent, PodcastDetailState> {
               "Recordings",
               file.path,
               file: file,
-              fileDuration: Duration(seconds: 5),
+              // fileDuration: Duration(seconds: 5),
             ),
           );
         }

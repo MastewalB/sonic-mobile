@@ -189,6 +189,7 @@ class _CreateEpisodePageState extends State<CreateEpisodePage> {
                                 context: superContext,
                                 builder: (context) {
                                   return AlertDialog(
+                                    title: const Text("Choose a File"),
                                     content: SingleChildScrollView(
                                       child: Column(
                                         children: state.recordings!
@@ -200,12 +201,13 @@ class _CreateEpisodePageState extends State<CreateEpisodePage> {
                                                 child: ListTile(
                                                   onTap: () {
                                                     _file = File(e.file.path);
-                                                    debugPrint(_file!.path);
                                                     setState(() {});
                                                   },
                                                   title: Text(e.name),
-                                                  trailing: Text(e.fileDuration
-                                                      .toString()),
+                                                  trailing: const Icon(
+                                                    Icons.more_vert,
+                                                    color: Colors.white,
+                                                  ),
                                                 ),
                                               ),
                                             )

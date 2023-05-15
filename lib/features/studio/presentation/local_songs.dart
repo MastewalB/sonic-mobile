@@ -3,7 +3,6 @@ import 'package:on_audio_query/on_audio_query.dart';
 import 'package:sonic_mobile/features/studio/presentation/widgets/list_songs.dart';
 import 'package:sonic_mobile/features/studio/presentation/widgets/screen_arguments.dart';
 
-
 class LocalSongs extends StatefulWidget {
   static const String routeName = "local_songs";
 
@@ -45,8 +44,6 @@ class _LocalSongsState extends State<LocalSongs> {
     _hasPermission ? setState(() {}) : null;
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -84,19 +81,19 @@ class _LocalSongsState extends State<LocalSongs> {
                   Map<String, List<SongModel>> songsPerFolders =
                       <String, List<SongModel>>{};
 
-
                   Set<String> dirs = songs.map((e) {
                     List<String> split = e.data.split("/").toList();
                     String itemName = split.last;
-                    String pathName = e.data.substring(0, e.data.length - itemName.length - 1);
+                    String pathName = e.data
+                        .substring(0, e.data.length - itemName.length - 1);
                     songsPerFolders[pathName] ??= [];
                     songsPerFolders[pathName]?.add(e);
                     return pathName;
                   }).toSet();
 
                   List<String> directories = dirs.toList();
-                  directories.sort((a, b)=> a.split("/").last.compareTo(b.split("/").last));
-
+                  directories.sort(
+                      (a, b) => a.split("/").last.compareTo(b.split("/").last));
 
                   return ListView.builder(
                     itemCount: directories.length,
@@ -123,6 +120,10 @@ class _LocalSongsState extends State<LocalSongs> {
                             ),
                             leading: Image.asset(
                               'assets/music_icon_image.jpg',
+                            ),
+                            trailing: const Icon(
+                              Icons.more_vert,
+                              color: Colors.white,
                             ),
                           ),
                         ),

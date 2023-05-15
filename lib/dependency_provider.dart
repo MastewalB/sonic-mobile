@@ -1,3 +1,4 @@
+import 'package:audio_service/audio_service.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:sonic_mobile/features/studio/repository/http_studio_repository.dart';
@@ -10,6 +11,7 @@ class DependencyProvider {
   static HttpStudioRepository? _httpStudioRepository;
   static SecureStorage? _secureStorage;
   static AudioPlayer? _audioPlayer;
+  static AudioHandler? _audioHandler;
 
   static NotificationCubit? _notificationCubit;
   static GlobalKey<ScaffoldMessengerState>? _messengerKey;
@@ -22,6 +24,11 @@ class DependencyProvider {
   static AudioPlayer? getAudioPlayer() {
     _audioPlayer ??= AudioPlayer();
     return _audioPlayer;
+  }
+
+  static Future<AudioHandler?> getAudioHandler() async {
+    _audioHandler ??= await initAudioService();
+    return _audioHandler;
   }
 
   static AuthenticatedHttpClient? getAuthenticatedHttpClient() {
@@ -37,7 +44,7 @@ class DependencyProvider {
     return _notificationCubit;
   }
 
-  static GlobalKey<ScaffoldMessengerState>? getScaffoldMessengerKey(){
+  static GlobalKey<ScaffoldMessengerState>? getScaffoldMessengerKey() {
     return _messengerKey ??= GlobalKey<ScaffoldMessengerState>();
   }
 

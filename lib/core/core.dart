@@ -8,3 +8,4 @@ export 'local_storage/local_storage.dart';
 export 'exceptions/exceptions.dart';
 export 'widgets/widgets.dart';
 export 'utils/utils.dart';
+export 'audio/audio_handler.dart';

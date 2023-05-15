@@ -67,23 +67,23 @@ class RecordBloc extends Bloc<RecordEvent, RecordState> {
             Directory(recordingPath).listSync();
 
         for (final file in files) {
-          Duration fileDuration = const Duration(seconds: 0);
-          final AudioPlayer playerCache = AudioPlayer();
-          await playerCache.setUrl(file.path, isLocal: true);
-          playerCache.onDurationChanged.listen((Duration duration) async {
-            await playerCache.stop();
-            fileDuration = duration;
-            String title = file.path.split('/').last.split('.').first;
-            recordings.add(
-              Recording(
-                title,
-                "Recordings",
-                file.path,
-                file: file,
-                fileDuration: fileDuration,
-              ),
-            );
-          });
+          // Duration fileDuration = const Duration(seconds: 0);
+          String title = file.path.split('/').last.split('.').first;
+          recordings.add(
+            Recording(
+              title,
+              "Recordings",
+              file.path,
+              file: file,
+              // fileDuration: fileDuration,
+            ),
+          );
+          // final AudioPlayer playerCache = AudioPlayer();
+          // await playerCache.setUrl(file.path, isLocal: true);
+          // playerCache.onDurationChanged.listen((Duration duration) async {
+          //   await playerCache.stop();
+          //   fileDuration = duration;
+          // });
         }
         emit(RecordingsLoaded(recordings: recordings));
       } catch (e) {
