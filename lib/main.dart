@@ -9,7 +9,7 @@ import 'package:sonic_mobile/dependency_provider.dart';
 import 'package:sonic_mobile/routes.dart';
 import 'features/studio/bloc/studio_bloc/studio_bloc.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final PageRouter pageRouter = PageRouter();
   final messengerKey = GlobalKey<ScaffoldMessengerState>();
@@ -51,6 +51,7 @@ void main() {
                       state.message,
                       style: const TextStyle(
                         color: Colors.white,
+                        fontFamily: 'Poppins',
                       ),
                     ),
                     duration: const Duration(seconds: 10),
