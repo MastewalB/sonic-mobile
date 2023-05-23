@@ -8,11 +8,12 @@ class AlbumInitial extends AlbumState {}
 class AlbumLoading extends AlbumState {}
 
 class AlbumLoaded extends AlbumState {
-  final List<Song> songs;
+  final Album album;
+  // final List<Song> songs;
 
-  AlbumLoaded(this.songs);
+  AlbumLoaded(this.album);
 
-  get album => null;
+  // get album => null;
 }
 
 class AlbumError extends AlbumState {

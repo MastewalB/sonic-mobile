@@ -34,12 +34,12 @@ class AlbumPage extends StatelessWidget {
                 children: [
                   AlbumArtWidget(
                     albumArtUrl: album.cover,
-                    title: album.title,
+                    title: album.name,
                     artist: album.artist.name,
-                    numberOfSongs: state.songs.length,
-                    year: album.year,
+                    numberOfSongs: album.songs.length,
+                    year: 2000,
                   ),
-                  AudioListWidget(songs: state.songs),
+                  AudioListWidget(songs: album.songs),
                 ],
               );
             } else if (state is AlbumError) {

@@ -9,15 +9,14 @@ class AlbumBloc extends Bloc<AlbumEvent, AlbumState> {
 
   AlbumBloc(this.dataProvider) : super(AlbumInitial());
 
-  @override
   Stream<AlbumState> mapEventToState(AlbumEvent event) async* {
     if (event is LoadAlbumSongs) {
       yield AlbumLoading();
 
       try {
         final album = await dataProvider.getAlbum(event.albumID);
-        final List<Song> songs = await dataProvider.getSongs(album);
-        yield AlbumLoaded(songs);
+        // final List<Song> songs = album.songs;
+        yield AlbumLoaded(album);
       } catch (e) {
         yield AlbumError('Failed to load songs');
       }

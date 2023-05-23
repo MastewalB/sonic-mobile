@@ -5,28 +5,26 @@ class Album {
   final Artist artist;
   final String name;
   final String cover;
+  final List<Song> songs;
 
-  Album({
-    required this.id,
-    required this.artist,
-    required this.name,
-    required this.cover,
-  });
+  Album(
+      {required this.id,
+      required this.artist,
+      required this.name,
+      required this.cover,
+      required this.songs});
 
   factory Album.fromJson(Map<String, dynamic> json) {
+    List<Song> songs = [];
+    for (var song in json["songs"]) {
+      songs.add(Song.fromJson(song));
+    }
     return Album(
       id: json["id"],
       artist: json["artist"],
       name: json["name"],
       cover: json["cover"],
+      songs: songs,
     );
-  }
-
-  Map<String, dynamic> toJson(Album album) {
-    return {
-      "artist": album.artist,
-      "name": album.name,
-      "cover": album.cover,
-    };
   }
 }
