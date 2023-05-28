@@ -8,15 +8,16 @@ class Song implements Audio {
   final Album album;
   final String songFile;
   final String contentType;
+  final DateTime dateAdded;
 
-  Song({
-    required this.id,
-    required this.title,
-    required this.artist,
-    required this.album,
-    required this.songFile,
-    required this.contentType,
-  });
+  Song(
+      {required this.id,
+      required this.title,
+      required this.artist,
+      required this.album,
+      required this.songFile,
+      required this.contentType,
+      required this.dateAdded});
 
   @override
   String get artistName => artist.name;
@@ -32,6 +33,7 @@ class Song implements Audio {
       album: json["s_album"],
       songFile: json["song_file"],
       contentType: json["content_type"],
+      dateAdded: json["dateAdded"],
     );
   }
 
@@ -41,7 +43,8 @@ class Song implements Audio {
       "s_artist": song.artist,
       "s_album": song.album,
       "song_file": song.songFile,
-      "content_type": song.contentType
+      "content_type": song.contentType,
+      "dateAdded": song.dateAdded
     };
   }
 }

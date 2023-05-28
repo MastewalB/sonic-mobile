@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sonic_mobile/core/core.dart';
 import 'package:flutter/services.dart';
 import 'package:sonic_mobile/features/album/presentation/album_page.dart';
+import 'package:sonic_mobile/features/home/presentation/homepage.dart';
 import 'package:sonic_mobile/features/studio/bloc/create_podcast_bloc/create_podcast_bloc.dart';
 // import 'package:sonic_mobile/features/studio/presentation/record_page.dart';
 import 'package:sonic_mobile/features/studio/presentation/widgets/create_podcast_page.dart';
@@ -35,7 +36,7 @@ void main() {
         //   )..add(const GetAllPodcastsByUserEvent(userId: "userId")),
         //   child: Sonic(),
         // ),
-        home: const AlbumPage(),
+        home: const Homepage(),
         onGenerateRoute: pageRouter.generateRoute,
       ),
     ),
