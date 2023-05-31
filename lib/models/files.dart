@@ -1,7 +1,7 @@
 
 import 'package:flutter/material.dart';
 
-import '../constants.dart';
+import '../core/constants/colors.dart';
 
 class CloudStorageInfo {
   final String? svgSrc, title, totalStorage;
