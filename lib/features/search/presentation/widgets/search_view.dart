@@ -1,19 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:sonic_mobile/features/album/presentation/widgets/audio_list.dart';
 import 'empty_screen.dart';
-// import 'package:hive/hive.dart';
 import 'search_bar_2.dart';
-import 'song_options_menu.dart';
-import 'album_search.dart';
+import 'results_view.dart';
+import 'package:sonic_mobile/features/search/repository/http_search.dart';
 
 class SearchView extends StatefulWidget {
   final String query;
-  // final bool fromHome;
   final bool autofocus;
   const SearchView({
     super.key,
     required this.query,
-    // this.fromHome = false,
     this.autofocus = false,
   });
 
@@ -25,18 +22,10 @@ class _SearchViewState extends State<SearchView> {
   String query = '';
   bool status = false;
   Map searchedData = {};
-  // Map position = {};
-  // List sortedKeys = [];
-  final ValueNotifier<List<String>> topSearch = ValueNotifier<List<String>>(
-    [],
-  );
   bool fetched = false;
   bool alertShown = false;
-  bool albumFetched = false;
-  bool? fromHome;
 
   List search = [];
-  // bool showHistory = true;
   bool liveSearch = true;
 
   final controller = TextEditingController();
@@ -112,7 +101,7 @@ class _SearchViewState extends State<SearchView> {
                 ),
                 body: (searchedData.isEmpty)
                     ? nothingFound(context)
-                    : nothingFound(context),
+                    : SearchResultsWidget(searchType: 'Song', items: const []),
                 //to do
                 onSubmitted: (String submittedQuery) {
                   setState(
@@ -120,20 +109,16 @@ class _SearchViewState extends State<SearchView> {
                       fetched = false;
                       query = submittedQuery;
                       status = false;
-                      // fromHome = false;
                       searchedData = {};
                     },
                   );
                 },
                 onQueryCleared: () {
-                  setState(() {
-                    // fromHome = true;
-                  });
+                  setState(() {});
                 },
               ),
             ),
           ),
-          // MiniPlayer(),
         ],
       ),
     );
