@@ -1,16 +1,5 @@
-// import 'package:blackhole/APIs/api.dart';
-// import 'package:blackhole/CustomWidgets/bouncy_sliver_scroll_view.dart';
-// import 'package:blackhole/CustomWidgets/copy_clipboard.dart';
-// import 'package:blackhole/CustomWidgets/download_button.dart';
-// import 'package:blackhole/CustomWidgets/empty_screen.dart';
-// import 'package:blackhole/CustomWidgets/gradient_containers.dart';
-// import 'package:blackhole/CustomWidgets/miniplayer.dart';
-// import 'package:blackhole/Screens/Common/song_list.dart';
-// import 'package:blackhole/Screens/Search/artists.dart';
-// import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:sonic_mobile/features/album/presentation/widgets/audio_list.dart';
-// import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'empty_screen.dart';
 import 'bouncy_scroll_view.dart';
 
@@ -54,62 +43,6 @@ class _AlbumSearchPageState extends State<AlbumSearchPage> {
     _scrollController.dispose();
   }
 
-  // void _fetchData() {
-  //   loading = true;
-  //   switch (widget.type) {
-  //     case 'Playlists':
-  //       SaavnAPI()
-  //           .fetchAlbums(
-  //         searchQuery: widget.query,
-  //         type: 'playlist',
-  //         page: page,
-  //       )
-  //           .then((value) {
-  //         final temp = _searchedList ?? [];
-  //         temp.addAll(value);
-  //         setState(() {
-  //           _searchedList = temp;
-  //           loading = false;
-  //         });
-  //       });
-  //       break;
-  //     case 'Albums':
-  //       SaavnAPI()
-  //           .fetchAlbums(
-  //         searchQuery: widget.query,
-  //         type: 'album',
-  //         page: page,
-  //       )
-  //           .then((value) {
-  //         final temp = _searchedList ?? [];
-  //         temp.addAll(value);
-  //         setState(() {
-  //           _searchedList = temp;
-  //           loading = false;
-  //         });
-  //       });
-  //       break;
-  //     case 'Artists':
-  //       SaavnAPI()
-  //           .fetchAlbums(
-  //         searchQuery: widget.query,
-  //         type: 'artist',
-  //         page: page,
-  //       )
-  //           .then((value) {
-  //         final temp = _searchedList ?? [];
-  //         temp.addAll(value);
-  //         setState(() {
-  //           _searchedList = temp;
-  //           loading = false;
-  //         });
-  //       });
-  //       break;
-  //     default:
-  //       break;
-  //   }
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -152,12 +85,7 @@ class _AlbumSearchPageState extends State<AlbumSearchPage> {
                                         fontWeight: FontWeight.w500,
                                       ),
                                     ),
-                                    onLongPress: () {
-                                      // copyToClipboard(
-                                      //   context: context,
-                                      //   text: '${entry["title"]}',
-                                      // );
-                                    },
+                                    onLongPress: () {},
                                     subtitle: entry['subtitle'] == ''
                                         ? null
                                         : Text(
@@ -196,14 +124,8 @@ class _AlbumSearchPageState extends State<AlbumSearchPage> {
                                       //   ),
                                       // ),
                                     ),
-                                    trailing: widget.type != 'Albums'
-                                        ? null
-                                        // : AlbumDownloadButton(
-                                        //     albumName:
-                                        //         entry['title'].toString(),
-                                        //     albumId: entry['id'].toString(),
-                                        //   ),
-                                        : null,
+                                    trailing:
+                                        widget.type != 'Albums' ? null : null,
                                     onTap: () {
                                       Navigator.push(
                                         context,

@@ -7,6 +7,7 @@ class SearchPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(child: SearchBar());
+
     // return Scaffold(
     //   appBar: AppBar(
     //     title: Text('Music Player'),

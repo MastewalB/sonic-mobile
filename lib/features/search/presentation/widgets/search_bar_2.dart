@@ -168,40 +168,6 @@ class _SearchBar2State extends State<SearchBar2> {
                 ),
               ),
             ),
-            // if (!widget.isYt)
-            //   Padding(
-            //     padding: const EdgeInsets.only(left: 25.0, right: 25.0),
-            //     child: RichText(
-            //       text: TextSpan(
-            //         children: <TextSpan>[
-            //           TextSpan(
-            //             style: const TextStyle(color: Colors.grey),
-            //             text: AppLocalizations.of(context)!.cantFind,
-            //           ),
-            //           TextSpan(
-            //             text: AppLocalizations.of(context)!.searchYt,
-            //             style: TextStyle(
-            //               color: Theme.of(context).textTheme.bodyLarge!.color,
-            //             ),
-            //             recognizer: TapGestureRecognizer()
-            //               ..onTap = () {
-            //                 Navigator.push(
-            //                   context,
-            //                   PageRouteBuilder(
-            //                     opaque: false,
-            //                     pageBuilder: (_, __, ___) => YouTubeSearchPage(
-            //                       query: query.isNotEmpty
-            //                           ? query
-            //                           : widget.controller.text,
-            //                     ),
-            //                   ),
-            //                 );
-            //               },
-            //           ),
-            //         ],
-            //       ),
-            //     ),
-            //   ),
             ValueListenableBuilder(
               valueListenable: hide,
               builder: (
