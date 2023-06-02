@@ -33,3 +33,10 @@ class SearchErrorState extends SearchState {
   @override
   List<Object?> get props => [errorMessage];
 }
+
+class SearchEmptyState extends SearchState {
+  const SearchEmptyState();
+
+  @override
+  List<Object?> get props => [];
+}

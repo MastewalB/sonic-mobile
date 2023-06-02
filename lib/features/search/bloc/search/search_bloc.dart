@@ -7,18 +7,45 @@ import 'package:sonic_mobile/features/search/repository/http_search.dart';
 class SearchBloc extends Bloc<SearchEvent, SearchState> {
   final SearchDataProvider searchDataProvider;
 
-  SearchBloc({required this.searchDataProvider}) : super(SearchInitial());
+  SearchBloc(this.searchDataProvider) : super(SearchInitial()) {
+    on<PerformSearchEvent>(_performSearch);
+    on<SearchQueryChangedEvent>(_handleSearchQueryChanged);
+  }
 
-  Stream<SearchState> mapEventToState(SearchEvent event) async* {
-    if (event is PerformSearchEvent) {
-      yield SearchLoadingState();
+  Future<void> _performSearch(
+      PerformSearchEvent event, Emitter<SearchState> emit) async {
+    emit(SearchLoadingState());
 
-      try {
-        final searchData = await searchDataProvider.search(event.query);
-        yield SearchLoadedState(searchData);
-      } catch (error) {
-        yield const SearchErrorState('Failed to fetch search results');
+    try {
+      final searchData = await searchDataProvider.search(event.query);
+
+      if (searchData.isEmpty) {
+        emit(SearchEmptyState());
+      } else {
+        emit(SearchLoadedState(searchData));
       }
+    } catch (error) {
+      emit(SearchErrorState('Failed to perform search: $error'));
+    }
+  }
+
+  void _handleSearchQueryChanged(
+      SearchQueryChangedEvent event, Emitter<SearchState> emit) async {
+    // Handle search query changed event here
+    // You can choose to update the search results instantly or debounce the search
+    // and perform the search when the user pauses typing
+    emit(SearchLoadingState());
+
+    try {
+      final searchData = await searchDataProvider.search(event.query);
+
+      if (searchData.isEmpty) {
+        emit(SearchEmptyState());
+      } else {
+        emit(SearchLoadedState(searchData));
+      }
+    } catch (error) {
+      emit(SearchErrorState('Failed to perform search: $error'));
     }
   }
 }
