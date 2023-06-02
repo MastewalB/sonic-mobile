@@ -2,6 +2,10 @@ import 'package:audio_service/audio_service.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:sonic_mobile/features/studio/repository/http_studio_repository.dart';
+import 'package:sonic_mobile/features/auth/blocs/signup_bloc/signup_bloc.dart';
+import 'package:sonic_mobile/features/auth/blocs/login_bloc/login_bloc.dart';
+import 'package:sonic_mobile/features/auth/repository/repository.dart';
+import 'package:sonic_mobile/features/auth/data_providers/user_profile_provider.dart';
 import 'package:sonic_mobile/core/core.dart';
 import 'package:audioplayers/audioplayers.dart';
 
@@ -15,6 +19,9 @@ class DependencyProvider {
 
   static NotificationCubit? _notificationCubit;
   static GlobalKey<ScaffoldMessengerState>? _messengerKey;
+
+  static UserProfileProvider? _userProfileProvider;
+  static HttpAuthenticationRepository? _httpAuthenticationRepository;
 
   static http.Client? getHttpClient() {
     _httpClient ??= http.Client();
@@ -57,5 +64,16 @@ class DependencyProvider {
   static SecureStorage? getSecureStorage() {
     _secureStorage ??= SecureStorage();
     return _secureStorage;
+  }
+
+  static HttpAuthenticationRepository? getHttpAuthenticationRepository() {
+    _httpAuthenticationRepository ??=
+        HttpAuthenticationRepository(httpClient: getHttpClient()!);
+    return _httpAuthenticationRepository;
+  }
+
+  static UserProfileProvider? getUserProfileRepository() {
+    _userProfileProvider ??= UserProfileProvider();
+    return _userProfileProvider;
   }
 }

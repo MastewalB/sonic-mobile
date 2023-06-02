@@ -8,6 +8,7 @@ enum ErrorType {
   HTTP_404,
   HTTP_500,
   CONNECTION_ERROR,
+  INVALID_EMAIL_OR_PASSWORD,
 }
 
 extension ErrorTypeX on ErrorType {
@@ -33,6 +34,9 @@ extension ErrorTypeX on ErrorType {
 
       case ErrorType.CONNECTION_ERROR:
         return Constants.connectionError;
+      case ErrorType.INVALID_EMAIL_OR_PASSWORD:
+        return Constants.invalidEmailOrPassword;
+        break;
     }
   }
 }
