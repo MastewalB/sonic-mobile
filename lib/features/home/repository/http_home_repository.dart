@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:sonic_mobile/models/models.dart';
 
 class HomeDataProvider {
-  final _baseUrl = 'http://localhost:8000/api/v1/music/';
+  final _baseUrl = 'http://192.168.43.187:8000/api/v1/music/';
   final http.Client httpClient;
 
   HomeDataProvider({required this.httpClient});
@@ -21,7 +21,7 @@ class HomeDataProvider {
 
       // Sort songs by dateAdded in descending order
       // Need to add the dateAdded field in the serializer (not returned as of now)
-      songList.sort((a, b) => b.dateAdded.compareTo(a.dateAdded));
+      // songList.sort((a, b) => b.dateAdded.compareTo(a.dateAdded));
 
       // Return a maximum of 15 songs
       final limitedSongs = songList.take(15).toList();

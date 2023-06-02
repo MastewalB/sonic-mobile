@@ -13,6 +13,7 @@ class SongBloc extends Bloc<SongEvent, SongState> {
   Stream<SongState> mapEventToState(SongEvent event) async* {
     if (event is LoadRecommendedSongsEvent ||
         event is RefreshRecommendedSongsEvent) {
+      print("state");
       yield SongLoadingState();
 
       try {

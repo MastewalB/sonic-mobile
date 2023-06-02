@@ -13,7 +13,7 @@ class Artist {
 
   factory Artist.fromJson(Map<String, dynamic> json) {
     return Artist(
-      id: json["id"],
+      id: json["id"].toString(),
       name: json["name"],
       picture: json["picture"],
     );

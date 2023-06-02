@@ -1,18 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sonic_mobile/models/models.dart';
 import '../../bloc/song/blocs.dart';
-// class SongBlock {
-//   final String title;
-//   final String artist;
-//   final String image;
-
-//   const SongBlock({
-//     required this.title,
-//     required this.artist,
-//     required this.image,
-//   });
-// }
 
 class DisplayBlock extends StatelessWidget {
   final String desc;

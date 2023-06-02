@@ -5,7 +5,7 @@ import 'dart:convert';
 import 'package:sonic_mobile/models/models.dart';
 
 class AlbumDataProvider {
-  final _baseUrl = 'http://localhost:8000/api/v1/music/';
+  final _baseUrl = 'http://192.168.200.116:8000/api/v1/music';
   final http.Client httpClient;
 
   AlbumDataProvider({required this.httpClient});
@@ -13,10 +13,13 @@ class AlbumDataProvider {
   // get album by id
   Future<Album> getAlbum(String albumId) async {
     final response =
-        await httpClient.get(Uri.parse('$_baseUrl/albums/$albumId'));
-
+        await httpClient.get(Uri.parse('$_baseUrl/albums/$albumId/'));
+    print(response.statusCode);
+    // print(albumId);
     if (response.statusCode == 200) {
       final album = jsonDecode(response.body);
+      print("here success");
+      // print(album);
       return Album.fromJson(album);
     } else {
       throw Exception('Failed to load album');

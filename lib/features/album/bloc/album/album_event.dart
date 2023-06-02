@@ -7,5 +7,5 @@ class LoadAlbumSongs extends AlbumEvent {
   LoadAlbumSongs(this.albumID);
 
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [albumID];
 }

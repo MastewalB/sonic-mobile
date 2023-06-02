@@ -12,24 +12,32 @@ class AudioListWidget extends StatelessWidget {
       return const Center(
           child: Text(
         'No items here',
-        style: TextStyle(color: Colors.black),
+        style: TextStyle(color: Colors.white),
       ));
     }
-    return ListView.builder(
-      itemCount: songs.length,
-      itemBuilder: (BuildContext context, int index) {
-        final song = songs[index];
-        return ListTile(
-          leading: Text('${index + 1}'),
-          title: Text(song.title),
-          trailing: IconButton(
-            icon: const Icon(Icons.more_vert),
-            onPressed: () {
-              // Handle options button press
+    return Material(
+      child: Expanded(
+        child: SingleChildScrollView(
+          child: ListView.builder(
+            shrinkWrap: true,
+            physics: NeverScrollableScrollPhysics(),
+            itemCount: songs.length,
+            itemBuilder: (BuildContext context, int index) {
+              final song = songs[index];
+              return ListTile(
+                leading: Text('${index + 1}'),
+                title: Text(song.title),
+                trailing: IconButton(
+                  icon: const Icon(Icons.more_vert),
+                  onPressed: () {
+                    // Handle options button press
+                  },
+                ),
+              );
             },
           ),
-        );
-      },
+        ),
+      ),
     );
   }
 }

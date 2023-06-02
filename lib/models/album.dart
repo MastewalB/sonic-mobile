@@ -18,13 +18,34 @@ class Album {
     List<Song> songs = [];
     for (var song in json["songs"]) {
       songs.add(Song.fromJson(song));
+      // print(song);
     }
     return Album(
-      id: json["id"],
-      artist: json["artist"],
+      id: json["id"].toString(),
+      artist: Artist.fromJson(json["artist"]),
       name: json["name"],
       cover: json["cover"],
       songs: songs,
+    );
+  }
+}
+
+class AlbumInfo {
+  final String id;
+  final String name;
+  final String cover;
+
+  AlbumInfo({
+    required this.id,
+    required this.name,
+    required this.cover,
+  });
+
+  factory AlbumInfo.fromJson(Map<String, dynamic> json) {
+    return AlbumInfo(
+      id: json["id"].toString(),
+      name: json["name"],
+      cover: json["cover"],
     );
   }
 }

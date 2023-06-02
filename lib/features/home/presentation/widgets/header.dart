@@ -16,10 +16,10 @@ class Header extends StatelessWidget {
         children: [
           Row(
             children: [
-              SvgPicture.asset(
-                'assets/logo.svg',
-                height: 32.0,
-              ),
+              // SvgPicture.asset(
+              //   'assets/logo.svg',
+              //   height: 32.0,
+              // ),
               const SizedBox(width: 8.0),
               const Text(
                 'Sonic',

@@ -16,8 +16,6 @@ import 'features/album/bloc/album/album_bloc.dart';
 import 'features/album/repository/http_music_repository.dart';
 
 void main() {
-  final albumDataProvider = AlbumDataProvider(httpClient: http.Client());
-  final albumBloc = AlbumBloc(albumDataProvider);
   WidgetsFlutterBinding.ensureInitialized();
   final PageRouter pageRouter = PageRouter();
   SystemChrome.setPreferredOrientations([
@@ -36,7 +34,10 @@ void main() {
         //   )..add(const GetAllPodcastsByUserEvent(userId: "userId")),
         //   child: Sonic(),
         // ),
-        home: const Homepage(),
+        home: const AlbumPage(
+          albumID: '1',
+        ),
+        // home: const Homepage(),
         onGenerateRoute: pageRouter.generateRoute,
       ),
     ),

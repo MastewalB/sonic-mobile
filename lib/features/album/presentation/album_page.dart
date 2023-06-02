@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sonic_mobile/features/album/bloc/album/album_event.dart';
 import 'widgets/album_art.dart';
 import 'widgets/audio_list.dart';
 import 'package:sonic_mobile/features/album/bloc/album/album_bloc.dart';
@@ -9,14 +10,17 @@ import 'package:sonic_mobile/features/album/repository/http_music_repository.dar
 import 'package:http/http.dart' as http;
 
 class AlbumPage extends StatelessWidget {
-  const AlbumPage({Key? key}) : super(key: key);
+  final String albumID;
+  const AlbumPage({Key? key, required this.albumID}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: BlocProvider(
-        create: (context) =>
-            AlbumBloc(AlbumDataProvider(httpClient: http.Client())),
+      child: BlocProvider<AlbumBloc>(
+        create: (context) => AlbumBloc(
+            AlbumDataProvider(httpClient: http.Client()),
+            albumID: albumID)
+          ..add(LoadAlbumSongs(albumID)),
         child: BlocBuilder<AlbumBloc, AlbumState>(
           builder: (context, state) {
             if (state is AlbumInitial) {
@@ -30,7 +34,9 @@ class AlbumPage extends StatelessWidget {
             } else if (state is AlbumLoaded) {
               // Loaded state, display the album details and song list
               final album = state.album;
-              return ListView(
+              print("album page album");
+              // print(album.cover);
+              return Column(
                 children: [
                   AlbumArtWidget(
                     albumArtUrl: album.cover,
