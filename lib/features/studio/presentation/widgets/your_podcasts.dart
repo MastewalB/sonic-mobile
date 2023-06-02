@@ -19,9 +19,7 @@ class YourPodcastsPage extends StatelessWidget {
 
     Future _refreshData() async {
       await Future.delayed(const Duration(seconds: 1));
-      context
-          .read<StudioBloc>()
-          .add(GetAllPodcastsByUserEvent(userId: "userId"));
+      context.read<StudioBloc>().add(GetAllPodcastsByUserEvent());
     }
 
     return BlocBuilder<StudioBloc, StudioState>(
@@ -79,7 +77,7 @@ class YourPodcastsPage extends StatelessWidget {
                   ElevatedButton(
                     onPressed: () {
                       context.read<StudioBloc>().add(
-                            GetAllPodcastsByUserEvent(userId: "userId"),
+                            GetAllPodcastsByUserEvent(),
                           );
                     },
                     child: Text("Retry"),
@@ -92,7 +90,12 @@ class YourPodcastsPage extends StatelessWidget {
         if (state.status.isLoaded && state.podcasts.isEmpty) {
           return const Scaffold(
             body: Center(
-              child: Text("Your Podcasts will appear Here."),
+              child: Text(
+                "Your Podcasts will appear Here.",
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              ),
             ),
           );
         }

@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 
 class Constants {
-  static const String apiUrl = "http://127.0.0.1:8000/api/v1/";
+  static const String apiUrl = "http://localhost:8000/api/v1/";
   static const String refreshTokenUrl = "${apiUrl}token/refresh/";
   static const String accountsUrl = "${apiUrl}accounts/";
+  static const String signupUrl = "${accountsUrl}signup/";
+  static const String loginUrl = "${accountsUrl}login/";
   static const String followUrl = "${apiUrl}follow/";
   static const String musicUrl = "${apiUrl}music/";
   static const String searchUrl = "${apiUrl}search/";
   static const String playlistUrl = "${apiUrl}playlist/";
   static const String studioUrl = "${apiUrl}studio/";
-  static const String podcastsUrl = "${apiUrl}podcasts/";
+  static const String studioPodcastsUrl = "${apiUrl}studio/podcasts/";
 
   //Storage
   static const String recordingDirectory = "Sonic/recordings/";
@@ -34,6 +36,11 @@ class Constants {
   static const String podcastCreated = "Podcast Created Successfully";
   static const String podcastDeleted = "Podcast Deleted Successfully";
   static const String connectionError = "A Network Problem Occurred";
+  static const String invalidEmailOrPassword = "You entered invalid email or password";
+
+
+  //Hive Box Names
+  static const String userProfileBoxName = "User";
 
   //SnackBar Duration
 

@@ -8,9 +8,8 @@ import 'package:sonic_mobile/models/studio_podcast.dart';
 import 'package:sonic_mobile/core/core.dart';
 
 class HttpStudioRepository implements StudioRepository {
-  final String apiUrl = "http://127.0.0.1:8000/api/v1/studio";
-  final String token =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjgyNzUwNDIyLCJpYXQiOjE2ODI3NDY4MjIsImp0aSI6ImYwMDNhYjQyM2I5YjRiNmU5NzdhNTE5MGUxZTVhNzUzIiwidXNlcl9pZCI6IjE4MjRjYTY0LTAwMmQtNGU5Mi04MjJlLTZkMDBhYmNmYTUyNCIsIlRPS0VOX1RZUEVfQ0xBSU0iOiJhY2Nlc3MifQ.3t-zhdE5wCW-HAnW-u4sO-zjgT8jH1D6-Src1Uttba4";
+  final String apiUrl = Constants.apiUrl;
+  final String podcastUrl = Constants.studioPodcastsUrl;
   final http.Client httpClient;
 
   const HttpStudioRepository({
@@ -20,7 +19,7 @@ class HttpStudioRepository implements StudioRepository {
   @override
   Future<StudioPodcast> createPodcast(
       String title, String description, String genre) async {
-    Uri uri = Uri.parse("$apiUrl/podcasts/");
+    Uri uri = Uri.parse(podcastUrl);
 
     var body = json.encode({
       "title": title,
@@ -43,7 +42,7 @@ class HttpStudioRepository implements StudioRepository {
 
   @override
   Future<void> deletePodcast(String podcastId) async {
-    Uri uri = Uri.parse("$apiUrl/podcasts/");
+    Uri uri = Uri.parse(podcastUrl);
 
     var body = json.encode({
       "id": podcastId,
@@ -70,8 +69,7 @@ class HttpStudioRepository implements StudioRepository {
 
   @override
   Future<List<StudioPodcast>> getPodcastsByUser(String userId) async {
-    String id = "1824ca64-002d-4e92-822e-6d00abcfa524";
-    Uri uri = Uri.parse("$apiUrl/podcasts/list/$id");
+    Uri uri = Uri.parse("${podcastUrl}list/$userId");
 
     try {
       final response = await httpClient.get(uri);
@@ -90,7 +88,7 @@ class HttpStudioRepository implements StudioRepository {
   @override
   Future<StudioPodcast> updatePodcast(
       String id, String title, String description, String genre) async {
-    Uri uri = Uri.parse("$apiUrl/podcasts/");
+    Uri uri = Uri.parse(podcastUrl);
 
     var body = json.encode({
       "id": id,
@@ -143,8 +141,9 @@ class HttpStudioRepository implements StudioRepository {
 
       var response = await request.send();
       if (response.statusCode == 401) {
-        String? refreshToken =
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTY4NTMzODgyMiwiaWF0IjoxNjgyNzQ2ODIyLCJqdGkiOiIyMTcyNTA1M2VmMGQ0MzM3ODA5YTQwNDJjODZkMGI3YyIsInVzZXJfaWQiOiIxODI0Y2E2NC0wMDJkLTRlOTItODIyZS02ZDAwYWJjZmE1MjQiLCJUT0tFTl9UWVBFX0NMQUlNIjoiYWNjZXNzIn0.kQtLn7ICGL9mHuXasu-bStseS-FZ3kETdx9kj1yvM0Q";
+        String? refreshToken = await secureStorage.getRefreshToken();
+        refreshToken ??= "";
+        // "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTY4NTMzODgyMiwiaWF0IjoxNjgyNzQ2ODIyLCJqdGkiOiIyMTcyNTA1M2VmMGQ0MzM3ODA5YTQwNDJjODZkMGI3YyIsInVzZXJfaWQiOiIxODI0Y2E2NC0wMDJkLTRlOTItODIyZS02ZDAwYWJjZmE1MjQiLCJUT0tFTl9UWVBFX0NMQUlNIjoiYWNjZXNzIn0.kQtLn7ICGL9mHuXasu-bStseS-FZ3kETdx9kj1yvM0Q";
         var body = json.encode({
           "refresh": refreshToken,
         });
