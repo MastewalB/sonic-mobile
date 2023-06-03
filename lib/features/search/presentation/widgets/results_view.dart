@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:math';
 
 class SearchResultsWidget<T> extends StatelessWidget {
   final String searchType;
@@ -13,7 +14,9 @@ class SearchResultsWidget<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String getTitle(inp) {
+    // print(items);
+    String getTitle(inpt) {
+      var inp = inpt['data'];
       if (searchType == 'Song') {
         return inp['title'] as String;
       } else if (searchType == 'Artist') {
@@ -24,10 +27,12 @@ class SearchResultsWidget<T> extends StatelessWidget {
       return ''; // Default value
     }
 
-    String getImageUrl(inp) {
+    String getImageUrl(inpt) {
+      var inp = inpt['data'];
       if (searchType == 'Song') {
-        // print(inp['album'].cover);
-        return inp['album']['cover'] as String;
+        // print('the input');
+        // print(inp);
+        return inp['s_album']['cover'] as String;
       } else if (searchType == 'Artist') {
         return inp['picture'] as String;
       } else if (searchType == 'Album') {
@@ -36,9 +41,10 @@ class SearchResultsWidget<T> extends StatelessWidget {
       return ''; // Default value
     }
 
-    String getSubtitle(inp) {
+    String getSubtitle(inpt) {
+      var inp = inpt['data'];
       if (searchType == 'Song') {
-        return inp['artist']['name'] as String;
+        return inp['s_artist']['name'] as String;
       } else if (searchType == 'Album') {
         return inp['artist']['name'] as String;
       }
@@ -82,41 +88,43 @@ class SearchResultsWidget<T> extends StatelessWidget {
         ListView.builder(
           shrinkWrap: true,
           physics: NeverScrollableScrollPhysics(),
-          itemCount: 5,
+          itemCount: min(items.length, 5),
           itemBuilder: (BuildContext context, int index) {
             final item = items[index]; // Get the item at the current index
 
-            return ListTile(
-              leading: Container(
-                height: 50.0,
-                width: 50.0,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10.0),
-                  image: DecorationImage(
-                    fit: BoxFit.cover,
-                    image: NetworkImage(
-                      getImageUrl(item),
+            return Material(
+              child: ListTile(
+                leading: Container(
+                  height: 50.0,
+                  width: 50.0,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10.0),
+                    image: DecorationImage(
+                      fit: BoxFit.cover,
+                      image: NetworkImage(
+                        getImageUrl(item),
+                      ),
                     ),
                   ),
                 ),
-              ),
-              title: Text(
-                getTitle(item), // Display the item
-                style: const TextStyle(
-                  fontSize: 16.0,
-                  fontWeight: FontWeight.bold,
+                title: Text(
+                  getTitle(item), // Display the item
+                  style: const TextStyle(
+                    fontSize: 16.0,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-              ),
-              subtitle: Text(
-                getSubtitle(item),
-                style: TextStyle(
-                  fontSize: 14.0,
-                  color: Colors.grey[600],
+                subtitle: Text(
+                  getSubtitle(item),
+                  style: TextStyle(
+                    fontSize: 14.0,
+                    color: Colors.grey[600],
+                  ),
                 ),
+                onTap: () {
+                  // Handle the result tap action
+                },
               ),
-              onTap: () {
-                // Handle the result tap action
-              },
             );
           },
         ),

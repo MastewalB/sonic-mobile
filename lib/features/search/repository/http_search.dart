@@ -3,10 +3,12 @@ import 'package:http/http.dart' as http;
 
 class SearchDataProvider {
   static const String _baseUrl =
-      'http://192.168.43.187:8000/api/v1/'; // Replace with your API base URL
+      'http://192.168.200.116:8000/api/v1'; // Replace with your API base URL
 
   Future<List<dynamic>> search(String query) async {
-    final url = Uri.parse('$_baseUrl/search?query=$query');
+    print(query);
+    final url =
+        Uri.parse('$_baseUrl/search/?search_query=$query&search_type=all');
 
     try {
       final response = await http.get(url);
@@ -28,7 +30,7 @@ class SearchDataProvider {
 
         final List<List<dynamic>> updatedResponse =
             groupedResults.values.toList();
-
+        // print(updatedResponse[2]);
         return updatedResponse;
       } else {
         throw Exception('Failed to fetch search results');

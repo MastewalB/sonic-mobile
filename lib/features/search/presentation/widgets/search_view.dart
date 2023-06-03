@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:sonic_mobile/features/album/presentation/widgets/audio_list.dart';
 import 'package:sonic_mobile/features/search/presentation/widgets/search_bar3.dart';
 import 'empty_screen.dart';
-import 'search_bar_2.dart';
 import 'results_view.dart';
 import 'package:sonic_mobile/features/search/repository/http_search.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

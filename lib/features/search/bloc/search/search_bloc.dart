@@ -18,7 +18,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
 
     try {
       final searchData = await searchDataProvider.search(event.query);
-
+      print(searchData);
       if (searchData.isEmpty) {
         emit(SearchEmptyState());
       } else {
