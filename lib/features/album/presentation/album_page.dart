@@ -36,17 +36,21 @@ class AlbumPage extends StatelessWidget {
               final album = state.album;
               print("album page album");
               // print(album.cover);
-              return Column(
-                children: [
-                  AlbumArtWidget(
-                    albumArtUrl: album.cover,
-                    title: album.name,
-                    artist: album.artist.name,
-                    numberOfSongs: album.songs.length,
-                    year: 2000,
-                  ),
-                  AudioListWidget(songs: album.songs),
-                ],
+              return
+                  // AlbumArtWidget(
+                  //   albumArtUrl: album.cover,
+                  //   title: album.name,
+                  //   artist: album.artist.name,
+                  //   numberOfSongs: album.songs.length,
+                  //   year: 2000,
+                  // ),
+                  AudioListWidget(
+                songs: album.songs,
+                albumArtUrl: album.cover,
+                title: album.name,
+                artist: album.artist.name,
+                numberOfSongs: album.songs.length,
+                year: 2000,
               );
             } else if (state is AlbumError) {
               // Error state, show error message

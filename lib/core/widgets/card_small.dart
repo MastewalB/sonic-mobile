@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 class CardSmall extends StatelessWidget {
   final String title;
   final String duration;
-  final String image;
+  final String? image;
 
   const CardSmall({
     Key? key,
     required this.title,
     required this.duration,
-    required this.image,
+    this.image,
   }) : super(key: key);
 
   @override
@@ -18,21 +18,22 @@ class CardSmall extends StatelessWidget {
       decoration: BoxDecoration(
         color: Color.fromARGB(255, 31, 29, 43),
       ),
-
       height: 50,
       alignment: Alignment.center,
       child: Row(
         children: [
-          Container(
-            width: 50,
-            height: 50,
-            child: ClipRRect(
-              child: Image.network(
-                image,
-                fit: BoxFit.cover,
-              ),
-            ),
-          ),
+          (image != null)
+              ? Container(
+                  width: 50,
+                  height: 50,
+                  child: ClipRRect(
+                    child: Image.asset(
+                      image!,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                )
+              : SizedBox(),
           SizedBox(
             width: 10,
           ),
