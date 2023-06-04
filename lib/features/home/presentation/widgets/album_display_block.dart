@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sonic_mobile/features/album/presentation/album_page.dart';
 import 'package:sonic_mobile/features/home/bloc/album/album_bloc.dart';
 import '../../bloc/song/blocs.dart';
 
@@ -18,6 +19,7 @@ class AlbumDisplayBlock extends StatelessWidget {
           child: Text(
             desc,
             style: const TextStyle(
+              color: Colors.white,
               fontSize: 24.0,
               fontWeight: FontWeight.bold,
             ),
@@ -43,15 +45,25 @@ class AlbumDisplayBlock extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Container(
-                            height: 120.0,
-                            width: 120.0,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10.0),
-                              image: DecorationImage(
-                                fit: BoxFit.cover,
-                                image: NetworkImage(album
-                                    .cover), // Use the cover URL from the song object
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      AlbumPage(albumID: album.id),
+                                ),
+                              );
+                            },
+                            child: Container(
+                              height: 120.0,
+                              width: 120.0,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10.0),
+                                image: DecorationImage(
+                                  fit: BoxFit.cover,
+                                  image: NetworkImage(album.cover),
+                                ),
                               ),
                             ),
                           ),
@@ -59,6 +71,7 @@ class AlbumDisplayBlock extends StatelessWidget {
                           Text(
                             album.name, // Use the title from the song object
                             style: const TextStyle(
+                              color: Colors.white,
                               fontSize: 16.0,
                               fontWeight: FontWeight.bold,
                             ),
@@ -69,7 +82,7 @@ class AlbumDisplayBlock extends StatelessWidget {
                                 .name, // Use the artist from the song object
                             style: TextStyle(
                               fontSize: 14.0,
-                              color: Colors.grey[600],
+                              color: Colors.grey[400],
                             ),
                           ),
                         ],

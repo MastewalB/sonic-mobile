@@ -17,6 +17,7 @@ class DisplayBlock extends StatelessWidget {
           child: Text(
             desc,
             style: const TextStyle(
+              color: Colors.white,
               fontSize: 24.0,
               fontWeight: FontWeight.bold,
             ),
@@ -58,6 +59,7 @@ class DisplayBlock extends StatelessWidget {
                           Text(
                             song.title, // Use the title from the song object
                             style: const TextStyle(
+                              color: Colors.white,
                               fontSize: 16.0,
                               fontWeight: FontWeight.bold,
                             ),
@@ -68,7 +70,7 @@ class DisplayBlock extends StatelessWidget {
                                 .name, // Use the artist from the song object
                             style: TextStyle(
                               fontSize: 14.0,
-                              color: Colors.grey[600],
+                              color: Colors.grey[300],
                             ),
                           ),
                         ],

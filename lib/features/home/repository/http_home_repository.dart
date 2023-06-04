@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:sonic_mobile/models/models.dart';
 
 class HomeDataProvider {
-  final _baseUrl = 'http://192.168.43.187:8000/api/v1/music';
+  final _baseUrl = 'http://192.168.200.116:8000/api/v1/music';
   final http.Client httpClient;
 
   HomeDataProvider({required this.httpClient});

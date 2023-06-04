@@ -39,7 +39,7 @@ class _CatchPhraseState extends State<CatchPhrase>
   Widget build(BuildContext context) {
     return Container(
       alignment: Alignment.center,
-      color: Colors.white,
+      color: const Color.fromARGB(255, 31, 29, 43),
       child: FadeTransition(
         opacity: _opacityAnimation,
         child: Padding(
@@ -47,7 +47,8 @@ class _CatchPhraseState extends State<CatchPhrase>
           child: Text(
             widget.text,
             style: const TextStyle(
-              fontSize: 20.0,
+              color: Color.fromARGB(255, 209, 147, 147),
+              fontSize: 33.0,
               fontWeight: FontWeight.w600,
             ),
           ),
