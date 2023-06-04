@@ -8,6 +8,8 @@ import 'package:sonic_mobile/features/home/bloc/song/song_bloc.dart';
 import 'package:sonic_mobile/features/home/presentation/widgets/album_display_block.dart';
 import 'package:sonic_mobile/features/home/repository/http_home_repository.dart';
 import 'package:sonic_mobile/features/home/bloc/album/album_bloc.dart';
+import 'package:sonic_mobile/features/search/presentation/search_page.dart';
+import 'package:sonic_mobile/features/search/presentation/widgets/search_bar.dart';
 import 'widgets/catchphrase.dart';
 import 'widgets/header.dart';
 import 'widgets/display_blocks.dart';
@@ -22,7 +24,7 @@ class Homepage extends StatelessWidget {
     return SafeArea(
         child: Scaffold(
             backgroundColor: const Color.fromARGB(255, 31, 29, 43),
-            body: Column(
+            body: ListView(
               children: [
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 32.0),
@@ -33,6 +35,7 @@ class Homepage extends StatelessWidget {
                 CatchPhrase(
                   text: "The Ultimate Sound",
                 ),
+                SearchBar(),
                 BlocProvider<SongBloc>(
                   create: (context) => SongBloc(songRepository),
                   child: Builder(

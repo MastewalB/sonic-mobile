@@ -69,7 +69,7 @@ class _SearchViewState extends State<SearchView> {
                                 .add(PerformSearchEvent(submittedQuery));
                           },
                         ),
-                        backgroundColor: Colors.grey[600],
+                        backgroundColor: const Color.fromARGB(255, 31, 29, 43),
                         forceElevated: innerBoxIsScrolled,
                         automaticallyImplyLeading: false,
                         expandedHeight: 5.0,
