@@ -34,10 +34,10 @@ void main() {
         //   )..add(const GetAllPodcastsByUserEvent(userId: "userId")),
         //   child: Sonic(),
         // ),
-        home: const AlbumPage(
-          albumID: '1',
-        ),
-        // home: const Homepage(),
+        // home: const AlbumPage(
+        //   albumID: '1',
+        // ),
+        home: const Homepage(),
         onGenerateRoute: pageRouter.generateRoute,
       ),
     ),

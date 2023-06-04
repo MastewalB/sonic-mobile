@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sonic_mobile/features/home/bloc/album/album_bloc.dart';
 import '../../bloc/song/blocs.dart';
 
-class DisplayBlock extends StatelessWidget {
+class AlbumDisplayBlock extends StatelessWidget {
   final String desc;
 
-  const DisplayBlock({Key? key, required this.desc}) : super(key: key);
+  const AlbumDisplayBlock({Key? key, required this.desc}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -24,18 +25,18 @@ class DisplayBlock extends StatelessWidget {
         ),
         SizedBox(
           height: 200.0,
-          child: BlocBuilder<SongBloc, SongState>(
+          child: BlocBuilder<AlbumBloc, AlbumState>(
             builder: (context, state) {
-              if (state is SongLoadedState) {
-                final songs = state.songs; // Access the songs from the state
+              if (state is AlbumLoadedState) {
+                final albums = state.albums; // Access the songs from the state
 
                 return ListView.builder(
                   scrollDirection: Axis.horizontal,
                   itemCount:
-                      songs.length, // Use the count of songs from the state
+                      albums.length, // Use the count of songs from the state
                   itemBuilder: (BuildContext context, int index) {
-                    final song =
-                        songs[index]; // Access the song based on the index
+                    final album =
+                        albums[index]; // Access the song based on the index
 
                     return Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -49,14 +50,14 @@ class DisplayBlock extends StatelessWidget {
                               borderRadius: BorderRadius.circular(10.0),
                               image: DecorationImage(
                                 fit: BoxFit.cover,
-                                image: NetworkImage(song.album
+                                image: NetworkImage(album
                                     .cover), // Use the cover URL from the song object
                               ),
                             ),
                           ),
                           const SizedBox(height: 8.0),
                           Text(
-                            song.title, // Use the title from the song object
+                            album.name, // Use the title from the song object
                             style: const TextStyle(
                               fontSize: 16.0,
                               fontWeight: FontWeight.bold,
@@ -64,7 +65,7 @@ class DisplayBlock extends StatelessWidget {
                           ),
                           const SizedBox(height: 4.0),
                           Text(
-                            song.artist
+                            album.artist
                                 .name, // Use the artist from the song object
                             style: TextStyle(
                               fontSize: 14.0,

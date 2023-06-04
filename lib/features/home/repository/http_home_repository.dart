@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:sonic_mobile/models/models.dart';
 
 class HomeDataProvider {
-  final _baseUrl = 'http://192.168.43.187:8000/api/v1/music/';
+  final _baseUrl = 'http://192.168.43.187:8000/api/v1/music';
   final http.Client httpClient;
 
   HomeDataProvider({required this.httpClient});
@@ -11,7 +11,7 @@ class HomeDataProvider {
   //get songs
   Future<List<Song>> getRecommendedSongs() async {
     final response = await httpClient.get(Uri.parse('$_baseUrl/songs/'));
-
+    print("here");
     if (response.statusCode == 200) {
       final List<dynamic> songs = jsonDecode(response.body);
 
@@ -27,6 +27,29 @@ class HomeDataProvider {
       final limitedSongs = songList.take(15).toList();
 
       return limitedSongs;
+    } else {
+      throw Exception('Failed to load songs');
+    }
+  }
+
+  Future<List<Album>> getRecommendedAlbums() async {
+    final response = await httpClient.get(Uri.parse('$_baseUrl/albums/'));
+    // print("here");
+    if (response.statusCode == 200) {
+      final List<dynamic> albums = jsonDecode(response.body);
+
+      // Map JSON songs to Song objects
+      final List<Album> albumList =
+          albums.map((albumData) => Album.fromJson(albumData)).toList();
+
+      // Sort songs by dateAdded in descending order
+      // Need to add the dateAdded field in the serializer (not returned as of now)
+      // songList.sort((a, b) => b.dateAdded.compareTo(a.dateAdded));
+
+      // Return a maximum of 15 songs
+      final limitedAlbums = albumList.take(15).toList();
+
+      return limitedAlbums;
     } else {
       throw Exception('Failed to load songs');
     }

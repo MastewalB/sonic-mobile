@@ -8,22 +8,32 @@ import 'song_state.dart';
 class SongBloc extends Bloc<SongEvent, SongState> {
   final HomeDataProvider songRepository;
 
-  SongBloc(this.songRepository) : super(SongLoadingState());
-
-  Stream<SongState> mapEventToState(SongEvent event) async* {
-    if (event is LoadRecommendedSongsEvent ||
-        event is RefreshRecommendedSongsEvent) {
-      print("state");
-      yield SongLoadingState();
+  SongBloc(this.songRepository) : super(SongInitial()) {
+    on<LoadRecommendedSongsEvent>((event, emit) async {
+      print("about to emit");
+      emit(SongLoadingState());
 
       try {
         final List<Song> recommendedSongs =
             await songRepository.getRecommendedSongs();
 
-        yield SongLoadedState(recommendedSongs.take(15).toList());
+        emit(SongLoadedState(recommendedSongs.take(15).toList()));
       } catch (error) {
-        yield SongErrorState('Failed to load recommended songs.');
+        emit(SongErrorState('Failed to load recommended songs'));
       }
-    }
+    });
+
+    // on<RefreshRecommendedSongsEvent>((event, emit) async {
+    //   emit(SongLoadingState());
+
+    //   try {
+    //     final List<Song> recommendedSongs =
+    //         await songRepository.getRecommendedSongs();
+
+    //     emit(SongLoadedState(recommendedSongs.take(15).toList()));
+    //   } catch (error) {
+    //     emit(SongErrorState('Failed to load recommended songs.'));
+    //   }
+    // });
   }
 }
