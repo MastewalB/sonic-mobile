@@ -5,6 +5,7 @@ import 'package:hive/hive.dart';
 import 'package:sonic_mobile/core/core.dart';
 import 'package:flutter/services.dart';
 import 'package:sonic_mobile/features/audio_player/bloc/audio_player_bloc.dart';
+import 'package:sonic_mobile/features/profile.dart';
 import 'package:sonic_mobile/features/studio/bloc/record_bloc/record_bloc.dart';
 import 'package:sonic_mobile/features/studio/presentation/studio_library.dart';
 import 'package:sonic_mobile/dependency_provider.dart';
@@ -90,7 +91,7 @@ void main() async {
             debugShowCheckedModeBanner: false,
             title: 'Sonic',
             theme: CustomTheme.DarkTheme,
-            home: const Sonic(),
+            home: const ProfilePage(),
             onGenerateRoute: pageRouter.generateRoute,
           ),
         ),
