@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
 
+import 'package:sonic_mobile/features/album/presentation/album_page.dart';
+
 class SearchResultsWidget<T> extends StatelessWidget {
   final String searchType;
   final List<T> items;
@@ -51,12 +53,14 @@ class SearchResultsWidget<T> extends StatelessWidget {
       return '';
     }
 
+    String getAlbumId(inpt) {
+      var inp = inpt['data'];
+      return inp['id'] as String;
+    }
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SizedBox(
-          height: 55,
-        ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: Row(
@@ -65,6 +69,7 @@ class SearchResultsWidget<T> extends StatelessWidget {
               Text(
                 'Search results for $searchType', // Display the search type
                 style: const TextStyle(
+                  color: Colors.white,
                   fontSize: 18.0,
                   fontWeight: FontWeight.bold,
                 ),
@@ -93,37 +98,52 @@ class SearchResultsWidget<T> extends StatelessWidget {
             final item = items[index]; // Get the item at the current index
 
             return Material(
-              child: ListTile(
-                leading: Container(
-                  height: 50.0,
-                  width: 50.0,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10.0),
-                    image: DecorationImage(
-                      fit: BoxFit.cover,
-                      image: NetworkImage(
-                        getImageUrl(item),
+              color: Colors.transparent,
+              child: GestureDetector(
+                onTap: () {
+                  if (searchType == "Song") {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => AlbumPage(),
+                      ),
+                    );
+                  }
+                },
+                child: ListTile(
+                  // textColor: Colors.grey[900],
+                  leading: Container(
+                    height: 50.0,
+                    width: 50.0,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10.0),
+                      image: DecorationImage(
+                        fit: BoxFit.cover,
+                        image: NetworkImage(
+                          getImageUrl(item),
+                        ),
                       ),
                     ),
                   ),
-                ),
-                title: Text(
-                  getTitle(item), // Display the item
-                  style: const TextStyle(
-                    fontSize: 16.0,
-                    fontWeight: FontWeight.bold,
+                  title: Text(
+                    getTitle(item), // Display the item
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ),
-                subtitle: Text(
-                  getSubtitle(item),
-                  style: TextStyle(
-                    fontSize: 14.0,
-                    color: Colors.grey[600],
+                  subtitle: Text(
+                    getSubtitle(item),
+                    style: TextStyle(
+                      fontSize: 14.0,
+                      color: Colors.grey[400],
+                    ),
                   ),
+                  onTap: () {
+                    // Handle the result tap action
+                  },
                 ),
-                onTap: () {
-                  // Handle the result tap action
-                },
               ),
             );
           },

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sonic_mobile/features/album/presentation/widgets/audio_list.dart';
-import 'package:sonic_mobile/features/search/presentation/widgets/search_bar3.dart';
+import 'package:sonic_mobile/features/search/presentation/widgets/search_bar_widget.dart';
 import 'empty_screen.dart';
 import 'results_view.dart';
 import 'package:sonic_mobile/features/search/repository/http_search.dart';
@@ -23,7 +23,8 @@ class SearchView extends StatefulWidget {
 
 class _SearchViewState extends State<SearchView> {
   late SearchBloc searchBloc; // Add a reference to the SearchBloc
-
+  final TrackingScrollController _trackingScrollController =
+      TrackingScrollController();
   @override
   void initState() {
     searchBloc = context.read<SearchBloc>(); // Initialize the SearchBloc
@@ -47,54 +48,103 @@ class _SearchViewState extends State<SearchView> {
   @override
   Widget build(BuildContext context) {
     // Wrap the body content with a BlocBuilder to listen to state changes
-    return BlocBuilder<SearchBloc, SearchState>(
-      builder: (context, state) {
-        return SafeArea(
-          child: Column(
-            children: [
-              Expanded(
-                child: Scaffold(
-                  resizeToAvoidBottomInset: false,
-                  backgroundColor: Colors.transparent,
-                  body: SearchBarWidget(
-                    hintText: 'Songs, Artists, or Albums',
-                    backIcon: Icons.arrow_back_rounded,
-                    onSubmitted: (String submittedQuery) {
-                      // Dispatch the PerformSearchEvent with the submitted query
-                      context
-                          .read<SearchBloc>()
-                          .add(PerformSearchEvent(submittedQuery));
-                    },
-                  ),
-                ),
-              ),
-              // Display the search result widget based on the state
-
-              if (state is SearchLoadedState)
-                Column(
-                  children: [
-                    SearchResultsWidget(
-                      searchType: 'Song',
-                      items: state.searchData[0],
-                    ),
-                    SearchResultsWidget(
-                      searchType: 'Album',
-                      items: state.searchData[1],
-                    ),
-                    SearchResultsWidget(
-                      searchType: 'Artist',
-                      items: state.searchData[2],
-                    ),
-                  ],
-                )
-              else if (state is SearchEmptyState)
-                nothingFound(context)
-              else if (state is SearchErrorState)
-                Text(state.errorMessage),
-            ],
-          ),
-        );
-      },
-    );
+    return BlocBuilder<SearchBloc, SearchState>(builder: (context, state) {
+      return Scaffold(
+          backgroundColor: Colors.transparent,
+          body: NestedScrollView(
+              headerSliverBuilder:
+                  (BuildContext context, bool innerBoxIsScrolled) {
+                return <Widget>[
+                  SliverOverlapAbsorber(
+                      handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
+                          context),
+                      sliver: SliverAppBar(
+                        title: SearchBarWidget(
+                          hintText: 'Songs, Artists, or Albums',
+                          backIcon: Icons.arrow_back_rounded,
+                          onSubmitted: (String submittedQuery) {
+                            // Dispatch the PerformSearchEvent with the submitted query
+                            context
+                                .read<SearchBloc>()
+                                .add(PerformSearchEvent(submittedQuery));
+                          },
+                        ),
+                        backgroundColor: Colors.grey[600],
+                        forceElevated: innerBoxIsScrolled,
+                        automaticallyImplyLeading: false,
+                        expandedHeight: 5.0,
+                        flexibleSpace: FlexibleSpaceBar(),
+                      )),
+                ];
+              },
+              body: (state is SearchLoadedState)
+                  ? ListView(children: [
+                      SearchResultsWidget(
+                        searchType: 'Song',
+                        items: state.searchData[0],
+                      ),
+                      SearchResultsWidget(
+                        searchType: 'Album',
+                        items: state.searchData[1],
+                      ),
+                      SearchResultsWidget(
+                        searchType: 'Artist',
+                        items: state.searchData[2],
+                      )
+                    ])
+                  : (state is SearchEmptyState)
+                      ? nothingFound(context)
+                      : (state is SearchErrorState)
+                          ? Text(state.errorMessage)
+                          : SizedBox()));
+    });
   }
 }
+                  
+
+//               Expanded(
+//                 child: Scaffold(
+//                   resizeToAvoidBottomInset: false,
+//                   backgroundColor: Colors.grey[600],
+//                   body: SearchBarWidget(
+//                     hintText: 'Songs, Artists, or Albums',
+//                     backIcon: Icons.arrow_back_rounded,
+//                     onSubmitted: (String submittedQuery) {
+//                       // Dispatch the PerformSearchEvent with the submitted query
+//                       context
+//                           .read<SearchBloc>()
+//                           .add(PerformSearchEvent(submittedQuery));
+//                     },
+//                   ),
+//                 ),
+//               ),
+//               // Display the search result widget based on the state
+
+//               if (state is SearchLoadedState)
+//                 Column(
+//                   children: [
+//                     SearchResultsWidget(
+//                       searchType: 'Song',
+//                       items: state.searchData[0],
+//                     ),
+//                     SearchResultsWidget(
+//                       searchType: 'Album',
+//                       items: state.searchData[1],
+//                     ),
+//                     SearchResultsWidget(
+//                       searchType: 'Artist',
+//                       items: state.searchData[2],
+//                     ),
+//                   ],
+//                 )
+//               else if (state is SearchEmptyState)
+//                 nothingFound(context)
+//               else if (state is SearchErrorState)
+//                 Text(state.errorMessage),
+//             ],
+//           ),
+//         );
+//       },
+//     );
+//   }
+// }

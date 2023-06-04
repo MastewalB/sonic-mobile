@@ -19,7 +19,7 @@ class SearchBar extends StatelessWidget {
             builder: (context) => BlocProvider<SearchBloc>(
               create: (context) => SearchBloc(
                   SearchDataProvider()), // Provide SearchDataProvider instance here
-              child: SearchView(
+              child: const SearchView(
                 query: '',
               ),
             ),
