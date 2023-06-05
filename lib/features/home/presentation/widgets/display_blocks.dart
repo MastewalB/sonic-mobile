@@ -1,5 +1,9 @@
+import 'dart:collection';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sonic_mobile/features/audio_player/bloc/audio_player_bloc.dart';
+import '../../../../models/audio.dart';
 import '../../bloc/song/blocs.dart';
 
 class DisplayBlock extends StatelessWidget {
@@ -43,18 +47,31 @@ class DisplayBlock extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Container(
-                            height: 120.0,
-                            width: 120.0,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10.0),
-                              image: DecorationImage(
-                                fit: BoxFit.cover,
-                                image: NetworkImage(song.album
-                                    .cover), // Use the cover URL from the song object
-                              ),
-                            ),
-                          ),
+                          GestureDetector(
+                              onTap: () {
+                                ListQueue<Audio> playlist =
+                                    ListQueue.from(songs);
+                                debugPrint(playlist.elementAt(index).fileUrl);
+                                context.read<AudioPlayerBloc>().add(
+                                      PlayAudioEvent(
+                                        playlist: playlist,
+                                        currentIndex: index,
+                                        fromCurrentPlaylist: false,
+                                      ),
+                                    );
+                              },
+                              child: Container(
+                                height: 120.0,
+                                width: 120.0,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  image: DecorationImage(
+                                    fit: BoxFit.cover,
+                                    image: NetworkImage(song.album
+                                        .cover), // Use the cover URL from the song object
+                                  ),
+                                ),
+                              )),
                           const SizedBox(height: 8.0),
                           Text(
                             song.title, // Use the title from the song object

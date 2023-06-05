@@ -1,7 +1,13 @@
+import 'dart:collection';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'dart:math';
 
 import 'package:sonic_mobile/features/album/presentation/album_page.dart';
+import 'package:sonic_mobile/features/audio_player/bloc/audio_player_bloc.dart';
+import 'package:sonic_mobile/models/audio.dart';
+import 'package:sonic_mobile/models/song.dart';
 
 class SearchResultsWidget<T> extends StatelessWidget {
   final String searchType;
@@ -55,7 +61,12 @@ class SearchResultsWidget<T> extends StatelessWidget {
 
     String getAlbumId(inpt) {
       var inp = inpt['data'];
-      return inp['id'] as String;
+      return inp['id'].toString();
+    }
+
+    Song getSong(inpt) {
+      var inp = Song.fromJson(inpt['data']);
+      return inp;
     }
 
     return Column(
@@ -96,22 +107,35 @@ class SearchResultsWidget<T> extends StatelessWidget {
           itemCount: min(items.length, 5),
           itemBuilder: (BuildContext context, int index) {
             final item = items[index]; // Get the item at the current index
-
-            return Material(
-              color: Colors.transparent,
-              child: GestureDetector(
-                onTap: () {
-                  if (searchType == "Song") {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => AlbumPage(
-                          albumID: getAlbumId(item),
-                        ),
+            print(searchType);
+            return InkWell(
+              onTap: () {
+                print('lu been her');
+                print(searchType);
+                if (searchType == 'Album') {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => AlbumPage(
+                        albumID: getAlbumId(item),
                       ),
-                    );
-                  }
-                },
+                    ),
+                  );
+                } else if (searchType == 'Song') {
+                  ListQueue<Audio> playlist = ListQueue<Audio>();
+                  // debugPrint(playlist.elementAt(index).fileUrl);
+                  playlist.add(getSong(item));
+                  context.read<AudioPlayerBloc>().add(
+                        PlayAudioEvent(
+                          playlist: playlist,
+                          currentIndex: 0,
+                          fromCurrentPlaylist: false,
+                        ),
+                      );
+                }
+              },
+              child: Container(
+                color: Colors.transparent,
                 child: ListTile(
                   // textColor: Colors.grey[900],
                   leading: Container(
@@ -144,6 +168,29 @@ class SearchResultsWidget<T> extends StatelessWidget {
                   ),
                   onTap: () {
                     // Handle the result tap action
+                    print('lu been her');
+                    print(searchType);
+                    if (searchType == 'Album') {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => AlbumPage(
+                            albumID: getAlbumId(item),
+                          ),
+                        ),
+                      );
+                    } else if (searchType == 'Song') {
+                      ListQueue<Audio> playlist = ListQueue<Audio>();
+                      // debugPrint(playlist.elementAt(index).fileUrl);
+                      playlist.add(getSong(item));
+                      context.read<AudioPlayerBloc>().add(
+                            PlayAudioEvent(
+                              playlist: playlist,
+                              currentIndex: 0,
+                              fromCurrentPlaylist: false,
+                            ),
+                          );
+                    }
                   },
                 ),
               ),
