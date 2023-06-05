@@ -98,7 +98,7 @@ void main() async {
             debugShowCheckedModeBanner: false,
             title: 'Sonic',
             theme: CustomTheme.DarkTheme,
-            home: const Homepage(),
+            home: const Sonic(),
             onGenerateRoute: pageRouter.generateRoute,
           ),
         ),
@@ -136,7 +136,7 @@ class _SonicState extends State<Sonic> {
         notificationCubit: DependencyProvider.getNotificationCubit()!,
         userProfileRepository: DependencyProvider.getUserProfileRepository()!,
         secureStorage: DependencyProvider.getSecureStorage()!,
-      ),
+      )..add(SignUpInitialEvent()),
       child: const SignUpPage(),
     );
     // return MultiBlocProvider(

@@ -37,10 +37,8 @@ extension ErrorTypeX on ErrorType {
         return Constants.connectionError;
       case ErrorType.INVALID_EMAIL_OR_PASSWORD:
         return Constants.invalidEmailOrPassword;
-        break;
       case ErrorType.EMAIL_ALREADY_EXISTS:
         return Constants.emailAlreadyExists;
-        break;
     }
   }
 }

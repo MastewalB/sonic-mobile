@@ -1,6 +1,6 @@
 part of 'signup_bloc.dart';
 
-enum SignupStatus { initial, loading, loaded, success, error }
+enum SignupStatus { initial, loading, loaded, success, userExists, error }
 
 extension SignupStatusX on SignupStatus {
   bool get isInitial => this == SignupStatus.initial;
@@ -10,6 +10,8 @@ extension SignupStatusX on SignupStatus {
   bool get isLoaded => this == SignupStatus.loaded;
 
   bool get isSuccess => this == SignupStatus.success;
+
+  bool get isUserExists => this == SignupStatus.userExists;
 
   bool get isError => this == SignupStatus.error;
 }

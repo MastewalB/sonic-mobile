@@ -16,6 +16,7 @@ import 'widgets/display_blocks.dart';
 import 'package:http/http.dart' as http;
 
 class Homepage extends StatelessWidget {
+  static const String routeName = "home";
   const Homepage({Key? key}) : super(key: key);
 
   @override

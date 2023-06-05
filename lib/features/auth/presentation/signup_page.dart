@@ -34,7 +34,7 @@ class _SignUpPageState extends State<SignUpPage> {
 
     return BlocBuilder<SignupBloc, SignupState>(
       builder: (context, state) {
-        if (state.status.isSuccess) {
+        if (state.status.isSuccess || state.status.isUserExists) {
           WidgetsBinding.instance.addPostFrameCallback((_) {
             Navigator.pushReplacementNamed(context, LibraryPage.routeName);
           });

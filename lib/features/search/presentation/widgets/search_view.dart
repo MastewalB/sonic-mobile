@@ -8,6 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sonic_mobile/features/search/bloc/search/blocs.dart';
 
 class SearchView extends StatefulWidget {
+  static const String routeName = "search";
   final String query;
   final bool autofocus;
 
