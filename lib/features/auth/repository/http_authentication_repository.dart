@@ -30,7 +30,8 @@ class HttpAuthenticationRepository implements AuthenticationRepository {
         body: body,
       );
       var value = json.decode(response.body);
-      if(value.containsKey("message") && value["message"] == "Invalid Email or Password"){
+      if (value.containsKey("message") &&
+          value["message"] == "Invalid Email or Password") {
         throw InvalidCredentialException(ErrorType.INVALID_EMAIL_OR_PASSWORD);
       }
       if (!value.containsKey("data") || !value.containsKey("token")) {
@@ -62,7 +63,7 @@ class HttpAuthenticationRepository implements AuthenticationRepository {
       "date_of_birth": dateOfBirth,
       "country": country,
       "password": password,
-      "is_staff":false
+      "is_staff": false
     });
 
     try {
@@ -73,8 +74,11 @@ class HttpAuthenticationRepository implements AuthenticationRepository {
         },
         body: body,
       );
-      // print(response.body);
       var value = json.decode(response.body);
+      if (value.containsKey("message") &&
+          value["message"] == "Invalid Registration Credential") {
+        throw AppException(errorType: ErrorType.EMAIL_ALREADY_EXISTS);
+      }
       if (!value.containsKey("data") || !value.containsKey("token")) {
         throw AppException(errorType: ErrorType.CONNECTION_ERROR);
       }

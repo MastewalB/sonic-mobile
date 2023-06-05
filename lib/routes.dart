@@ -4,6 +4,7 @@ import 'package:sonic_mobile/dependency_provider.dart';
 import 'package:sonic_mobile/features/auth/auth.dart';
 import 'package:sonic_mobile/features/library/bloc/library_bloc/library_bloc.dart';
 import 'package:sonic_mobile/features/library/bloc/playlist_bloc/playlist_bloc.dart';
+import 'package:sonic_mobile/features/library/presentation/library_page.dart';
 import 'package:sonic_mobile/features/library/presentation/playlist_detail_page.dart';
 import 'package:sonic_mobile/features/library/presentation/widgets/screen_arguments.dart';
 import 'package:sonic_mobile/features/studio/bloc/podcast_detail_bloc/podcast_detail_bloc.dart';
@@ -149,6 +150,26 @@ class PageRouter {
               child: StudioLibrary(
                 initialIndex: initialIndex,
               ),
+            );
+          },
+        );
+      case LibraryPage.routeName:
+        return MaterialPageRoute(
+          builder: (context) {
+            return MultiBlocProvider(
+              providers: [
+                BlocProvider(
+                  create: (context) => LibraryBloc(
+                    libraryRepository:
+                        DependencyProvider.getHttpLibraryProvider()!,
+                    notificationCubit:
+                        DependencyProvider.getNotificationCubit()!,
+                    userProfileRepository:
+                        DependencyProvider.getUserProfileRepository()!,
+                  )..add(GetAllPlaylistsByUser()),
+                ),
+              ],
+              child: const LibraryPage(),
             );
           },
         );
