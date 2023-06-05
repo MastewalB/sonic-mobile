@@ -92,7 +92,7 @@ class AlbumDisplayBlock extends StatelessWidget {
                 );
               } else {
                 // Show a placeholder or loading state when songs are not yet loaded
-                return const CircularProgressIndicator();
+                return const Center(child: CircularProgressIndicator());
               }
             },
           ),

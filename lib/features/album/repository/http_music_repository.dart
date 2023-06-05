@@ -19,7 +19,6 @@ class AlbumDataProvider {
     if (response.statusCode == 200) {
       final album = jsonDecode(response.body);
       print("here success");
-      // print(album);
       return Album.fromJson(album);
     } else {
       throw Exception('Failed to load album');

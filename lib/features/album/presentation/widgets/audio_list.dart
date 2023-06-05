@@ -1,6 +1,10 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'dart:collection';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sonic_mobile/features/audio_player/bloc/audio_player_bloc.dart';
 import 'package:sonic_mobile/models/models.dart';
 import 'package:sonic_mobile/core/core.dart';
 
@@ -128,7 +132,17 @@ class AudioListWidget extends StatelessWidget {
                   return Padding(
                     padding: const EdgeInsets.fromLTRB(30.0, 15.0, 0.0, 0.0),
                     child: InkWell(
-                      onTap: () {},
+                      onTap: () {
+                        ListQueue<Audio> playlist = ListQueue.from(songs);
+                        debugPrint(playlist.elementAt(index).fileUrl);
+                        context.read<AudioPlayerBloc>().add(
+                              PlayAudioEvent(
+                                playlist: playlist,
+                                currentIndex: index,
+                                fromCurrentPlaylist: false,
+                              ),
+                            );
+                      },
                       onDoubleTap: () {},
                       child: Row(
                         mainAxisSize: MainAxisSize.max,

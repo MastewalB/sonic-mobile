@@ -11,14 +11,15 @@ class HomeDataProvider {
   //get songs
   Future<List<Song>> getRecommendedSongs() async {
     final response = await httpClient.get(Uri.parse('$_baseUrl/songs/'));
-    print("here");
+    // print("here");
+    // print(response.body);
     if (response.statusCode == 200) {
       final List<dynamic> songs = jsonDecode(response.body);
 
       // Map JSON songs to Song objects
       final List<Song> songList =
           songs.map((songData) => Song.fromJson(songData)).toList();
-
+      print(songList.first.fileUrl);
       // Sort songs by dateAdded in descending order
       // Need to add the dateAdded field in the serializer (not returned as of now)
       // songList.sort((a, b) => b.dateAdded.compareTo(a.dateAdded));

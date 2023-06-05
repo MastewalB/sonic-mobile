@@ -4,13 +4,15 @@ class CardSmall extends StatelessWidget {
   final String title;
   final String duration;
   final String? image;
+  final Color? color;
 
-  const CardSmall({
-    Key? key,
-    required this.title,
-    required this.duration,
-    this.image,
-  }) : super(key: key);
+  const CardSmall(
+      {Key? key,
+      required this.title,
+      required this.duration,
+      this.image,
+      this.color})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +46,7 @@ class CardSmall extends StatelessWidget {
                 child: Text(
                   title,
                   style: TextStyle(
-                      color: Colors.white,
+                      color: color ?? Colors.white,
                       fontSize: 16,
                       overflow: TextOverflow.ellipsis),
                   maxLines: 2,
