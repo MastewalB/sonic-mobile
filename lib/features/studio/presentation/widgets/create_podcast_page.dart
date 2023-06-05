@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sonic_mobile/core/core.dart';
 import 'package:sonic_mobile/features/studio/bloc/create_podcast_bloc/create_podcast_bloc.dart';
-
-import 'package:sonic_mobile/features/studio/bloc/studio_bloc/studio_bloc.dart';
+import 'package:sonic_mobile/features/studio/presentation/widgets/your_podcasts.dart';
 
 class CreatePodcastPage extends StatefulWidget {
+  static const String routeName = "create_podcast";
   const CreatePodcastPage({Key? key}) : super(key: key);
 
   @override
@@ -12,43 +13,34 @@ class CreatePodcastPage extends StatefulWidget {
 }
 
 class _CreatePodcastPageState extends State<CreatePodcastPage> {
+  bool validated = true;
+
   @override
   Widget build(BuildContext context) {
+    double safeAreaWidth = MediaQueryManager.safeAreaHorizontal;
+    double titleFontSize = safeAreaWidth * 8;
+    double spacingBox = safeAreaWidth * 10;
+
     TextEditingController titleController = TextEditingController();
     TextEditingController descriptionController = TextEditingController();
     TextEditingController genreController = TextEditingController();
-    bool validated = true;
 
     return BlocBuilder<CreatePodcastBloc, CreatePodcastState>(
       builder: (context, state) {
-        if(state.status.isCreatingPodcast){
+        // if (state.status.isError) {
+        //   WidgetsBinding.instance.addPostFrameCallback((_) {
+        //     ScaffoldMessenger.of(context).showSnackBar(
+        //       const SnackBar(
+        //         content: const Text(Constants.connectionError),
+        //         duration: Constants.longDuration,
+        //         showCloseIcon: true,
+        //       ),
+        //     );
+        //   });
+        // }
+        if (state.status.isPodcastCreated) {
           WidgetsBinding.instance.addPostFrameCallback((_) {
-            showDialog(
-                context: context,
-                builder: (builder) {
-                  return AlertDialog(
-                    content: Padding(
-                      padding: EdgeInsets.all(8),
-                      child: Row(
-                        children: const [
-                          CircularProgressIndicator(),
-                          SizedBox(
-                            width: 20,
-                          ),
-                          Text('Creating Your Podcast...')
-                        ],
-                      ),
-                    ),
-                  );
-                });
-          });
-        }
-        if (state.status.isError) {
-          WidgetsBinding.instance.addPostFrameCallback((_) {
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              content: Text("Something went Wrong. Please Try again."),
-              duration: Duration(seconds: 3),
-            ));
+            Navigator.pushReplacementNamed(context, YourPodcastsPage.routeName);
           });
         }
         return Scaffold(
@@ -58,57 +50,57 @@ class _CreatePodcastPageState extends State<CreatePodcastPage> {
               child: SingleChildScrollView(
                 child: Column(
                   children: [
-                    Text(
+                    const Text(
                       "Create New Podcast",
                       style: TextStyle(
                           color: Colors.white,
                           fontSize: 25,
                           fontWeight: FontWeight.w500),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
                     TextField(
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: Colors.white,
                       ),
                       controller: titleController,
                       decoration: InputDecoration(
                         errorText: !validated ? 'Value Can\'t Be Empty' : null,
-                        hintStyle: TextStyle(
+                        hintStyle: const TextStyle(
                           color: Colors.white,
                         ),
-                        enabledBorder: OutlineInputBorder(
+                        enabledBorder: const OutlineInputBorder(
                           borderSide: BorderSide(
                             color: Colors.white,
                           ),
                         ),
-                        focusedBorder: OutlineInputBorder(
+                        focusedBorder: const OutlineInputBorder(
                           borderSide: BorderSide(
                             width: 2,
                             color: Colors.white,
                           ),
                         ),
                         hintText: "Podcast Title",
-                        errorBorder: OutlineInputBorder(
+                        errorBorder: const OutlineInputBorder(
                           borderSide: BorderSide(width: 3, color: Colors.red),
                         ),
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
                     TextField(
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: Colors.white,
                       ),
                       controller: genreController,
                       decoration: InputDecoration(
                         errorText: !validated ? 'Value Can\'t Be Empty' : null,
-                        hintStyle: TextStyle(
+                        hintStyle: const TextStyle(
                           color: Colors.white,
                         ),
-                        enabledBorder: OutlineInputBorder(
+                        enabledBorder: const OutlineInputBorder(
                           borderSide: BorderSide(
                             color: Colors.white,
                           ),
@@ -152,7 +144,7 @@ class _CreatePodcastPageState extends State<CreatePodcastPage> {
                             color: Colors.white,
                           ),
                         ),
-                        hintText: "Podast Description",
+                        hintText: "Podcast Description",
                         errorBorder: OutlineInputBorder(
                           borderSide:
                               BorderSide(width: 3, color: Colors.redAccent),
@@ -167,39 +159,40 @@ class _CreatePodcastPageState extends State<CreatePodcastPage> {
                       children: [
                         ElevatedButton(
                             onPressed: () {
-                              debugPrint(
-                                  genreController.text.isEmpty.toString());
-                              // if (titleController.text.isEmpty ||
-                              //     genreController.text.isEmpty ||
-                              //     descriptionController.text.isEmpty) {
-                              //   setState(() {
-                              //     validated = false;
-                              //   });
-                              // } else {
-                              context
-                                  .read<CreatePodcastBloc>()
-                                  .add(CreateNewPodcastEvent(
-                                    title: titleController.value.text,
-                                    description:
-                                        descriptionController.value.text,
-                                    genre: genreController.value.text,
-                                  ));
-                              Navigator.pop(context);
-                              // }
+                              if (titleController.text.isEmpty ||
+                                  genreController.text.isEmpty ||
+                                  descriptionController.text.isEmpty) {
+                                setState(() {
+                                  validated = false;
+                                });
+                              } else {
+                                context.read<CreatePodcastBloc>().add(
+                                      CreateNewPodcastEvent(
+                                        title: titleController.value.text,
+                                        description:
+                                            descriptionController.value.text,
+                                        genre: genreController.value.text,
+                                      ),
+                                    );
+                              }
                             },
-                            child: Text("Submit")),
+                            child: (state.status.isCreatingPodcast)
+                                ? Center(
+                                    child: CircularProgressIndicator(),
+                                  )
+                                : const Text("Submit")),
                         ElevatedButton(
                           onPressed: () {
                             Navigator.pop(context);
                           },
-                          child: Text("Cancel"),
                           style: ButtonStyle(
                             backgroundColor:
                                 MaterialStateProperty.all(Colors.red),
                           ),
+                          child: const Text("Cancel"),
                         ),
                       ],
-                    )
+                    ),
                   ],
                 ),
               ),

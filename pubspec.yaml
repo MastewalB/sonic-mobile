@@ -41,8 +41,20 @@ dependencies:
   shimmer: ^2.0.0
   flutter_svg: ^1.1.4
   flutter_secure_storage: ^5.1.0
-  anim_search_bar: ^2.0.3
+  path_provider: ^2.0.14
+  permission_handler: ^10.2.0
+  record: ^4.4.4
+  marquee: ^2.2.3
+  cached_network_image: ^3.2.0
   hive: ^2.2.3
+  hive_flutter: ^1.1.0
+  audioplayers: ^0.18.0
+  audio_service: ^0.18.9
+  just_audio: ^0.9.32
+  on_audio_query: ^2.8.1
+  date_field: ^3.0.5
+  country_picker: ^2.0.20
+  anim_search_bar: ^2.0.3
 
 dev_dependencies:
   flutter_test:
@@ -54,6 +66,7 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
+  hive_generator: ^1.1.2
   build_runner: ^2.1.7
 
 # For information on the generic Dart part of this file, see the
@@ -65,13 +78,16 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
-  generate: true
+  generate: false
 
   # To add assets to your application, add an assets section, like this:
   assets:
+    - assets/
     - assets/icons/
     - assets/images/
-  #     - images/a_dot_burr.jpeg
+    - assets/images/avatar.png
+    - assets/images/playlist.png
+  #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

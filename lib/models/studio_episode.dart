@@ -5,7 +5,7 @@ class StudioEpisode implements Audio {
   @override
   final String title;
   final int index;
-  final StudioPodcast podcast;
+  final StudioPodcastInfo podcast;
   final String description;
   final DateTime uploadDate;
   final String file;
@@ -31,9 +31,9 @@ class StudioEpisode implements Audio {
       id: json["id"],
       title: json["title"],
       index: json["index"],
-      podcast: json['podcast'],
+      podcast: StudioPodcastInfo.fromJson(json['podcast']),
       description: json["description"],
-      uploadDate: json["upload_date"],
+      uploadDate: DateTime.parse(json["upload_date"]),
       file: json["file"],
     );
   }

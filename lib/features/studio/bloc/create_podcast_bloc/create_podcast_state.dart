@@ -21,19 +21,22 @@ extension CreatePodcastStatusX on CreatePodcastStatus {
 class CreatePodcastState extends Equatable {
   final CreatePodcastStatus status;
   final StudioPodcast? podcast;
+  final ErrorType errorType;
 
   const CreatePodcastState({
     this.status = CreatePodcastStatus.initial,
+    this.errorType = ErrorType.NONE,
     this.podcast,
   });
 
   @override
-  List<Object?> get props => [status, podcast];
+  List<Object?> get props => [status, podcast, errorType];
 
   CreatePodcastState copyWith(
-      {CreatePodcastStatus? status, StudioPodcast? podcast}) {
+      {CreatePodcastStatus? status, StudioPodcast? podcast, ErrorType? errorType}) {
     return CreatePodcastState(
       status: status ?? this.status,
+      errorType: errorType ?? this.errorType,
       podcast: podcast ?? this.podcast,
     );
   }
