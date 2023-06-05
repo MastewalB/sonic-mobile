@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class Constants {
-  static const String apiUrl = "http://localhost:8000/api/v1/";
+  static const String apiUrl = "http://192.168.200.116:8000/api/v1/";
   static const String refreshTokenUrl = "${apiUrl}token/refresh/";
   static const String accountsUrl = "${apiUrl}accounts/";
   static const String signupUrl = "${accountsUrl}signup/";
@@ -9,7 +9,16 @@ class Constants {
   static const String followUrl = "${apiUrl}follow/";
   static const String musicUrl = "${apiUrl}music/";
   static const String searchUrl = "${apiUrl}search/";
+
+  //Playlist Urls
   static const String playlistUrl = "${apiUrl}playlist/";
+  static const String playlistCreateUrl = "${playlistUrl}create/";
+  static const String getUserPlaylistUrl = "${playlistUrl}user_playlist/";
+  static const String addItemToPlaylistUrl = "${playlistUrl}add/";
+  static const String deleteItemFromPlaylistUrl = "${playlistUrl}remove/";
+  static const String deletePlaylistUrl = "${playlistUrl}delete/";
+
+  //Studio Urls
   static const String studioUrl = "${apiUrl}studio/";
   static const String studioPodcastsUrl = "${apiUrl}studio/podcasts/";
 
@@ -36,8 +45,9 @@ class Constants {
   static const String podcastCreated = "Podcast Created Successfully";
   static const String podcastDeleted = "Podcast Deleted Successfully";
   static const String connectionError = "A Network Problem Occurred";
-  static const String invalidEmailOrPassword = "You entered invalid email or password";
-
+  static const String invalidEmailOrPassword =
+      "You entered invalid email or password";
+  static const String emailAlreadyExists = "Email Address already exists";
 
   //Hive Box Names
   static const String userProfileBoxName = "User";

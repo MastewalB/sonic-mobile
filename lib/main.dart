@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive/hive.dart';
+import 'package:hive_flutter/adapters.dart';
 import 'package:sonic_mobile/core/core.dart';
 import 'package:flutter/services.dart';
 import 'package:sonic_mobile/features/album/presentation/album_page.dart';
@@ -10,6 +11,8 @@ import 'package:sonic_mobile/features/studio/bloc/create_podcast_bloc/create_pod
 import 'package:sonic_mobile/features/studio/presentation/widgets/create_podcast_page.dart';
 import 'package:sonic_mobile/features/studio/presentation/widgets/your_podcasts.dart';
 import 'package:sonic_mobile/features/audio_player/bloc/audio_player_bloc.dart';
+import 'package:sonic_mobile/features/library/bloc/library_bloc/library_bloc.dart';
+import 'package:sonic_mobile/features/library/presentation/library_page.dart';
 import 'package:sonic_mobile/features/studio/bloc/record_bloc/record_bloc.dart';
 import 'package:sonic_mobile/features/studio/presentation/studio_library.dart';
 import 'package:sonic_mobile/dependency_provider.dart';
@@ -24,6 +27,7 @@ import 'package:sonic_mobile/features/auth/auth.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Hive.initFlutter();
   Hive.registerAdapter(UserProfileAdapter());
   final PageRouter pageRouter = PageRouter();
   final messengerKey = GlobalKey<ScaffoldMessengerState>();
@@ -138,18 +142,15 @@ class _SonicState extends State<Sonic> {
     // return MultiBlocProvider(
     //   providers: [
     //     BlocProvider(
-    //       create: (context) => StudioBloc(
-    //         studioRepository: DependencyProvider.getHttpStudioRepository()!,
+    //       create: (context) => LibraryBloc(
+    //         libraryRepository: DependencyProvider.getHttpLibraryProvider()!,
+    //         userProfileRepository:
+    //             DependencyProvider.getUserProfileRepository()!,
     //         notificationCubit: DependencyProvider.getNotificationCubit()!,
-    //       )..add(const GetAllPodcastsByUserEvent(userId: "userId")),
-    //     ),
-    //     BlocProvider(
-    //       create: (context) => RecordBloc(
-    //         notificationCubit: DependencyProvider.getNotificationCubit()!,
-    //       )..add(ListRecordingsEvent()),
+    //       )..add(GetAllPlaylistsByUser()),
     //     ),
     //   ],
-    //   child: const StudioLibrary(),
+    //   child: const LibraryPage(),
     // );
   }
 }
