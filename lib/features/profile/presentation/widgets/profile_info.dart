@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sonic_mobile/core/core.dart';
 import 'package:sonic_mobile/features/profile/bloc/view_profile/profile_bloc.dart';
+import 'package:sonic_mobile/features/profile/presentation/edit_profile_page.dart';
 
 class Profile extends StatelessWidget {
   const Profile({
@@ -70,10 +71,10 @@ class Profile extends StatelessWidget {
                         Text(
                           '${state.profile.firstName} ${state.profile.lastName}',
                           style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.w900,
-                            color: Colors.white,
-                          ),
+                              fontSize: 20,
+                              fontWeight: FontWeight.w900,
+                              color: Colors.white,
+                              overflow: TextOverflow.ellipsis),
                         ),
                         RichText(
                           selectionColor: Colors.white,
@@ -115,6 +116,15 @@ class Profile extends StatelessWidget {
                           ),
                         ),
                       ],
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamed(context, EditProfilePage.routeName);
+                      },
+                      child: Icon(
+                        Icons.edit,
+                        color: Colors.blue,
+                      ),
                     )
                   ],
                 ),

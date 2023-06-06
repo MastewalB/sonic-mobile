@@ -56,7 +56,7 @@ void main() async {
             BlocListener<NotificationCubit, NotificationState>(
                 listener: (context, state) {
               Color? color = (state is NotificationSuccess)
-                  ? Colors.green.shade300
+                  ? Colors.blue
                   : (state is NotificationError)
                       ? Colors.red.shade500
                       : null;
