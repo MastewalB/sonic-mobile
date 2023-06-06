@@ -139,7 +139,7 @@ class _SonicState extends State<Sonic> {
         userProfileRepository: DependencyProvider.getUserProfileRepository()!,
         secureStorage: DependencyProvider.getSecureStorage()!,
       )..add(LoginInitialEvent()),
-      child: const SignUpPage(),
+      child: const LoginPage(),
     );
     // return MultiBlocProvider(
     //   providers: [

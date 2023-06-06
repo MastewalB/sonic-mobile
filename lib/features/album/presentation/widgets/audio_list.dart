@@ -165,11 +165,19 @@ class AudioListWidget extends StatelessWidget {
                           SizedBox(
                             width: 20,
                           ),
-                          CardSmall(
+                          Expanded(
+                              child: CardSmall(
                             title: songs[index].title,
                             duration: "03:12",
                             // image: 'assets/music_icon_image.jpg',
-                          ),
+                          )),
+                          IconButton(
+                            color: Colors.white,
+                            icon: Icon(Icons.more_vert),
+                            onPressed: () {
+                              print(songs[index].title);
+                            },
+                          )
                         ],
                       ),
                     ),
