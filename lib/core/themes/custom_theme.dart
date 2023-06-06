@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 class CustomTheme {
   static ThemeData get DarkTheme {
     return ThemeData(
+      
       primaryColor: Colors.purple.shade400,
       scaffoldBackgroundColor: const Color.fromARGB(255, 20, 20, 30),
       snackBarTheme: SnackBarThemeData(

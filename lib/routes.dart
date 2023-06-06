@@ -68,6 +68,7 @@ class PageRouter {
         return MaterialPageRoute(builder: (context) {
           return const LocalSongs();
         });
+        
       case PlayerPage.routeName:
         return MaterialPageRoute(builder: (context) {
           return const PlayerPage();

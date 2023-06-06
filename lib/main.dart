@@ -4,10 +4,15 @@ import 'package:hive/hive.dart';
 import 'package:sonic_mobile/core/core.dart';
 import 'package:flutter/services.dart';
 import 'package:sonic_mobile/features/audio_player/bloc/audio_player_bloc.dart';
+import 'package:sonic_mobile/features/profile.dart';
 import 'package:sonic_mobile/features/studio/bloc/record_bloc/record_bloc.dart';
 import 'package:sonic_mobile/features/studio/presentation/studio_library.dart';
 import 'package:sonic_mobile/dependency_provider.dart';
 import 'package:sonic_mobile/routes.dart';
+import 'package:sonic_mobile/screens/desktopProfile.dart';
+import 'package:sonic_mobile/screens/desktop_home.dart';
+import 'package:sonic_mobile/screens/profile_screen.dart';
+import 'components/side_menu.dart';
 import 'features/auth/blocs/signup_bloc/signup_bloc.dart';
 import 'features/auth/models/user_profile.dart';
 import 'features/studio/bloc/studio_bloc/studio_bloc.dart';
@@ -116,17 +121,28 @@ class _SonicState extends State<Sonic> {
   Widget build(BuildContext context) {
     MediaQueryManager.init(context);
 
-    return BlocProvider(
-      create: (context) => SignupBloc(
-        authenticationRepository:
-        DependencyProvider.getHttpAuthenticationRepository()!,
-        notificationCubit: DependencyProvider.getNotificationCubit()!,
-        userProfileRepository:
-        DependencyProvider.getUserProfileRepository()!,
-        secureStorage: DependencyProvider.getSecureStorage()!,
-      ),
-      child: const SignUpPage(),
-    );
+      return Scaffold(
+      body: SafeArea(
+        child: Row(children: [ 
+          Expanded(
+            child: SideMenu(),
+            ),
+          Expanded(
+            flex: 5,
+            child: ProfileScreen(),)
+        ],),)
+        );
+    // return BlocProvider(
+    //   create: (context) => SignupBloc(
+    //     authenticationRepository:
+    //     DependencyProvider.getHttpAuthenticationRepository()!,
+    //     notificationCubit: DependencyProvider.getNotificationCubit()!,
+    //     userProfileRepository:
+    //     DependencyProvider.getUserProfileRepository()!,
+    //     secureStorage: DependencyProvider.getSecureStorage()!,
+    //   ),
+    //   child: const StudioLibrary(),
+    // );
     // return MultiBlocProvider(
     //   providers: [
     //     BlocProvider(

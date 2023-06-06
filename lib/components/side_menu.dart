@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:easy_sidemenu/easy_sidemenu.dart';
+import 'package:sonic_mobile/features/studio/presentation/studio_library.dart';
+
+import '../features/studio/presentation/record_page.dart';
 
 class SideMenu extends StatelessWidget {
   const SideMenu({
@@ -19,13 +23,19 @@ class SideMenu extends StatelessWidget {
           DrawerListTile(
             title: "Home",
             svgSrc: "assets/images/home.svg",
-            press:() {},
+            press:() {
+              Navigator.pushNamed(
+                  context,
+                  RecordPage.routeName,
+                );
+            },
       
           ),
           DrawerListTile(
             title: "Search",
             svgSrc: "assets/icons/Search.svg",
-            press:() {},
+            press:() {
+            },
       
           ),
           DrawerListTile(
