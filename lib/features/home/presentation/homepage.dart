@@ -8,6 +8,7 @@ import 'package:sonic_mobile/features/home/bloc/song/song_bloc.dart';
 import 'package:sonic_mobile/features/home/presentation/widgets/album_display_block.dart';
 import 'package:sonic_mobile/features/home/repository/http_home_repository.dart';
 import 'package:sonic_mobile/features/home/bloc/album/album_bloc.dart';
+import 'package:sonic_mobile/features/profile/presentation/profile.dart';
 import 'package:sonic_mobile/features/search/presentation/search_page.dart';
 import 'package:sonic_mobile/features/search/presentation/widgets/search_bar.dart';
 import 'widgets/catchphrase.dart';
@@ -24,13 +25,19 @@ class Homepage extends StatelessWidget {
     final songRepository = HomeDataProvider(httpClient: http.Client());
     return SafeArea(
         child: Scaffold(
-            backgroundColor: const Color.fromARGB(255, 31, 29, 43),
+            backgroundColor: Colors.black,
             body: ListView(
               children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 32.0),
-                  child: Header(
-                    profileName: 'Labile',
+                GestureDetector(
+                  onTap: () {
+                    Navigator.pushReplacementNamed(
+                        context, ProfilePage.routeName);
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 32.0),
+                    child: Header(
+                      profileName: 'Labile',
+                    ),
                   ),
                 ),
                 CatchPhrase(

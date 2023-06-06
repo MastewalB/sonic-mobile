@@ -47,7 +47,7 @@ class _CatchPhraseState extends State<CatchPhrase>
           child: Text(
             widget.text,
             style: const TextStyle(
-              color: Color.fromARGB(255, 209, 147, 147),
+              color: Colors.blue,
               fontSize: 33.0,
               fontWeight: FontWeight.w600,
             ),

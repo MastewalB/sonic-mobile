@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sonic_mobile/core/core.dart';
-import '../features/responsive.dart';
+import 'package:sonic_mobile/features/profile/bloc/view_profile/profile_bloc.dart';
+import 'package:sonic_mobile/features/profile/presentation/widgets/profile_info.dart';
+import 'responsive.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import '';
 
 class PlaylistInfoCard extends StatelessWidget {
   const PlaylistInfoCard({
@@ -113,6 +115,7 @@ List demoPlaylistFiles = [
 ];
 
 class ProfilePage extends StatelessWidget {
+  static const String routeName = "profile";
   const ProfilePage({Key? key}) : super(key: key);
 
   @override
@@ -120,131 +123,15 @@ class ProfilePage extends StatelessWidget {
     return Scaffold(
         body: SafeArea(
       child: Column(
-        children: [
+        children: const [
           Profile(),
 
-          Expanded(child: PlaylistLists())
+          // const Expanded(child: PlaylistLists())
 
           //Place to add the bottom dashboard
         ],
       ),
     ));
-  }
-}
-
-class Profile extends StatelessWidget {
-  const Profile({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      alignment: Alignment.topCenter,
-      padding: EdgeInsets.all(Constants.defaultPadding),
-      decoration: BoxDecoration(
-        color: Constants.secondaryColor,
-        borderRadius: const BorderRadius.all(Radius.circular(10)),
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Padding(
-                padding: EdgeInsets.fromLTRB(10, 10, 40, 0),
-                child: Column(
-                  children: [
-                    Container(
-                        alignment: Alignment.topCenter,
-                        child: Container(
-                          decoration: const BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Color(0xFFffffff),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.blueGrey,
-                                blurRadius: 1.0, // soften the shadow
-                                spreadRadius: 5.0, //extend the shadow
-                              )
-                            ],
-                          ),
-                          child: CircleAvatar(
-                            backgroundImage:
-                                AssetImage('assets/images/avatar.png'),
-                            radius: 50,
-                          ),
-                        )),
-                  ],
-                ),
-              ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Profile",
-                    style: TextStyle(
-                      fontSize: 10,
-                      fontWeight: FontWeight.w800,
-                      color: Colors.white,
-                    ),
-                  ),
-                  Text(
-                    "Luhana Daniel",
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w900,
-                      color: Colors.white,
-                    ),
-                  ),
-                  RichText(
-                    selectionColor: Colors.white,
-                    text: TextSpan(
-                      text: ".8",
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w100,
-                        color: Colors.white,
-                      ),
-                      children: [
-                        TextSpan(
-                          text: ' Followers   ',
-                          style: TextStyle(
-                            fontFamily: 'courier',
-                            fontSize: 14,
-                            color: Colors.white,
-                          ),
-                        ),
-                        TextSpan(
-                          text: '.13',
-                          style: TextStyle(
-                            fontFamily: 'courier',
-                            fontSize: 14,
-                            fontWeight: FontWeight.w800,
-                            color: Colors.white,
-                          ),
-                        ),
-                        TextSpan(
-                          text: ' Following',
-                          style: TextStyle(
-                            fontFamily: 'courier',
-                            fontSize: 14,
-                            fontWeight: FontWeight.w100,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              )
-            ],
-          ),
-        ],
-      ),
-    );
   }
 }
 

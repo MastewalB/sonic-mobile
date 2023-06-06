@@ -8,6 +8,8 @@ import 'package:sonic_mobile/features/library/bloc/playlist_bloc/playlist_bloc.d
 import 'package:sonic_mobile/features/library/presentation/library_page.dart';
 import 'package:sonic_mobile/features/library/presentation/playlist_detail_page.dart';
 import 'package:sonic_mobile/features/library/presentation/widgets/screen_arguments.dart';
+import 'package:sonic_mobile/features/profile/bloc/view_profile/profile_bloc.dart';
+import 'package:sonic_mobile/features/profile/presentation/profile.dart';
 import 'package:sonic_mobile/features/search/presentation/widgets/search_view.dart';
 import 'package:sonic_mobile/features/studio/bloc/podcast_detail_bloc/podcast_detail_bloc.dart';
 import 'package:sonic_mobile/features/studio/bloc/studio_bloc/studio_bloc.dart';
@@ -38,6 +40,16 @@ import 'package:sonic_mobile/features/library/presentation/your_playlist_page.da
 class PageRouter {
   Route<dynamic>? generateRoute(RouteSettings routeSettings) {
     switch (routeSettings.name) {
+      case ProfilePage.routeName:
+        return MaterialPageRoute(builder: (context) {
+          return BlocProvider(
+            create: (context) => ProfileBloc(
+              userProfileRepository:
+                  DependencyProvider.getUserProfileRepository()!,
+            )..add(LoadProfile()),
+            child: const ProfilePage(),
+          );
+        });
       case Homepage.routeName:
         return MaterialPageRoute(builder: (context) {
           return const Homepage();

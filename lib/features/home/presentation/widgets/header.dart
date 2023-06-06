@@ -10,7 +10,7 @@ class Header extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-      color: Color.fromARGB(255, 209, 147, 147),
+      color: Colors.transparent,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -24,6 +24,7 @@ class Header extends StatelessWidget {
               const Text(
                 'Sonic',
                 style: TextStyle(
+                  color: Colors.white,
                   fontSize: 20.0,
                   fontWeight: FontWeight.w600,
                 ),
@@ -40,6 +41,7 @@ class Header extends StatelessWidget {
               Text(
                 profileName,
                 style: const TextStyle(
+                  color: Colors.white,
                   fontSize: 16.0,
                   fontWeight: FontWeight.w600,
                 ),
