@@ -5,8 +5,10 @@ import 'package:hive_flutter/adapters.dart';
 import 'package:sonic_mobile/core/core.dart';
 import 'package:flutter/services.dart';
 import 'package:sonic_mobile/features/album/presentation/album_page.dart';
+import 'package:sonic_mobile/features/auth/blocs/login_bloc/login_bloc.dart';
 import 'package:sonic_mobile/features/home/presentation/homepage.dart';
 import 'package:sonic_mobile/features/studio/bloc/create_podcast_bloc/create_podcast_bloc.dart';
+
 // import 'package:sonic_mobile/features/studio/presentation/record_page.dart';
 import 'package:sonic_mobile/features/studio/presentation/widgets/create_podcast_page.dart';
 import 'package:sonic_mobile/features/studio/presentation/widgets/your_podcasts.dart';
@@ -130,13 +132,13 @@ class _SonicState extends State<Sonic> {
     MediaQueryManager.init(context);
 
     return BlocProvider(
-      create: (context) => SignupBloc(
+      create: (context) => LoginBloc(
         authenticationRepository:
             DependencyProvider.getHttpAuthenticationRepository()!,
         notificationCubit: DependencyProvider.getNotificationCubit()!,
         userProfileRepository: DependencyProvider.getUserProfileRepository()!,
         secureStorage: DependencyProvider.getSecureStorage()!,
-      )..add(SignUpInitialEvent()),
+      )..add(LoginInitialEvent()),
       child: const SignUpPage(),
     );
     // return MultiBlocProvider(

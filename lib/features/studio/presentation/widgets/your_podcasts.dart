@@ -88,13 +88,29 @@ class YourPodcastsPage extends StatelessWidget {
           );
         }
         if (state.status.isLoaded && state.podcasts.isEmpty) {
-          return const Scaffold(
+          return Scaffold(
             body: Center(
-              child: Text(
-                "Your Podcasts will appear Here.",
-                style: TextStyle(
-                  color: Colors.white,
-                ),
+              child: Column(
+                children: [
+                  const Text(
+                    "Your Podcasts will appear Here.",
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                  RawMaterialButton(
+                    onPressed: () {},
+                    elevation: 2.0,
+                    fillColor: const Color.fromARGB(255, 60, 60, 70),
+                    padding: const EdgeInsets.all(15.0),
+                    shape: const CircleBorder(),
+                    child: const Icon(
+                      Icons.add,
+                      color: Colors.white,
+                      size: 30.0,
+                    ),
+                  )
+                ],
               ),
             ),
           );

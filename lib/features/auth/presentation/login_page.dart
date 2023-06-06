@@ -25,13 +25,13 @@ class _LoginPageState extends State<LoginPage> {
 
     return BlocBuilder<LoginBloc, LoginState>(
       builder: (context, state) {
-        if (state.status.isSuccess) {
+        if (state.status.isSuccess || state.status.isUserExists) {
           WidgetsBinding.instance.addPostFrameCallback((_) {
             Navigator.pushReplacementNamed(context, LibraryPage.routeName);
           });
         }
 
-        if (state.status.isLoading) {
+        if (state.status.isLoading || state.status.isInitial) {
           return const Scaffold(
             body: Center(child: CircularProgressIndicator()),
           );
