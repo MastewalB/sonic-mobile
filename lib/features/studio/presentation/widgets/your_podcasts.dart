@@ -88,7 +88,36 @@ class YourPodcastsPage extends StatelessWidget {
           );
         }
         if (state.status.isLoaded && state.podcasts.isEmpty) {
-          return const Scaffold(
+          return Scaffold(
+            appBar: AppBar(
+              title: const Text("Your Podcasts"),
+              actions: [
+                PopupMenuButton(
+                  onSelected: (value) {
+                    switch (value.toString()) {
+                      case "create":
+                        Navigator.pushNamed(
+                          context,
+                          CreatePodcastPage.routeName,
+                        );
+                    }
+                  },
+                  itemBuilder: (BuildContext context) {
+                    return const [
+                      PopupMenuItem(
+                        child: Text(
+                          "Create a New Podcast",
+                          style: TextStyle(
+                            color: Colors.white,
+                          ),
+                        ),
+                        value: "create",
+                      ),
+                    ];
+                  },
+                )
+              ],
+            ),
             body: Center(
               child: Text(
                 "Your Podcasts will appear Here.",

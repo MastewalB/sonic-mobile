@@ -30,7 +30,7 @@ class _LoginPageState extends State<LoginPage> {
           });
         }
 
-        if (state.status.isLoading) {
+        if (state.status.isLoading || state.status.isInitial) {
           return const Scaffold(
             body: Center(child: CircularProgressIndicator()),
           );
