@@ -1,6 +1,6 @@
 part of 'login_bloc.dart';
 
-enum LoginStatus { initial, loading, loaded, success, error }
+enum LoginStatus { initial, loading, loaded, success, userExists, error }
 
 extension LoginStatusX on LoginStatus {
   bool get isInitial => this == LoginStatus.initial;
@@ -10,6 +10,8 @@ extension LoginStatusX on LoginStatus {
   bool get isLoaded => this == LoginStatus.loaded;
 
   bool get isSuccess => this == LoginStatus.success;
+
+  bool get isUserExists => this == LoginStatus.userExists;
 
   bool get isError => this == LoginStatus.error;
 }
