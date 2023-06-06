@@ -27,8 +27,8 @@ class _LocalSongsState extends State<LocalSongs> {
     //  * XCode: Debug Console
     //  * VsCode: Debug Console
     //  * Android Studio: Debug and Logcat Console
-    LogConfig logConfig = LogConfig(logType: LogType.DEBUG);
-    _audioQuery.setLogConfig(logConfig);
+    // LogConfig logConfig = LogConfig(logType: LogType.DEBUG);
+    // _audioQuery.setLogConfig(logConfig);
 
     // Check and request for permission.
     checkAndRequestPermissions();

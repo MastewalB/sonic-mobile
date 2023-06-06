@@ -12,8 +12,7 @@ class AuthenticatedHttpClient extends http.BaseClient {
   });
 
   String inMemoryAccessToken = '';
-  String inMemoryRefreshToken =
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTY4NTMzODgyMiwiaWF0IjoxNjgyNzQ2ODIyLCJqdGkiOiIyMTcyNTA1M2VmMGQ0MzM3ODA5YTQwNDJjODZkMGI3YyIsInVzZXJfaWQiOiIxODI0Y2E2NC0wMDJkLTRlOTItODIyZS02ZDAwYWJjZmE1MjQiLCJUT0tFTl9UWVBFX0NMQUlNIjoiYWNjZXNzIn0.kQtLn7ICGL9mHuXasu-bStseS-FZ3kETdx9kj1yvM0Q';
+  String inMemoryRefreshToken = '';
 
   Future<String> get accessToken async {
     if (inMemoryAccessToken.isNotEmpty) return inMemoryAccessToken;

@@ -4,12 +4,17 @@ abstract class StudioEvent extends Equatable {
   const StudioEvent();
 }
 
-class GetAllPodcastsByUserEvent extends StudioEvent {
-  final String userId;
+class StudioInitialEvent extends StudioEvent{
+  @override
+  List<Object?> get props => [];
+}
 
-  const GetAllPodcastsByUserEvent({
-    required this.userId,
-  });
+class GetAllPodcastsByUserEvent extends StudioEvent {
+  // final String userId;
+  //
+  // const GetAllPodcastsByUserEvent({
+  //   required this.userId,
+  // });
 
   @override
   List<Object?> get props => [];

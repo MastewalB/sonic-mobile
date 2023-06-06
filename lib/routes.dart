@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sonic_mobile/dependency_provider.dart';
+import 'package:sonic_mobile/features/auth/auth.dart';
 import 'package:sonic_mobile/features/studio/bloc/podcast_detail_bloc/podcast_detail_bloc.dart';
 import 'package:sonic_mobile/features/studio/bloc/studio_bloc/studio_bloc.dart';
 import 'package:sonic_mobile/features/studio/presentation/local_songs.dart';
@@ -12,6 +13,10 @@ import 'package:sonic_mobile/features/studio/presentation/widgets/list_songs.dar
 import 'package:sonic_mobile/features/studio/presentation/widgets/screen_arguments.dart';
 import 'package:sonic_mobile/features/studio/presentation/widgets/update_podcast_page.dart';
 import 'package:sonic_mobile/features/studio/presentation/widgets/your_podcasts.dart';
+import 'package:sonic_mobile/features/auth/blocs/signup_bloc/signup_bloc.dart';
+import 'package:sonic_mobile/features/auth/blocs/login_bloc/login_bloc.dart';
+import 'package:sonic_mobile/features/auth/presentation/signup_page.dart';
+import 'package:sonic_mobile/features/auth/presentation/login_page.dart';
 
 import 'features/audio_player/presentation/player_page.dart';
 import 'features/studio/bloc/create_podcast_bloc/create_podcast_bloc.dart';
@@ -22,6 +27,34 @@ import 'features/studio/presentation/widgets/create_episode_page.dart';
 class PageRouter {
   Route<dynamic>? generateRoute(RouteSettings routeSettings) {
     switch (routeSettings.name) {
+      case SignUpPage.routeName:
+        return MaterialPageRoute(builder: (context) {
+          return BlocProvider(
+            create: (context) => SignupBloc(
+              authenticationRepository:
+                  DependencyProvider.getHttpAuthenticationRepository()!,
+              notificationCubit: DependencyProvider.getNotificationCubit()!,
+              userProfileRepository:
+                  DependencyProvider.getUserProfileRepository()!,
+              secureStorage: DependencyProvider.getSecureStorage()!,
+            ),
+            child: const SignUpPage(),
+          );
+        });
+      case LoginPage.routeName:
+        return MaterialPageRoute(builder: (context) {
+          return BlocProvider(
+            create: (context) => LoginBloc(
+              authenticationRepository:
+                  DependencyProvider.getHttpAuthenticationRepository()!,
+              notificationCubit: DependencyProvider.getNotificationCubit()!,
+              userProfileRepository:
+                  DependencyProvider.getUserProfileRepository()!,
+              secureStorage: DependencyProvider.getSecureStorage()!,
+            ),
+            child: const LoginPage(),
+          );
+        });
       case FolderSongs.routeName:
         FolderSongsArguments folderSongsArguments =
             routeSettings.arguments as FolderSongsArguments;
@@ -45,8 +78,9 @@ class PageRouter {
             create: (context) => StudioBloc(
               studioRepository: DependencyProvider.getHttpStudioRepository()!,
               notificationCubit: DependencyProvider.getNotificationCubit()!,
-            )..add(const GetAllPodcastsByUserEvent(userId: "userId")),
-            child: YourPodcastsPage(),
+              userProfileRepository: DependencyProvider.getUserProfileRepository()!,
+            )..add(GetAllPodcastsByUserEvent()),
+            child: const YourPodcastsPage(),
           );
         });
       case RecordingListPage.routeName:
@@ -79,7 +113,8 @@ class PageRouter {
                         DependencyProvider.getHttpStudioRepository()!,
                     notificationCubit:
                         DependencyProvider.getNotificationCubit()!,
-                  )..add(const GetAllPodcastsByUserEvent(userId: "userId")),
+                    userProfileRepository: DependencyProvider.getUserProfileRepository()!,
+                  )..add(GetAllPodcastsByUserEvent()),
                 ),
                 BlocProvider(
                   create: (context) => RecordBloc(

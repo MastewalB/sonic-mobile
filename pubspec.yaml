@@ -53,6 +53,8 @@ dependencies:
   audio_service: ^0.18.9
   just_audio: ^0.9.32
   on_audio_query: ^2.8.1
+  date_field: ^3.0.5
+  country_picker: ^2.0.20
 
 
 dev_dependencies:
@@ -78,7 +80,7 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
-  generate: true
+  generate: false
 
   # To add assets to your application, add an assets section, like this:
   assets:
