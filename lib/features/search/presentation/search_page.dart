@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sonic_mobile/features/search/presentation/widgets/search_bar.dart';
+import 'package:sonic_mobile/features/search/presentation/widgets/search_bar.dart' as SonicSearchBar;
 
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});
@@ -13,7 +13,7 @@ class _SearchPageState extends State<SearchPage> {
   Widget build(BuildContext context) {
     return const Scaffold(
         backgroundColor: Color.fromARGB(255, 31, 29, 43),
-        body: SafeArea(child: SearchBar()));
+        body: SafeArea(child: SonicSearchBar.SearchBar()));
 
     // return Scaffold(
     //   appBar: AppBar(

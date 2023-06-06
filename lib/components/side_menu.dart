@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:easy_sidemenu/easy_sidemenu.dart';
+import 'package:sonic_mobile/core/constants/colors.dart';
+import 'package:sonic_mobile/features/library/presentation/library_page.dart';
 import 'package:sonic_mobile/features/studio/presentation/studio_library.dart';
 
 import '../features/studio/presentation/record_page.dart';
@@ -14,6 +16,7 @@ class SideMenu extends StatelessWidget {
   Widget build(BuildContext context) {
     return Drawer
     (
+      backgroundColor: secondaryColor,
       child: SingleChildScrollView(
         child: Column(
           
@@ -35,6 +38,10 @@ class SideMenu extends StatelessWidget {
             title: "Search",
             svgSrc: "assets/icons/Search.svg",
             press:() {
+              Navigator.pushNamed(
+                  context,
+                  LibraryPage.routeName,
+                );
             },
       
           ),

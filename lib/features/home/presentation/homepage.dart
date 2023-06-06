@@ -10,7 +10,7 @@ import 'package:sonic_mobile/features/home/repository/http_home_repository.dart'
 import 'package:sonic_mobile/features/home/bloc/album/album_bloc.dart';
 import 'package:sonic_mobile/features/profile/presentation/profile.dart';
 import 'package:sonic_mobile/features/search/presentation/search_page.dart';
-import 'package:sonic_mobile/features/search/presentation/widgets/search_bar.dart';
+import 'package:sonic_mobile/features/search/presentation/widgets/search_bar.dart' as SonicSearchBar;
 import 'widgets/catchphrase.dart';
 import 'widgets/header.dart';
 import 'widgets/display_blocks.dart';
@@ -43,7 +43,7 @@ class Homepage extends StatelessWidget {
                 CatchPhrase(
                   text: "The Ultimate Sound",
                 ),
-                SearchBar(),
+                SonicSearchBar.SearchBar(),
                 BlocProvider<SongBloc>(
                   create: (context) => SongBloc(songRepository),
                   child: Builder(

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../core/constants/colors.dart';
-import '../features/responsive.dart';
+import '../features/profile/presentation/responsive.dart';
 import '../models/FollowerLists.dart';
 import 'follower_info_card.dart';
 

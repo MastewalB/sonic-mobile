@@ -14,16 +14,23 @@ class PlaylistFiles extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(defaultPadding),
       decoration: BoxDecoration(
-        color: secondaryColor,
-        borderRadius: const BorderRadius.all(Radius.circular(10)),
+        color: thirdColor,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            "Playlist Files",
-            style: Theme.of(context).textTheme.titleMedium,
-          ),
+          Padding
+                  (padding: EdgeInsets.fromLTRB(15, 4, 0, 15),
+                    
+                      child: IconButton(
+                        onPressed: (){},
+                        icon: SvgPicture.asset('assets/icons/playbutton.svg',
+                        color: Colors.white,),
+                        iconSize: 55,
+            ),
+                    
+                  ),
+          
           SizedBox(
             width: double.infinity,
             child: DataTable(
@@ -31,16 +38,29 @@ class PlaylistFiles extends StatelessWidget {
               // minWidth: 600,
               columns: [
                 DataColumn(
-                  label: Text("#"),
+                  label: Text("#",
+                  style: TextStyle(
+                    color: Color.fromRGBO(255, 255, 255, 0.604),
+                  ),)
+                  ,
                 ),
                 DataColumn(
-                  label: Text("Title"),
+                  label: Text("Title",
+                  style: TextStyle(
+                    color: Color.fromRGBO(255, 255, 255, 0.604),
+                  ),),
                 ),
                 DataColumn(
-                  label: Text("Date"),
+                  label: Text("Date",
+                  style: TextStyle(
+                    color: Color.fromRGBO(255, 255, 255, 0.604),
+                  ),),
                 ),
                 DataColumn(
-                  label: Text("Duration"),
+                  label: Text("Duration",
+                  style: TextStyle(
+                    color: Color.fromRGBO(255, 255, 255, 0.604),
+                  ),),
                 ),
               ],
               rows: List.generate(
@@ -58,7 +78,10 @@ class PlaylistFiles extends StatelessWidget {
 DataRow recentFileDataRow(PlaylistDetails fileInfo) {
   return DataRow(
     cells: [
-      DataCell(Text("1")),
+      DataCell(Text("1",
+      style: TextStyle(
+                    color: Colors.white,
+                  ),)),
       DataCell(
         Row(
           children: [
@@ -66,16 +89,26 @@ DataRow recentFileDataRow(PlaylistDetails fileInfo) {
               fileInfo.icon!,
               height: 30,
               width: 30,
+              color: Colors.white,
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: defaultPadding),
-              child: Text(fileInfo.title!),
+              child: Text(fileInfo.title!,
+              style: TextStyle(
+                    color: Colors.white,
+                  ),),
             ),
           ],
         ),
       ),
-      DataCell(Text(fileInfo.date!)),
-      DataCell(Text(fileInfo.duration!)),
+      DataCell(Text(fileInfo.date!,
+      style: TextStyle(
+                    color: Colors.white,
+                  ),)),
+      DataCell(Text(fileInfo.duration!,
+      style: TextStyle(
+                    color: Colors.white,
+                  ),)),
     ],
   );
 }

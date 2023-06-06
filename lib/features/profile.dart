@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter_svg/svg.dart';
-import '../core/constants/colors.dart';
-import '../features/profile.dart';
-import '../features/profile/presentation/responsive.dart';
+import 'package:sonic_mobile/core/core.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+
+import '../screens/responsive.dart';
+
 
 class PlaylistInfoCard extends StatelessWidget {
   const PlaylistInfoCard({
@@ -16,9 +18,9 @@ class PlaylistInfoCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(defaultPadding),
+      padding: EdgeInsets.all(Constants.defaultPadding),
       decoration: BoxDecoration(
-        color: secondaryColor,
+        color: Constants.secondaryColor,
         borderRadius: const BorderRadius.all(Radius.circular(10)),
       ),
       child: Column(
@@ -29,18 +31,17 @@ class PlaylistInfoCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Container(
-                padding: EdgeInsets.all(defaultPadding * 0.75),
-                height: 120,
-                width: 120,
-                decoration: BoxDecoration(
-                  borderRadius: const BorderRadius.all(Radius.circular(0)),
-                ),
-                child: CircleAvatar(
-                          backgroundImage: AssetImage('assets/images/playlist.png'),
-                          radius: 100,
-                        )
-              ),
-                          ],
+                  padding: EdgeInsets.all(Constants.defaultPadding * 0.75),
+                  height: 120,
+                  width: 120,
+                  decoration: BoxDecoration(
+                    borderRadius: const BorderRadius.all(Radius.circular(0)),
+                  ),
+                  child: CircleAvatar(
+                    backgroundImage: AssetImage('assets/images/playlist.png'),
+                    radius: 100,
+                  )),
+            ],
           ),
           Text(
             info.title!,
@@ -54,14 +55,18 @@ class PlaylistInfoCard extends StatelessWidget {
               fontWeight: FontWeight.w300,
             ),
           ),
-          
-          
         ],
       ),
     );
   }
 }
 
+///to be deleted when correctly replaced
+class PlaylistFile {
+  final String? icon, title, album, date, duration;
+
+  PlaylistFile({this.icon, this.title, this.album, this.date, this.duration});
+}
 
 List demoPlaylistFiles = [
   PlaylistFile(
@@ -106,10 +111,10 @@ List demoPlaylistFiles = [
     date: "01-03-2021",
     duration: "3:15",
   ),
-  
 ];
-class DesktopProfile extends StatelessWidget {
-  const DesktopProfile({Key? key}) : super(key: key);
+
+class ProfilePage extends StatelessWidget {
+  const ProfilePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -117,20 +122,16 @@ class DesktopProfile extends StatelessWidget {
         body: SafeArea(
       child: Column(
         children: [
-           Profile(),
-          
-          Expanded(child: 
-            PlaylistLists())
+          Profile(),
+
+          Expanded(child: PlaylistLists())
 
           //Place to add the bottom dashboard
-          
         ],
       ),
     ));
   }
 }
-
-
 
 class Profile extends StatelessWidget {
   const Profile({
@@ -141,9 +142,9 @@ class Profile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       alignment: Alignment.topCenter,
-      padding: EdgeInsets.all(defaultPadding),
+      padding: EdgeInsets.all(Constants.defaultPadding),
       decoration: BoxDecoration(
-        color: secondaryColor,
+        color: Constants.secondaryColor,
         borderRadius: const BorderRadius.all(Radius.circular(10)),
       ),
       child: Column(
@@ -188,11 +189,16 @@ class Profile extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 10,
                       fontWeight: FontWeight.w800,
+                      color: Colors.white,
                     ),
                   ),
                   Text(
                     "Luhana Daniel",
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w900),
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w900,
+                      color: Colors.white,
+                    ),
                   ),
                   RichText(
                     selectionColor: Colors.white,
@@ -243,11 +249,6 @@ class Profile extends StatelessWidget {
   }
 }
 
-
-       
-
-  
-
 class PlaylistLists extends StatelessWidget {
   const PlaylistLists({
     Key? key,
@@ -261,21 +262,20 @@ class PlaylistLists extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Padding
-            (
+            Padding(
               padding: EdgeInsets.all(10),
               child: Text(
-                
                 "Playlists",
                 style: TextStyle(
-                      fontSize: 22,
-                      fontWeight: FontWeight.w800,
-                    ),
+                  fontSize: 22,
+                  fontWeight: FontWeight.w800,
+                  color: Colors.white,
+                ),
               ),
             ),
           ],
         ),
-        SizedBox(height: defaultPadding),
+        SizedBox(height: Constants.defaultPadding),
         Responsive(
           mobile: PlaylistInfoCardGridView(
             crossAxisCount: _size.width < 650 ? 2 : 4,
@@ -305,22 +305,28 @@ class PlaylistInfoCardGridView extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       height: 400,
-      child:  ListView.builder(
-                itemCount: demoPlaylistFiles.length,
-                itemBuilder: (context, index) {
-                  final playlist = demoPlaylistFiles[index];
-                  return ListTile(
-                    leading: Image.asset('assets/images/playlist.png'),
-                    title: Text(playlist.title),
-                    subtitle: Text('22 Songs',
-                    style: TextStyle(
-                      fontWeight: FontWeight.w800,
-                      color: Color.fromARGB(255, 156, 163, 167),
-                    ),),
-                  );
-                },
+      child: ListView.builder(
+        itemCount: demoPlaylistFiles.length,
+        itemBuilder: (context, index) {
+          final playlist = demoPlaylistFiles[index];
+          return ListTile(
+            leading: Image.asset('assets/images/playlist.png'),
+            title: Text(
+              playlist.title,
+              style: TextStyle(
+                color: Colors.white,
               ),
-      );
-    
+            ),
+            subtitle: Text(
+              '22 Songs',
+              style: TextStyle(
+                fontWeight: FontWeight.w800,
+                color: Color.fromARGB(255, 156, 163, 167),
+              ),
+            ),
+          );
+        },
+      ),
+    );
   }
 }

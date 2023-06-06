@@ -204,6 +204,7 @@ class PageRouter {
             );
           },
         );
+        
       case PodcastDetailPage.routeName:
         final PodcastScreenArgument podcastScreenArgument =
             routeSettings.arguments as PodcastScreenArgument;
