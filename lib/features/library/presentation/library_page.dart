@@ -5,7 +5,10 @@ import 'package:marquee/marquee.dart';
 import 'package:sonic_mobile/features/audio_player/bloc/audio_player_bloc.dart';
 import 'package:sonic_mobile/features/audio_player/presentation/player_page.dart';
 import 'package:flutter/material.dart';
+import 'package:sonic_mobile/features/home/presentation/homepage.dart';
 import 'package:sonic_mobile/features/library/presentation/your_playlist_page.dart';
+import 'package:sonic_mobile/features/search/presentation/widgets/search_view.dart';
+import 'package:sonic_mobile/features/studio/presentation/studio_library.dart';
 import 'package:sonic_mobile/routes.dart';
 import 'package:sonic_mobile/features/audio_player/presentation/widgets/time_slider.dart';
 
@@ -23,10 +26,28 @@ class _LibraryPageState extends State<LibraryPage> {
   final PageRouter pageRouter = PageRouter();
 
   final _yourPlaylistPageKey = GlobalKey<NavigatorState>();
+  final _homePageKey = GlobalKey<NavigatorState>();
+  final _searchPageKey = GlobalKey<NavigatorState>();
 
   Future<bool> _onPlaylistWillPop() async {
     if (_yourPlaylistPageKey.currentState != null) {
       _yourPlaylistPageKey.currentState!.maybePop();
+      return false;
+    }
+    return true;
+  }
+
+  Future<bool> _onHomeWillPop() async {
+    if (_homePageKey.currentState != null) {
+      _homePageKey.currentState!.maybePop();
+      return false;
+    }
+    return true;
+  }
+
+  Future<bool> _onSearchWillPop() async {
+    if (_searchPageKey.currentState != null) {
+      _searchPageKey.currentState!.maybePop();
       return false;
     }
     return true;
@@ -41,9 +62,53 @@ class _LibraryPageState extends State<LibraryPage> {
     );
 
     return Scaffold(
+      drawer: Drawer(
+        backgroundColor: Colors.black,
+        child: Column(children: [
+          SizedBox(
+            height: 80,
+          ),
+          ListTile(
+            title: const Text(
+              "Home",
+              style: TextStyle(color: Colors.white, fontSize: 24),
+            ),
+            onTap: () {
+              Navigator.pushReplacementNamed(context, LibraryPage.routeName);
+            },
+          ),
+          ListTile(
+            title: const Text(
+              "Sonic Studio",
+              style: TextStyle(color: Colors.white, fontSize: 24),
+            ),
+            onTap: () {
+              Navigator.pushReplacementNamed(context, StudioLibrary.routeName);
+            },
+          )
+        ]),
+      ),
       body: IndexedStack(
         index: _selectedIndex,
         children: [
+          WillPopScope(
+            onWillPop: _onHomeWillPop,
+            child: Navigator(
+              key: _homePageKey,
+              onGenerateRoute: pageRouter.generateRoute,
+              initialRoute: Homepage.routeName,
+            ),
+          ),
+          WillPopScope(
+            onWillPop: _onSearchWillPop,
+            child: Navigator(
+              key: _searchPageKey,
+              onGenerateRoute: pageRouter.generateRoute,
+              initialRoute: SearchView.routeName,
+            ),
+          ),
+          // const Homepage(),
+          // const SearchView(query: ""),
           WillPopScope(
             onWillPop: _onPlaylistWillPop,
             child: Navigator(
@@ -52,8 +117,6 @@ class _LibraryPageState extends State<LibraryPage> {
               initialRoute: YourPlaylists.routeName,
             ),
           ),
-          Container(),
-          Container(),
         ],
       ),
       bottomNavigationBar: BlocBuilder<AudioPlayerBloc, AudioPlayerState>(

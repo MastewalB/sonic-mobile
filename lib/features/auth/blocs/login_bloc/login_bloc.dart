@@ -27,6 +27,25 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       // TODO: implement event handler
     });
 
+    on<LoginInitialEvent>((event, emit) async {
+      emit(state.copyWith(status: LoginStatus.loading));
+      try {
+        await userProfileRepository.userExists().then((value) {
+          if (value) {
+            emit(state.copyWith(status: LoginStatus.userExists));
+          } else {
+            emit(state.copyWith(status: LoginStatus.loaded));
+          }
+        });
+      } on AppException catch (e) {
+        notificationCubit.errorNotification(message: e.errorType.getMessage);
+        emit(state.copyWith(
+          status: LoginStatus.error,
+          errorType: e.errorType,
+        ));
+      }
+    });
+
     on<LoginSubmitEvent>((event, emit) async {
       emit(state.copyWith(status: LoginStatus.loading));
       try {

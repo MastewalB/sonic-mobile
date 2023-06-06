@@ -243,16 +243,16 @@ class _PodcastDetailPageState extends State<PodcastDetailPage> {
                               ),
                             );
                           },
-                          onDoubleTap: (){
+                          onDoubleTap: () {
                             ListQueue<Audio> playlist =
-                            ListQueue.from(widget.podcast.episodes);
+                                ListQueue.from(widget.podcast.episodes);
                             context.read<AudioPlayerBloc>().add(
-                              PlayAudioEvent(
-                                playlist: playlist,
-                                currentIndex: index,
-                                fromCurrentPlaylist: false,
-                              ),
-                            );
+                                  PlayAudioEvent(
+                                    playlist: playlist,
+                                    currentIndex: index,
+                                    fromCurrentPlaylist: false,
+                                  ),
+                                );
                           },
                           child: Row(
                             mainAxisSize: MainAxisSize.max,
@@ -288,8 +288,7 @@ class _PodcastDetailPageState extends State<PodcastDetailPage> {
                               CardSmall(
                                 title: widget.podcast.episodes[index].title,
                                 duration: "00:12",
-                                image:
-                                'assets/music_icon_image.jpg',
+                                image: 'assets/music_icon_image.jpg',
                               ),
                             ],
                           ),

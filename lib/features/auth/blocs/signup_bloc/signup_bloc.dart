@@ -27,6 +27,25 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
       // TODO: implement event handler
     });
 
+    on<SignUpInitialEvent>((event, emit) async {
+      emit(state.copyWith(status: SignupStatus.loading));
+      try {
+        await userProfileRepository.userExists().then((value) {
+          if (value) {
+            emit(state.copyWith(status: SignupStatus.userExists));
+          } else {
+            emit(state.copyWith(status: SignupStatus.loaded));
+          }
+        });
+      } on AppException catch (e) {
+        notificationCubit.errorNotification(message: e.errorType.getMessage);
+        emit(state.copyWith(
+          status: SignupStatus.error,
+          errorType: e.errorType,
+        ));
+      }
+    });
+
     on<SignUpSubmitEvent>((event, emit) async {
       emit(state.copyWith(status: SignupStatus.loading));
       try {

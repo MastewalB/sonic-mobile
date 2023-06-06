@@ -1,9 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive/hive.dart';
+import 'package:hive_flutter/adapters.dart';
 import 'package:sonic_mobile/core/core.dart';
 import 'package:flutter/services.dart';
+import 'package:sonic_mobile/features/album/presentation/album_page.dart';
+import 'package:sonic_mobile/features/auth/blocs/login_bloc/login_bloc.dart';
+import 'package:sonic_mobile/features/home/presentation/homepage.dart';
+import 'package:sonic_mobile/features/studio/bloc/create_podcast_bloc/create_podcast_bloc.dart';
+
+// import 'package:sonic_mobile/features/studio/presentation/record_page.dart';
+import 'package:sonic_mobile/features/studio/presentation/widgets/create_podcast_page.dart';
+import 'package:sonic_mobile/features/studio/presentation/widgets/your_podcasts.dart';
 import 'package:sonic_mobile/features/audio_player/bloc/audio_player_bloc.dart';
+import 'package:sonic_mobile/features/library/bloc/library_bloc/library_bloc.dart';
+import 'package:sonic_mobile/features/library/presentation/library_page.dart';
 import 'package:sonic_mobile/features/studio/bloc/record_bloc/record_bloc.dart';
 import 'package:sonic_mobile/features/studio/presentation/studio_library.dart';
 import 'package:sonic_mobile/dependency_provider.dart';
@@ -11,10 +22,14 @@ import 'package:sonic_mobile/routes.dart';
 import 'features/auth/blocs/signup_bloc/signup_bloc.dart';
 import 'features/auth/models/user_profile.dart';
 import 'features/studio/bloc/studio_bloc/studio_bloc.dart';
+import 'package:http/http.dart' as http;
+import 'features/album/bloc/album/album_bloc.dart';
+import 'features/album/repository/http_music_repository.dart';
 import 'package:sonic_mobile/features/auth/auth.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Hive.initFlutter();
   Hive.registerAdapter(UserProfileAdapter());
   final PageRouter pageRouter = PageRouter();
   final messengerKey = GlobalKey<ScaffoldMessengerState>();
@@ -117,31 +132,27 @@ class _SonicState extends State<Sonic> {
     MediaQueryManager.init(context);
 
     return BlocProvider(
-      create: (context) => SignupBloc(
+      create: (context) => LoginBloc(
         authenticationRepository:
-        DependencyProvider.getHttpAuthenticationRepository()!,
+            DependencyProvider.getHttpAuthenticationRepository()!,
         notificationCubit: DependencyProvider.getNotificationCubit()!,
-        userProfileRepository:
-        DependencyProvider.getUserProfileRepository()!,
+        userProfileRepository: DependencyProvider.getUserProfileRepository()!,
         secureStorage: DependencyProvider.getSecureStorage()!,
-      ),
+      )..add(LoginInitialEvent()),
       child: const SignUpPage(),
     );
     // return MultiBlocProvider(
     //   providers: [
     //     BlocProvider(
-    //       create: (context) => StudioBloc(
-    //         studioRepository: DependencyProvider.getHttpStudioRepository()!,
+    //       create: (context) => LibraryBloc(
+    //         libraryRepository: DependencyProvider.getHttpLibraryProvider()!,
+    //         userProfileRepository:
+    //             DependencyProvider.getUserProfileRepository()!,
     //         notificationCubit: DependencyProvider.getNotificationCubit()!,
-    //       )..add(const GetAllPodcastsByUserEvent(userId: "userId")),
-    //     ),
-    //     BlocProvider(
-    //       create: (context) => RecordBloc(
-    //         notificationCubit: DependencyProvider.getNotificationCubit()!,
-    //       )..add(ListRecordingsEvent()),
+    //       )..add(GetAllPlaylistsByUser()),
     //     ),
     //   ],
-    //   child: const StudioLibrary(),
+    //   child: const LibraryPage(),
     // );
   }
 }

@@ -5,9 +5,10 @@ class Song implements Audio {
   @override
   final String title;
   final Artist artist;
-  final Album album;
+  final AlbumInfo album;
   final String songFile;
   final String contentType;
+  // final DateTime dateAdded;
 
   Song({
     required this.id,
@@ -16,6 +17,7 @@ class Song implements Audio {
     required this.album,
     required this.songFile,
     required this.contentType,
+    // required this.dateAdded
   });
 
   @override
@@ -26,12 +28,13 @@ class Song implements Audio {
 
   factory Song.fromJson(Map<String, dynamic> json) {
     return Song(
-      id: json["id"],
+      id: json["id"].toString(),
       title: json["title"],
-      artist: json["s_artist"],
-      album: json["s_album"],
+      artist: Artist.fromJson(json["s_artist"]),
+      album: AlbumInfo.fromJson(json["s_album"]),
       songFile: json["song_file"],
       contentType: json["content_type"],
+      // dateAdded: json["dateAdded"],
     );
   }
 
@@ -41,7 +44,8 @@ class Song implements Audio {
       "s_artist": song.artist,
       "s_album": song.album,
       "song_file": song.songFile,
-      "content_type": song.contentType
+      "content_type": song.contentType,
+      // "dateAdded": song.dateAdded
     };
   }
 }

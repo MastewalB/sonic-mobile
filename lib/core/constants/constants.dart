@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class Constants {
-  static const String apiUrl = "http://localhost:8000/api/v1/";
+  static const String apiUrl = "http://192.168.200.116:8000/api/v1/";
   static const String refreshTokenUrl = "${apiUrl}token/refresh/";
   static const String accountsUrl = "${apiUrl}accounts/";
   static const String signupUrl = "${accountsUrl}signup/";
@@ -47,6 +47,7 @@ class Constants {
   static const String connectionError = "A Network Problem Occurred";
   static const String invalidEmailOrPassword =
       "You entered invalid email or password";
+  static const String emailAlreadyExists = "Email Address already exists";
 
   //Hive Box Names
   static const String userProfileBoxName = "User";
@@ -60,4 +61,11 @@ class Constants {
   //Recording Constants
   static const double decibleLimit = -30;
   static const amplitudeCaptureRateInMilliSeconds = 100;
+
+  //Color Constants
+  static const primaryColor = Color(0xFF2697FF);
+static const secondaryColor = Color(0xFF2A2D3E);
+static const bgColor = Color(0xFF212332);
+static const followerColor = Color.fromARGB(255, 104, 109, 112);
+static const defaultPadding = 16.0;
 }

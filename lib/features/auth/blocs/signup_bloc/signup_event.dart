@@ -4,7 +4,12 @@ abstract class SignupEvent extends Equatable {
   const SignupEvent();
 }
 
-class SignUpSubmitEvent extends SignupEvent{
+class SignUpInitialEvent extends SignupEvent {
+  @override
+  List<Object?> get props => [];
+}
+
+class SignUpSubmitEvent extends SignupEvent {
   final String username;
   final String firstName;
   final String lastName;
