@@ -8,6 +8,7 @@ import 'package:sonic_mobile/features/library/bloc/playlist_bloc/playlist_bloc.d
 import 'package:sonic_mobile/features/library/presentation/library_page.dart';
 import 'package:sonic_mobile/features/library/presentation/playlist_detail_page.dart';
 import 'package:sonic_mobile/features/library/presentation/widgets/screen_arguments.dart';
+import 'package:sonic_mobile/features/library/presentation/your_library_page.dart';
 import 'package:sonic_mobile/features/search/presentation/widgets/search_view.dart';
 import 'package:sonic_mobile/features/studio/bloc/podcast_detail_bloc/podcast_detail_bloc.dart';
 import 'package:sonic_mobile/features/studio/bloc/studio_bloc/studio_bloc.dart';
@@ -62,7 +63,7 @@ class PageRouter {
               userProfileRepository:
                   DependencyProvider.getUserProfileRepository()!,
               secureStorage: DependencyProvider.getSecureStorage()!,
-            ),
+            )..add(SignUpInitialEvent()),
             child: const SignUpPage(),
           );
         });
@@ -76,7 +77,7 @@ class PageRouter {
               userProfileRepository:
                   DependencyProvider.getUserProfileRepository()!,
               secureStorage: DependencyProvider.getSecureStorage()!,
-            ),
+            )..add(LoginInitialEvent()),
             child: const LoginPage(),
           );
         });
@@ -109,7 +110,10 @@ class PageRouter {
             child: const YourPodcastsPage(),
           );
         });
-
+      case YourLibraryPage.routeName:
+        return MaterialPageRoute(builder: (context) {
+          return const YourLibraryPage();
+        });
       case YourPlaylists.routeName:
         return MaterialPageRoute(builder: (context) {
           return BlocProvider(

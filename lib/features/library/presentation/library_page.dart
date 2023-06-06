@@ -6,6 +6,7 @@ import 'package:sonic_mobile/features/audio_player/bloc/audio_player_bloc.dart';
 import 'package:sonic_mobile/features/audio_player/presentation/player_page.dart';
 import 'package:flutter/material.dart';
 import 'package:sonic_mobile/features/home/presentation/homepage.dart';
+import 'package:sonic_mobile/features/library/presentation/your_library_page.dart';
 import 'package:sonic_mobile/features/library/presentation/your_playlist_page.dart';
 import 'package:sonic_mobile/features/search/presentation/widgets/search_view.dart';
 import 'package:sonic_mobile/features/studio/presentation/studio_library.dart';
@@ -114,7 +115,7 @@ class _LibraryPageState extends State<LibraryPage> {
             child: Navigator(
               key: _yourPlaylistPageKey,
               onGenerateRoute: pageRouter.generateRoute,
-              initialRoute: YourPlaylists.routeName,
+              initialRoute: YourLibraryPage.routeName,
             ),
           ),
         ],

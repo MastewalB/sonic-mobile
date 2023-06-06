@@ -34,13 +34,19 @@ class _SignUpPageState extends State<SignUpPage> {
 
     return BlocBuilder<SignupBloc, SignupState>(
       builder: (context, state) {
-        if (state.status.isSuccess || state.status.isUserExists) {
+        if (state.status.isSuccess) {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            Navigator.pushReplacementNamed(context, LoginPage.routeName);
+          });
+        }
+
+        if (state.status.isUserExists) {
           WidgetsBinding.instance.addPostFrameCallback((_) {
             Navigator.pushReplacementNamed(context, LibraryPage.routeName);
           });
         }
 
-        if (state.status.isLoading|| state.status.isInitial) {
+        if (state.status.isLoading || state.status.isInitial) {
           return const Scaffold(
             body: Center(child: CircularProgressIndicator()),
           );

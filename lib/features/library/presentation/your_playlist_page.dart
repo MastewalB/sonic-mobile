@@ -33,64 +33,6 @@ class YourPlaylists extends StatelessWidget {
         }
         if (state.status.isError) {
           return Scaffold(
-            appBar: AppBar(
-              title: const Text("Your Playlists"),
-              actions: [
-                PopupMenuButton(
-                  onSelected: (value) {
-                    switch (value.toString()) {
-                      case "create":
-                        TextEditingController nameController =
-                            TextEditingController();
-                        showDialog(
-                            context: context,
-                            builder: (dialogContext) {
-                              return AlertDialog(
-                                title: const Text("Enter playlist title."),
-                                content: TextField(
-                                  controller: nameController,
-                                ),
-                                actions: [
-                                  ElevatedButton(
-                                    onPressed: () {
-                                      if (nameController.text.isNotEmpty) {
-                                        context
-                                            .read<LibraryBloc>()
-                                            .add(CreatePlaylistEvent(
-                                              playlistTitle:
-                                                  nameController.value.text,
-                                            ));
-                                        Navigator.pop(context);
-                                      }
-                                    },
-                                    child: const Text(
-                                      "Create Playlist",
-                                      style: TextStyle(
-                                        color: Colors.green,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              );
-                            });
-                    }
-                  },
-                  itemBuilder: (BuildContext context) {
-                    return const [
-                      PopupMenuItem(
-                        value: "create",
-                        child: Text(
-                          "Create a New Playlist",
-                          style: TextStyle(
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                    ];
-                  },
-                )
-              ],
-            ),
             body: Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -118,6 +60,7 @@ class YourPlaylists extends StatelessWidget {
           return Scaffold(
             body: Center(
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const Text(
                     "Your Playlists will appear Here.",
@@ -127,7 +70,39 @@ class YourPlaylists extends StatelessWidget {
                   ),
                   RawMaterialButton(
                     onPressed: () {
-
+                      showDialog(
+                          context: context,
+                          builder: (dialogContext) {
+                            TextEditingController nameController =
+                            TextEditingController();
+                            return AlertDialog(
+                              title: const Text("Enter playlist title."),
+                              content: TextField(
+                                controller: nameController,
+                              ),
+                              actions: [
+                                ElevatedButton(
+                                  onPressed: () {
+                                    if (nameController.text.isNotEmpty) {
+                                      context
+                                          .read<LibraryBloc>()
+                                          .add(CreatePlaylistEvent(
+                                        playlistTitle:
+                                        nameController.value.text,
+                                      ));
+                                      Navigator.pop(context);
+                                    }
+                                  },
+                                  child: const Text(
+                                    "Create Playlist",
+                                    style: TextStyle(
+                                      color: Colors.green,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            );
+                          });
                     },
                     elevation: 2.0,
                     fillColor: const Color.fromARGB(255, 60, 60, 70),
@@ -152,37 +127,53 @@ class YourPlaylists extends StatelessWidget {
           onRefresh: _refreshData,
           child: SafeArea(
             child: Scaffold(
-              appBar: AppBar(
-                title: const Text("Your Playlists"),
-                actions: [
-                  PopupMenuButton(
-                    onSelected: (value) {
-                      switch (value.toString()) {
-                        case "create":
-                        // Navigator.pushNamed(
-                        //   context,
-                        //   CreatePodcastPage.routeName,
-                        // );
-                      }
-                    },
-                    itemBuilder: (BuildContext context) {
-                      return const [
-                        PopupMenuItem(
-                          value: "create",
-                          child: Text(
-                            "Create a New Playlist",
-                            style: TextStyle(
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                      ];
-                    },
-                  )
-                ],
-              ),
               body: Column(
                 children: [
+                  Padding(
+                    padding: const EdgeInsets.all(15.0),
+                    child: ListTile(
+                      leading: Icon(Icons.add, color: Colors.white,),
+                      title: Text(
+                        "Create New Playlist",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      onTap: (){
+                        showDialog(
+                            context: context,
+                            builder: (dialogContext) {
+                              TextEditingController nameController =
+                              TextEditingController();
+                              return AlertDialog(
+                                title: const Text("Enter playlist title."),
+                                content: TextField(
+                                  controller: nameController,
+                                ),
+                                actions: [
+                                  ElevatedButton(
+                                    onPressed: () {
+                                      if (nameController.text.isNotEmpty) {
+                                        context
+                                            .read<LibraryBloc>()
+                                            .add(CreatePlaylistEvent(
+                                          playlistTitle:
+                                          nameController.value.text,
+                                        ));
+                                        Navigator.pop(context);
+                                      }
+                                    },
+                                    child: const Text(
+                                      "Create Playlist",
+                                      style: TextStyle(
+                                        color: Colors.green,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              );
+                            });
+                      },
+                    ),
+                  ),
                   Expanded(
                     child: ListView.builder(
                       itemBuilder: (context, index) {

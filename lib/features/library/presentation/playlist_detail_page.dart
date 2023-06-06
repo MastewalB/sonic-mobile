@@ -83,7 +83,7 @@ class _PlaylistDetailPageState extends State<PlaylistDetailPage> {
                                         ),
                                         OutlinedButton(
                                           onPressed: () {
-                                            Navigator.pop(context);
+                                            Navigator.pop(builder);
                                           },
                                           child: Text("Cancel"),
                                         ),
