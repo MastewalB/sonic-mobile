@@ -5,7 +5,6 @@ import 'package:equatable/equatable.dart';
 import 'package:sonic_mobile/features/studio/repository/studio_repository.dart';
 import 'package:sonic_mobile/models/models.dart';
 import 'package:sonic_mobile/core/core.dart';
-import 'package:sonic_mobile/features/auth/models/user_profile.dart';
 import 'package:sonic_mobile/features/auth/repository/repository.dart';
 
 part 'studio_event.dart';

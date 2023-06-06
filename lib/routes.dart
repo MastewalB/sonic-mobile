@@ -2,6 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sonic_mobile/dependency_provider.dart';
 import 'package:sonic_mobile/features/auth/auth.dart';
+import 'package:sonic_mobile/features/home/presentation/homepage.dart';
+import 'package:sonic_mobile/features/library/bloc/library_bloc/library_bloc.dart';
+import 'package:sonic_mobile/features/library/bloc/playlist_bloc/playlist_bloc.dart';
+import 'package:sonic_mobile/features/library/presentation/library_page.dart';
+import 'package:sonic_mobile/features/library/presentation/playlist_detail_page.dart';
+import 'package:sonic_mobile/features/library/presentation/widgets/screen_arguments.dart';
+import 'package:sonic_mobile/features/profile/bloc/view_profile/profile_bloc.dart';
+import 'package:sonic_mobile/features/profile/presentation/profile.dart';
+import 'package:sonic_mobile/features/search/presentation/widgets/search_view.dart';
 import 'package:sonic_mobile/features/studio/bloc/podcast_detail_bloc/podcast_detail_bloc.dart';
 import 'package:sonic_mobile/features/studio/bloc/studio_bloc/studio_bloc.dart';
 import 'package:sonic_mobile/features/studio/presentation/local_songs.dart';
@@ -19,14 +28,42 @@ import 'package:sonic_mobile/features/auth/presentation/signup_page.dart';
 import 'package:sonic_mobile/features/auth/presentation/login_page.dart';
 
 import 'features/audio_player/presentation/player_page.dart';
+import 'features/search/bloc/search/search_bloc.dart';
+import 'features/search/repository/http_search.dart';
 import 'features/studio/bloc/create_podcast_bloc/create_podcast_bloc.dart';
 import 'features/studio/bloc/record_bloc/record_bloc.dart';
 import 'features/studio/presentation/record_page.dart';
 import 'features/studio/presentation/widgets/create_episode_page.dart';
 
+import 'package:sonic_mobile/features/library/presentation/your_playlist_page.dart';
+
 class PageRouter {
   Route<dynamic>? generateRoute(RouteSettings routeSettings) {
     switch (routeSettings.name) {
+      case ProfilePage.routeName:
+        return MaterialPageRoute(builder: (context) {
+          return BlocProvider(
+            create: (context) => ProfileBloc(
+              userProfileRepository:
+                  DependencyProvider.getUserProfileRepository()!,
+            )..add(LoadProfile()),
+            child: const ProfilePage(),
+          );
+        });
+      case Homepage.routeName:
+        return MaterialPageRoute(builder: (context) {
+          return const Homepage();
+        });
+      case SearchView.routeName:
+        return MaterialPageRoute(builder: (context) {
+          return BlocProvider<SearchBloc>(
+            create: (context) => SearchBloc(
+                SearchDataProvider()), // Provide SearchDataProvider instance here
+            child: const SearchView(
+              query: '',
+            ),
+          );
+        });
       case SignUpPage.routeName:
         return MaterialPageRoute(builder: (context) {
           return BlocProvider(
@@ -79,9 +116,23 @@ class PageRouter {
             create: (context) => StudioBloc(
               studioRepository: DependencyProvider.getHttpStudioRepository()!,
               notificationCubit: DependencyProvider.getNotificationCubit()!,
-              userProfileRepository: DependencyProvider.getUserProfileRepository()!,
+              userProfileRepository:
+                  DependencyProvider.getUserProfileRepository()!,
             )..add(GetAllPodcastsByUserEvent()),
             child: const YourPodcastsPage(),
+          );
+        });
+
+      case YourPlaylists.routeName:
+        return MaterialPageRoute(builder: (context) {
+          return BlocProvider(
+            create: (context) => LibraryBloc(
+              libraryRepository: DependencyProvider.getHttpLibraryProvider()!,
+              notificationCubit: DependencyProvider.getNotificationCubit()!,
+              userProfileRepository:
+                  DependencyProvider.getUserProfileRepository()!,
+            )..add(GetAllPlaylistsByUser()),
+            child: const YourPlaylists(),
           );
         });
       case RecordingListPage.routeName:
@@ -114,7 +165,8 @@ class PageRouter {
                         DependencyProvider.getHttpStudioRepository()!,
                     notificationCubit:
                         DependencyProvider.getNotificationCubit()!,
-                    userProfileRepository: DependencyProvider.getUserProfileRepository()!,
+                    userProfileRepository:
+                        DependencyProvider.getUserProfileRepository()!,
                   )..add(GetAllPodcastsByUserEvent()),
                 ),
                 BlocProvider(
@@ -132,6 +184,26 @@ class PageRouter {
             );
           },
         );
+      case LibraryPage.routeName:
+        return MaterialPageRoute(
+          builder: (context) {
+            return MultiBlocProvider(
+              providers: [
+                BlocProvider(
+                  create: (context) => LibraryBloc(
+                    libraryRepository:
+                        DependencyProvider.getHttpLibraryProvider()!,
+                    notificationCubit:
+                        DependencyProvider.getNotificationCubit()!,
+                    userProfileRepository:
+                        DependencyProvider.getUserProfileRepository()!,
+                  )..add(GetAllPlaylistsByUser()),
+                ),
+              ],
+              child: const LibraryPage(),
+            );
+          },
+        );
       case PodcastDetailPage.routeName:
         final PodcastScreenArgument podcastScreenArgument =
             routeSettings.arguments as PodcastScreenArgument;
@@ -143,6 +215,21 @@ class PageRouter {
                 notificationCubit: DependencyProvider.getNotificationCubit()!,
               )..add(GetPodcastDetailEvent()),
               child: PodcastDetailPage(podcast: podcastScreenArgument.podcast),
+            );
+          },
+        );
+      case PlaylistDetailPage.routeName:
+        final PlaylistDetailArgument playlistDetailArgument =
+            routeSettings.arguments as PlaylistDetailArgument;
+        return MaterialPageRoute(
+          builder: (context) {
+            return BlocProvider(
+              create: (context) => PlaylistBloc(
+                libraryRepository: DependencyProvider.getHttpLibraryProvider()!,
+                notificationCubit: DependencyProvider.getNotificationCubit()!,
+              ),
+              child:
+                  PlaylistDetailPage(playlist: playlistDetailArgument.playlist),
             );
           },
         );

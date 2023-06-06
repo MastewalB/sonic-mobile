@@ -10,11 +10,6 @@ class StudioInitialEvent extends StudioEvent{
 }
 
 class GetAllPodcastsByUserEvent extends StudioEvent {
-  // final String userId;
-  //
-  // const GetAllPodcastsByUserEvent({
-  //   required this.userId,
-  // });
 
   @override
   List<Object?> get props => [];

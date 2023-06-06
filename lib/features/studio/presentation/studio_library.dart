@@ -6,6 +6,7 @@ import 'package:sonic_mobile/features/audio_player/bloc/audio_player_bloc.dart';
 import 'package:sonic_mobile/features/audio_player/presentation/player_page.dart';
 import 'package:flutter/material.dart';
 import 'package:sonic_mobile/features/audio_player/presentation/widgets/time_slider.dart';
+import 'package:sonic_mobile/features/library/presentation/library_page.dart';
 import 'package:sonic_mobile/features/studio/presentation/local_songs.dart';
 import 'package:sonic_mobile/features/studio/presentation/recording_list_page.dart';
 import 'package:sonic_mobile/features/studio/presentation/widgets/your_podcasts.dart';
@@ -69,6 +70,32 @@ class _StudioLibraryState extends State<StudioLibrary> {
         TextStyle(color: Colors.white, fontSize: 15);
 
     return Scaffold(
+      drawer: Drawer(
+        backgroundColor: Colors.black,
+        child: Column(children: [
+          SizedBox(
+            height: 80,
+          ),
+          ListTile(
+            title: const Text(
+              "Home",
+              style: TextStyle(color: Colors.white, fontSize: 24),
+            ),
+            onTap: () {
+              Navigator.pushReplacementNamed(context, LibraryPage.routeName);
+            },
+          ),
+          ListTile(
+            title: const Text(
+              "Sonic Studio",
+              style: TextStyle(color: Colors.white, fontSize: 24),
+            ),
+            onTap: () {
+              Navigator.pushReplacementNamed(context, StudioLibrary.routeName);
+            },
+          )
+        ]),
+      ),
       body: IndexedStack(
         index: _selectedIndex,
         children: [

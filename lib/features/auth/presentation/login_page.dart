@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sonic_mobile/features/auth/auth.dart';
 import 'package:sonic_mobile/features/auth/blocs/login_bloc/login_bloc.dart';
+import 'package:sonic_mobile/features/library/presentation/library_page.dart';
 import 'package:sonic_mobile/features/studio/presentation/studio_library.dart';
 
 class LoginPage extends StatefulWidget {
@@ -24,13 +25,13 @@ class _LoginPageState extends State<LoginPage> {
 
     return BlocBuilder<LoginBloc, LoginState>(
       builder: (context, state) {
-        if (state.status.isSuccess) {
+        if (state.status.isSuccess || state.status.isUserExists) {
           WidgetsBinding.instance.addPostFrameCallback((_) {
-            Navigator.pushReplacementNamed(context, StudioLibrary.routeName);
+            Navigator.pushReplacementNamed(context, LibraryPage.routeName);
           });
         }
 
-        if (state.status.isLoading) {
+        if (state.status.isLoading || state.status.isInitial) {
           return const Scaffold(
             body: Center(child: CircularProgressIndicator()),
           );
@@ -91,11 +92,11 @@ class _LoginPageState extends State<LoginPage> {
                             backgroundColor: Colors.blue,
                             minimumSize: const Size.fromHeight(50)),
                         onPressed: () {
-                          if(emailController.text.isEmpty){
+                          if (emailController.text.isEmpty) {
                             setState(() {
                               emailValidator = false;
                             });
-                          } else if(passwordController.text.isEmpty){
+                          } else if (passwordController.text.isEmpty) {
                             setState(() {
                               passwordValidator = false;
                             });

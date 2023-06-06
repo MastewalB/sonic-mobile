@@ -3,6 +3,7 @@ import 'package:date_field/date_field.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sonic_mobile/features/auth/auth.dart';
 import 'package:sonic_mobile/features/auth/blocs/signup_bloc/signup_bloc.dart';
+import 'package:sonic_mobile/features/library/presentation/library_page.dart';
 
 import 'package:sonic_mobile/features/studio/presentation/studio_library.dart';
 
@@ -16,11 +17,9 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpPage> {
-
   bool validated = true;
   bool emailValidator = true;
   bool passwordValidator = true;
-
 
   @override
   Widget build(BuildContext context) {
@@ -35,13 +34,13 @@ class _SignUpPageState extends State<SignUpPage> {
 
     return BlocBuilder<SignupBloc, SignupState>(
       builder: (context, state) {
-        if (state.status.isSuccess) {
+        if (state.status.isSuccess || state.status.isUserExists) {
           WidgetsBinding.instance.addPostFrameCallback((_) {
-            Navigator.pushReplacementNamed(context, StudioLibrary.routeName);
+            Navigator.pushReplacementNamed(context, LibraryPage.routeName);
           });
         }
 
-        if (state.status.isLoading) {
+        if (state.status.isLoading|| state.status.isInitial) {
           return const Scaffold(
             body: Center(child: CircularProgressIndicator()),
           );
@@ -127,7 +126,6 @@ class _SignUpPageState extends State<SignUpPage> {
                   Padding(
                     padding: const EdgeInsets.fromLTRB(0, 0, 0, 15),
                     child: DateTimeFormField(
-
                       decoration: InputDecoration(
                           errorText:
                               !validated ? 'Value Can\'t Be Empty' : null,
@@ -144,7 +142,8 @@ class _SignUpPageState extends State<SignUpPage> {
                           ),
                           labelText: 'Date of Birth',
                           labelStyle: TextStyle(color: Colors.white)),
-                      firstDate: DateTime.now().subtract(const Duration(days: 500000)),
+                      firstDate:
+                          DateTime.now().subtract(const Duration(days: 500000)),
                       // lastDate: DateTime.now().add(const Duration(days: 40)),
                       // initialDate: DateTime.now().add(const Duration(days: 20)),
                       autovalidateMode: AutovalidateMode.always,
@@ -251,9 +250,10 @@ class _SignUpPageState extends State<SignUpPage> {
                           lastNameController.text.isEmpty ||
                           passwordController.text.isEmpty ||
                           confirmPasswordController.text.isEmpty ||
-                          confirmPasswordController.text.compareTo(passwordController.text) != 0||
-                          dateOfBirth == null
-                      ) {
+                          confirmPasswordController.text
+                                  .compareTo(passwordController.text) !=
+                              0 ||
+                          dateOfBirth == null) {
                         setState(() {
                           validated = false;
                         });

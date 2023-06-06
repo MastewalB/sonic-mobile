@@ -18,4 +18,17 @@ class Playlist implements AudioList {
     required this.playlistTitle,
     required this.playlistItems,
   });
+
+  factory Playlist.fromJson(Map<String, dynamic> json) {
+    List<Song> songs = [];
+    for (var song in json["items"]) {
+      songs.add(Song.fromJson(song));
+    }
+    return Playlist(
+      id: json["id"],
+      createdBy: json["created_by"],
+      playlistTitle: json["playlist_title"],
+      playlistItems: songs,
+    );
+  }
 }

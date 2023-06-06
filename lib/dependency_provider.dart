@@ -8,6 +8,8 @@ import 'package:sonic_mobile/features/auth/repository/repository.dart';
 import 'package:sonic_mobile/features/auth/data_providers/user_profile_provider.dart';
 import 'package:sonic_mobile/core/core.dart';
 import 'package:audioplayers/audioplayers.dart';
+import 'package:sonic_mobile/features/library/repository/library_repository.dart';
+import 'package:sonic_mobile/features/library/data_provider/http_library_provider.dart';
 
 class DependencyProvider {
   static http.Client? _httpClient;
@@ -22,6 +24,9 @@ class DependencyProvider {
 
   static UserProfileProvider? _userProfileProvider;
   static HttpAuthenticationRepository? _httpAuthenticationRepository;
+
+  static HttpLibraryProvider? _libraryProvider;
+
 
   static http.Client? getHttpClient() {
     _httpClient ??= http.Client();
@@ -75,5 +80,10 @@ class DependencyProvider {
   static UserProfileProvider? getUserProfileRepository() {
     _userProfileProvider ??= UserProfileProvider();
     return _userProfileProvider;
+  }
+
+  static HttpLibraryProvider? getHttpLibraryProvider(){
+    _libraryProvider ??= HttpLibraryProvider(httpClient: getAuthenticatedHttpClient()!);
+    return _libraryProvider;
   }
 }

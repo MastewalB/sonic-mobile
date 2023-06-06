@@ -9,6 +9,7 @@ enum ErrorType {
   HTTP_500,
   CONNECTION_ERROR,
   INVALID_EMAIL_OR_PASSWORD,
+  EMAIL_ALREADY_EXISTS,
 }
 
 extension ErrorTypeX on ErrorType {
@@ -36,7 +37,8 @@ extension ErrorTypeX on ErrorType {
         return Constants.connectionError;
       case ErrorType.INVALID_EMAIL_OR_PASSWORD:
         return Constants.invalidEmailOrPassword;
-        break;
+      case ErrorType.EMAIL_ALREADY_EXISTS:
+        return Constants.emailAlreadyExists;
     }
   }
 }

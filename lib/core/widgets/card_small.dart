@@ -3,16 +3,16 @@ import 'package:flutter/material.dart';
 class CardSmall extends StatelessWidget {
   final String title;
   final String duration;
-  final String image;
+  final String? image;
   final Color? color;
 
-  const CardSmall({
-    Key? key,
-    required this.title,
-    required this.duration,
-    required this.image,
-    this.color,
-  }) : super(key: key);
+  const CardSmall(
+      {Key? key,
+      required this.title,
+      required this.duration,
+      this.image,
+      this.color})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -24,16 +24,18 @@ class CardSmall extends StatelessWidget {
       alignment: Alignment.center,
       child: Row(
         children: [
-          Container(
-            width: 50,
-            height: 50,
-            child: ClipRRect(
-              child: Image.asset(
-                image,
-                fit: BoxFit.cover,
-              ),
-            ),
-          ),
+          (image != null)
+              ? Container(
+                  width: 50,
+                  height: 50,
+                  child: ClipRRect(
+                    child: Image.asset(
+                      image!,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                )
+              : SizedBox(),
           SizedBox(
             width: 10,
           ),
