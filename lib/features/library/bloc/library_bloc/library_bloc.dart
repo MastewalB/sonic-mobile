@@ -42,7 +42,7 @@ class LibraryBloc extends Bloc<LibraryEvent, LibraryState> {
           );
         });
       } on AppException catch (e) {
-        notificationCubit.errorNotification(message: e.errorType.getMessage);
+        notificationCubit.errorNotification(message: "Could not fetch playlists.");
         emit(state.copyWith(status: LibraryStatus.error));
       }
     });
