@@ -42,6 +42,14 @@ class _EditProfilePageState extends State<EditProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: GestureDetector(
+            onTap: () {
+              Navigator.pushReplacementNamed(context, ProfilePage.routeName);
+            },
+            child: Icon(
+              Icons.arrow_back_ios,
+              color: Colors.white,
+            )),
         title: const Text('Edit Profile'),
       ),
       body: BlocBuilder<EditProfileBloc, EditProfileState>(

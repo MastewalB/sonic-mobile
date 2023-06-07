@@ -18,23 +18,46 @@ import 'package:http/http.dart' as http;
 
 class Homepage extends StatelessWidget {
   static const String routeName = "home";
-  const Homepage({Key? key}) : super(key: key);
+
+  final VoidCallback? toggleDrawer;
+  const Homepage({Key? key, this.toggleDrawer}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final songRepository = HomeDataProvider(httpClient: http.Client());
     return SafeArea(
         child: Scaffold(
+            appBar: AppBar(
+              leading: IconButton(
+                icon: Icon(
+                  Icons.more_vert,
+                  color: Colors.white,
+                ),
+                onPressed: () {
+                  Scaffold.of(context).openDrawer();
+                },
+              ),
+              backgroundColor: Colors.transparent,
+            ),
             backgroundColor: Colors.black,
             body: ListView(
               children: [
+                //  IconButton(
+                //   icon: Icon(
+                //     Icons.more_vert,
+                //     color: Colors.white,
+                //   ),
+                //   onPressed: () {
+                //     Scaffold.of(context).openDrawer();
+                //   },
+                // ),
                 GestureDetector(
                   onTap: () {
                     Navigator.pushReplacementNamed(
                         context, ProfilePage.routeName);
                   },
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 32.0),
+                    padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 25),
                     child: Header(
                       profileName: 'Labile',
                     ),
@@ -81,4 +104,10 @@ class Homepage extends StatelessWidget {
               ],
             )));
   }
+}
+
+class HomeScreenArguments {
+  final VoidCallback callback;
+
+  HomeScreenArguments(this.callback);
 }

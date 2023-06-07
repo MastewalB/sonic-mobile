@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sonic_mobile/core/core.dart';
+import 'package:sonic_mobile/features/home/presentation/homepage.dart';
 import 'package:sonic_mobile/features/profile/bloc/view_profile/profile_bloc.dart';
 import 'package:sonic_mobile/features/profile/presentation/edit_profile_page.dart';
 
@@ -27,6 +28,15 @@ class Profile extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                GestureDetector(
+                    onTap: () {
+                      Navigator.pushReplacementNamed(
+                          context, Homepage.routeName);
+                    },
+                    child: Icon(
+                      Icons.arrow_back_ios,
+                      color: Colors.white,
+                    )),
                 Row(
                   children: [
                     Padding(
@@ -119,7 +129,8 @@ class Profile extends StatelessWidget {
                     ),
                     GestureDetector(
                       onTap: () {
-                        Navigator.pushNamed(context, EditProfilePage.routeName);
+                        Navigator.pushReplacementNamed(
+                            context, EditProfilePage.routeName);
                       },
                       child: Icon(
                         Icons.edit,

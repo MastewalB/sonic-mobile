@@ -42,6 +42,22 @@ class AudioListWidget extends StatelessWidget {
             backgroundColor: const Color.fromARGB(255, 31, 29, 43),
             body: CustomScrollView(slivers: [
               SliverPadding(
+                padding: EdgeInsets.fromLTRB(14.0, 12.0, 0, 0),
+                sliver: SliverToBoxAdapter(
+                  child: Container(
+                    alignment: Alignment.topLeft,
+                    child: GestureDetector(
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                        child: Icon(
+                          Icons.arrow_back_ios,
+                          color: Colors.white,
+                        )),
+                  ),
+                ),
+              ),
+              SliverPadding(
                 padding: EdgeInsets.fromLTRB(20.0, 5.0, 20.0, 0.0),
                 sliver: SliverToBoxAdapter(
                   child: Container(

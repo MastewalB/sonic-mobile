@@ -69,8 +69,16 @@ class PageRouter {
           );
         });
       case Homepage.routeName:
+        final HomeScreenArguments? homeScreenArguments =
+            (routeSettings.arguments != null)
+                ? routeSettings.arguments as HomeScreenArguments
+                : null;
         return MaterialPageRoute(builder: (context) {
-          return const Homepage();
+          return Homepage(
+            toggleDrawer: (homeScreenArguments != null)
+                ? homeScreenArguments.callback
+                : null,
+          );
         });
       case SearchView.routeName:
         return MaterialPageRoute(builder: (context) {

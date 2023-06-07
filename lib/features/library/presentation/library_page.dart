@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:marquee/marquee.dart';
+import 'package:sonic_mobile/dependency_provider.dart';
 import 'package:sonic_mobile/features/audio_player/bloc/audio_player_bloc.dart';
 import 'package:sonic_mobile/features/audio_player/presentation/player_page.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +10,8 @@ import 'package:sonic_mobile/features/home/presentation/homepage.dart';
 import 'package:sonic_mobile/features/library/presentation/your_library_page.dart';
 import 'package:sonic_mobile/features/library/presentation/your_playlist_page.dart';
 import 'package:sonic_mobile/features/search/presentation/widgets/search_view.dart';
+import 'package:sonic_mobile/features/studio/bloc/record_bloc/record_bloc.dart';
+import 'package:sonic_mobile/features/studio/bloc/studio_bloc/studio_bloc.dart';
 import 'package:sonic_mobile/features/studio/presentation/studio_library.dart';
 import 'package:sonic_mobile/routes.dart';
 import 'package:sonic_mobile/features/audio_player/presentation/widgets/time_slider.dart';
@@ -23,6 +26,14 @@ class LibraryPage extends StatefulWidget {
 }
 
 class _LibraryPageState extends State<LibraryPage> {
+  bool isDrawerOpen = false;
+
+  void toggleDrawer() {
+    setState(() {
+      isDrawerOpen = !isDrawerOpen;
+    });
+  }
+
   int _selectedIndex = 0;
   final PageRouter pageRouter = PageRouter();
 
@@ -75,7 +86,10 @@ class _LibraryPageState extends State<LibraryPage> {
               style: TextStyle(color: Colors.white, fontSize: 24),
             ),
             onTap: () {
-              Navigator.pushReplacementNamed(context, LibraryPage.routeName);
+              Navigator.pushReplacementNamed(
+                context,
+                LibraryPage.routeName,
+              );
             },
           ),
           ListTile(
@@ -353,7 +367,10 @@ class _LibraryPageState extends State<LibraryPage> {
                 SizedBox(
                   height: 55,
                   child: BottomNavigationBar(
-                    elevation: 3,
+                    backgroundColor: Colors.black,
+                    fixedColor: Colors.blueAccent,
+                    // fixedColor: Colors.black,
+                    // elevation: 3,
                     currentIndex: _selectedIndex,
                     onTap: (index) => setState(() {
                       _selectedIndex = index;
@@ -377,6 +394,12 @@ class _LibraryPageState extends State<LibraryPage> {
                         ),
                         label: "Library",
                       ),
+                      // BottomNavigationBarItem(
+                      //   icon: Icon(
+                      //     Icons.business,
+                      //   ),
+                      //   label: "Studio",
+                      // ),
                     ],
                   ),
                 ),
