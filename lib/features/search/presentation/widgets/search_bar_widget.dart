@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sonic_mobile/features/home/presentation/homepage.dart';
 import 'package:sonic_mobile/features/search/bloc/search/blocs.dart';
+import 'package:sonic_mobile/features/search/presentation/widgets/search_view.dart';
 
 class SearchBarWidget extends StatefulWidget {
   final String hintText;
@@ -70,7 +71,7 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
           IconButton(
             icon: Icon(widget.backIcon),
             onPressed: () {
-              Navigator.pushReplacementNamed(context, Homepage.routeName);
+              Navigator.pushReplacementNamed(context, SearchView.routeName);
             },
           ),
           Expanded(

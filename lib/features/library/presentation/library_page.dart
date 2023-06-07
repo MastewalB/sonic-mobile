@@ -6,9 +6,11 @@ import 'package:sonic_mobile/dependency_provider.dart';
 import 'package:sonic_mobile/features/audio_player/bloc/audio_player_bloc.dart';
 import 'package:sonic_mobile/features/audio_player/presentation/player_page.dart';
 import 'package:flutter/material.dart';
+import 'package:sonic_mobile/features/auth/auth.dart';
 import 'package:sonic_mobile/features/home/presentation/homepage.dart';
 import 'package:sonic_mobile/features/library/presentation/your_library_page.dart';
 import 'package:sonic_mobile/features/library/presentation/your_playlist_page.dart';
+import 'package:sonic_mobile/features/profile/bloc/view_profile/profile_bloc.dart';
 import 'package:sonic_mobile/features/search/presentation/widgets/search_view.dart';
 import 'package:sonic_mobile/features/studio/bloc/record_bloc/record_bloc.dart';
 import 'package:sonic_mobile/features/studio/bloc/studio_bloc/studio_bloc.dart';
@@ -100,7 +102,17 @@ class _LibraryPageState extends State<LibraryPage> {
             onTap: () {
               Navigator.pushReplacementNamed(context, StudioLibrary.routeName);
             },
-          )
+          ),
+          ListTile(
+            title: Text("Logout",
+                style: TextStyle(color: Colors.white, fontSize: 24)),
+            onTap: () {
+              context.read<ProfileBloc>().add(LogoutEvent());
+              Future.delayed(Duration(seconds: 1)).then((_) {
+                Navigator.pushReplacementNamed(context, LoginPage.routeName);
+              });
+            },
+          ),
         ]),
       ),
       body: IndexedStack(

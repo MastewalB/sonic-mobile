@@ -64,6 +64,7 @@ class PageRouter {
             create: (context) => ProfileBloc(
               userProfileRepository:
                   DependencyProvider.getUserProfileRepository()!,
+              secureStorage: DependencyProvider.getSecureStorage()!,
             )..add(LoadProfile()),
             child: const ProfilePage(),
           );

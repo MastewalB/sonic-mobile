@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:sonic_mobile/features/album/presentation/album_page.dart';
 import 'package:sonic_mobile/features/auth/blocs/login_bloc/login_bloc.dart';
 import 'package:sonic_mobile/features/home/presentation/homepage.dart';
+import 'package:sonic_mobile/features/profile/bloc/view_profile/profile_bloc.dart';
 import 'package:sonic_mobile/features/studio/bloc/create_podcast_bloc/create_podcast_bloc.dart';
 
 // import 'package:sonic_mobile/features/studio/presentation/record_page.dart';
@@ -50,6 +51,12 @@ void main() async {
               audioPlayer: DependencyProvider.getAudioPlayer()!,
             ),
           ),
+          BlocProvider(
+              create: (context) => ProfileBloc(
+                    userProfileRepository:
+                        DependencyProvider.getUserProfileRepository()!,
+                    secureStorage: DependencyProvider.getSecureStorage()!,
+                  ))
         ],
         child: MultiBlocListener(
           listeners: [

@@ -74,7 +74,7 @@ class YourPlaylists extends StatelessWidget {
                           context: context,
                           builder: (dialogContext) {
                             TextEditingController nameController =
-                            TextEditingController();
+                                TextEditingController();
                             return AlertDialog(
                               title: const Text("Enter playlist title."),
                               content: TextField(
@@ -87,10 +87,10 @@ class YourPlaylists extends StatelessWidget {
                                       context
                                           .read<LibraryBloc>()
                                           .add(CreatePlaylistEvent(
-                                        playlistTitle:
-                                        nameController.value.text,
-                                      ));
-                                      Navigator.pop(context);
+                                            playlistTitle:
+                                                nameController.value.text,
+                                          ));
+                                      Navigator.pop(dialogContext);
                                     }
                                   },
                                   child: const Text(
@@ -132,17 +132,20 @@ class YourPlaylists extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.all(15.0),
                     child: ListTile(
-                      leading: Icon(Icons.add, color: Colors.white,),
+                      leading: Icon(
+                        Icons.add,
+                        color: Colors.white,
+                      ),
                       title: Text(
                         "Create New Playlist",
                         style: TextStyle(color: Colors.white),
                       ),
-                      onTap: (){
+                      onTap: () {
                         showDialog(
                             context: context,
                             builder: (dialogContext) {
                               TextEditingController nameController =
-                              TextEditingController();
+                                  TextEditingController();
                               return AlertDialog(
                                 title: const Text("Enter playlist title."),
                                 content: TextField(
@@ -155,9 +158,9 @@ class YourPlaylists extends StatelessWidget {
                                         context
                                             .read<LibraryBloc>()
                                             .add(CreatePlaylistEvent(
-                                          playlistTitle:
-                                          nameController.value.text,
-                                        ));
+                                              playlistTitle:
+                                                  nameController.value.text,
+                                            ));
                                         Navigator.pop(context);
                                       }
                                     },

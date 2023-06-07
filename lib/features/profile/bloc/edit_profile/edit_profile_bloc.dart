@@ -36,7 +36,8 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
             await userProfileRepository.setUser(UserProfile.fromUser(value));
           });
         }).then((value) {
-          notificationCubit.successNotification(message: "Sign up Successful.");
+          notificationCubit.successNotification(
+              message: "Profile Update Successful.");
           emit(EditProfileSubmitted());
         });
       } catch (e) {
