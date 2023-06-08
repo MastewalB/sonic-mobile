@@ -53,7 +53,7 @@ class _SideMenuState extends State<SideMenu> {
                       label: 'Dashboard',
                     ),
                     SideNavigationBarItem(
-                      icon: Icons.person,
+                      icon: Icons.playlist_play,
                       label: 'Playlists',
                     ),
                     SideNavigationBarItem(

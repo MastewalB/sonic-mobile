@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sonic_mobile/features/profile/presentation/widgets/profile_info.dart';
 import '../components/playlist_file.dart';
 import '../components/storage_details.dart';
 import '../core/constants/colors.dart';
@@ -20,7 +21,7 @@ class DashboardScreen extends StatelessWidget {
             children: [
               Header(),
                SizedBox(height: defaultPadding),
-              PlaylistHeader(),
+              Profile(),
               PlaylistFiles(),
               
               SizedBox(height: defaultPadding),

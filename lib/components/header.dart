@@ -57,10 +57,9 @@ class ProfileCard extends StatelessWidget {
       ),
       child: Row(
         children: [
-          Image.asset(
-            "assets/images/album.jpg",
-            height: 38,
-          ),
+          IconButton(onPressed: (){}, 
+          icon:  Icon(Icons.person),
+          color: Colors.white,),
           if (!Responsive.isMobile(context))
             Padding(
               padding:
