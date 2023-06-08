@@ -10,42 +10,46 @@ import '../../components/playlist_header.dart';
 class DashboardScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: SingleChildScrollView(
-        primary: false,
-        padding: EdgeInsets.all(defaultPadding),
-        child: Column(
-          children: [
-            Header(),
-            PlaylistHeader(),
-            PlaylistFiles(),
-            
-            SizedBox(height: defaultPadding),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(
-                  flex: 5,
-                  child: Column(
-                    children: [
-
-                      MyFiles(),
-                      SizedBox(height: defaultPadding),
-                      RecentFiles(),
-                    ],
+    return Container(
+      color: thirdColor,
+       padding: EdgeInsets.all(16.0),
+        child: SingleChildScrollView(
+          primary: false,
+          
+          child: Column(
+            children: [
+              Header(),
+               SizedBox(height: defaultPadding),
+              PlaylistHeader(),
+              PlaylistFiles(),
+              
+              SizedBox(height: defaultPadding),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    flex: 5,
+                    child: Column(
+                      children: [
+    
+                        MyFiles(),
+                        SizedBox(height: defaultPadding),
+                        RecentFiles(),
+                      ],
+                    ),
                   ),
-                ),
-                SizedBox(width: defaultPadding),
-                // On Mobile we don't want to show it
-                Expanded(
-                  flex: 2,
-                  child: StorageDetails(),
-                ),
-              ],
-            )
-          ],
+                  SizedBox(width: defaultPadding),
+                  // On Mobile we don't want to show it
+                  Expanded(
+                    flex: 2,
+                    child: StorageDetails(),
+                  ),
+                ],
+              )
+            ],
+          ),
         ),
-      ),
+      
     );
   }
 }

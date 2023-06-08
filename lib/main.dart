@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive/hive.dart';
+import 'package:flutter/services.dart';
 import 'package:sonic_mobile/core/core.dart';
 import 'package:flutter/services.dart';
 import 'package:sonic_mobile/features/audio_player/bloc/audio_player_bloc.dart';
@@ -13,13 +14,21 @@ import 'package:sonic_mobile/screens/desktopProfile.dart';
 import 'package:sonic_mobile/screens/desktop_home.dart';
 import 'package:sonic_mobile/screens/desktop_playlist.dart';
 import 'package:sonic_mobile/screens/profile_screen.dart';
+import 'package:window_size/window_size.dart';
 import 'components/side_menu.dart';
 import 'features/auth/blocs/signup_bloc/signup_bloc.dart';
 import 'features/auth/models/user_profile.dart';
 import 'features/studio/bloc/studio_bloc/studio_bloc.dart';
 import 'package:sonic_mobile/features/auth/auth.dart';
+import 'dart:io' as io;
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  if (io.Platform.isWindows ) {
+    setWindowTitle('Flutter Demo');
+    setWindowMinSize(const Size(1000, 1000));
+    setWindowMaxSize(Size.infinite);
+  }
   WidgetsFlutterBinding.ensureInitialized();
   Hive.registerAdapter(UserProfileAdapter());
   final PageRouter pageRouter = PageRouter();
@@ -107,7 +116,9 @@ class Sonic extends StatefulWidget {
   State<Sonic> createState() => _SonicState();
 }
 
-class _SonicState extends State<Sonic> {
+class _SonicState extends State<Sonic> with WidgetsBindingObserver {
+  final double minScreenWidth = 1500;
+  bool resized = false;
   @override
   void initState() {
     super.initState();
@@ -118,6 +129,8 @@ class _SonicState extends State<Sonic> {
     super.didChangeDependencies();
   }
 
+
+
   @override
   Widget build(BuildContext context) {
     MediaQueryManager.init(context);
@@ -125,17 +138,17 @@ class _SonicState extends State<Sonic> {
       return Scaffold(
       body: Container(
         constraints: BoxConstraints(
-                  minWidth: 1500, // Minimum width for the app
-                  minHeight: 1500, // Minimum height for the app
+               minWidth: minScreenWidth,// Minimum height for the app
                 ),
         child: SafeArea(
           child: Row(children: [ 
-            Expanded(
-              child: SideMenu(),
-              ),
+            Container(
+            width: 260,
+            child: SideMenu(),
+          ),
             Expanded(
               flex: 5,
-              child: DesktopPlaylist(),)
+              child: DashboardScreen(),)
           ],),),
       ),
         );

@@ -18,11 +18,15 @@ class Header extends StatelessWidget {
           IconButton(
             icon: Icon(Icons.menu),
             onPressed:() {},
+            color: Colors.white,
           ),
         if (!Responsive.isMobile(context))
           Text(
             "Dashboard",
-            style: Theme.of(context).textTheme.titleLarge,
+            style: TextStyle(
+              color: Colors.white,
+            ),
+            
           ),
         if (!Responsive.isMobile(context))
           Spacer(flex: Responsive.isDesktop(context) ? 2 : 1),
@@ -61,9 +65,13 @@ class ProfileCard extends StatelessWidget {
             Padding(
               padding:
                   const EdgeInsets.symmetric(horizontal: defaultPadding / 2),
-              child: Text("Angelina Jolie"),
+              child: Text("Angelina Jolie",
+              style: TextStyle(
+                color: Colors.white,
+              ),),
             ),
-          Icon(Icons.keyboard_arrow_down),
+          Icon(Icons.keyboard_arrow_down,
+          color: Colors.white,),
         ],
       ),
     );
@@ -80,6 +88,9 @@ class SearchField extends StatelessWidget {
     return TextField(
       decoration: InputDecoration(
         hintText: "Search",
+        hintStyle: TextStyle(
+      color: Colors.white, // Set the desired color
+    ),
         fillColor: secondaryColor,
         filled: true,
         border: OutlineInputBorder(

@@ -1,98 +1,90 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:easy_sidemenu/easy_sidemenu.dart';
-import 'package:sonic_mobile/core/constants/colors.dart';
-import 'package:sonic_mobile/features/library/presentation/library_page.dart';
-import 'package:sonic_mobile/features/studio/presentation/studio_library.dart';
+import 'package:side_navigation/side_navigation.dart';
+import 'package:sonic_mobile/core/core.dart';
 
-import '../features/studio/presentation/record_page.dart';
-
-class SideMenu extends StatelessWidget {
-  const SideMenu({
-    super.key,
-  });
+class SideMenu extends StatefulWidget {
+  const SideMenu({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    return Drawer
-    (
-      backgroundColor: secondaryColor,
-      child: SingleChildScrollView(
-        child: Column(
-          
-        children:[
-          DrawerHeader(
-            child: Image.asset("assets/images/logo.png"),),
-          DrawerListTile(
-            title: "Home",
-            svgSrc: "assets/images/home.svg",
-            press:() {
-              Navigator.pushNamed(
-                  context,
-                  RecordPage.routeName,
-                );
-            },
-      
-          ),
-          DrawerListTile(
-            title: "Search",
-            svgSrc: "assets/icons/Search.svg",
-            press:() {
-              Navigator.pushNamed(
-                  context,
-                  LibraryPage.routeName,
-                );
-            },
-      
-          ),
-          DrawerListTile(
-            title: "Playlists",
-            svgSrc: "assets/icons/Search.svg",
-            press:() {},
-      
-          ),
-          DrawerListTile(
-            title: "My Files",
-            svgSrc: "assets/icons/menu_doc.svg",
-            press:() {},
-      
-          ),
-          DrawerListTile(
-            title: "Settings",
-            svgSrc: "assets/icons/menu_doc.svg",
-            press:() {},
-      
-          ),
-          ],
-                ),
-      ),
-    );
-  }
+  _SideMenuState createState() => _SideMenuState();
 }
 
-class DrawerListTile extends StatelessWidget {
-  const DrawerListTile({
-    super.key, 
-    required this.title, 
-    required this.svgSrc, 
-    required this.press,
-  });
+class _SideMenuState extends State<SideMenu> {
+  List<Widget> views = const [
+    Center(
+      child: Text('Dashboard'),
+    ),
+    Center(
+      child: Text('Playlists'),
+    ),
+    Center(
+      child: Text('Profile'),
+    ),
+    Center(
+      child: Text('Settings'),
+    ),
 
-  final String title, svgSrc;
-  final VoidCallback press;
-  
+  ];
+  int selectedIndex = 0;
+
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      onTap: press,
-      horizontalTitleGap: 0.0,
-      leading: SvgPicture.asset(
-        svgSrc,
-        color: Colors.white54,
-        height: 16,
+    return Scaffold(
+      body: Padding(
+        padding: EdgeInsets.fromLTRB(5,40,5,0),
+        child: Container(
+          decoration: BoxDecoration(
+    borderRadius: BorderRadius.circular(10),
+    color: thirdColor, // Replace with your desired color
+    border: Border.all(
+      color: thirdColor,
+      
+    ),),
+          child: Row(
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(16), 
+                child: SideNavigationBar(
+                  selectedIndex: selectedIndex,
+                  items: const [
+                    SideNavigationBarItem(
+                      icon: Icons.dashboard,
+                      label: 'Dashboard',
+                    ),
+                    SideNavigationBarItem(
+                      icon: Icons.person,
+                      label: 'Playlists',
+                    ),
+                    SideNavigationBarItem(
+                      icon: Icons.person,
+                      label: 'Profile',
+                    ),
+                    SideNavigationBarItem(
+                      icon: Icons.settings,
+                      label: 'Settings',
+                    ),
+                  ],
+                  onTap: (index) {
+                    setState(() {
+                      selectedIndex = index;
+                    });
+                  },
+                  toggler: SideBarToggler(
+                      expandIcon: Icons.keyboard_arrow_left,
+                      shrinkIcon: Icons.keyboard_arrow_right,
+                      onToggle: () {
+                        print('Toggle');
+                      }),
+                ),
+              ),
+              Expanded(
+                child: views.elementAt(selectedIndex),
+              )
+            ],
+          ),
+        ),
       ),
-      title: Text(title,
-       style:TextStyle(color: Colors.white54)),
     );
   }
 }
