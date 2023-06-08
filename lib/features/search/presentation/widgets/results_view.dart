@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'dart:math';
 
 import 'package:sonic_mobile/features/album/presentation/album_page.dart';
+import 'package:sonic_mobile/features/artist/presentation/artist_page.dart';
 import 'package:sonic_mobile/features/audio_player/bloc/audio_player_bloc.dart';
 import 'package:sonic_mobile/models/audio.dart';
 import 'package:sonic_mobile/models/song.dart';
@@ -69,6 +70,11 @@ class SearchResultsWidget<T> extends StatelessWidget {
       return inp;
     }
 
+    String getArtistId(inpt) {
+      var inp = inpt['data'];
+      return inp['id'].toString();
+    }
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -110,7 +116,6 @@ class SearchResultsWidget<T> extends StatelessWidget {
             print(searchType);
             return InkWell(
               onTap: () {
-                print('lu been her');
                 print(searchType);
                 if (searchType == 'Album') {
                   Navigator.push(
@@ -132,6 +137,15 @@ class SearchResultsWidget<T> extends StatelessWidget {
                           fromCurrentPlaylist: false,
                         ),
                       );
+                } else if (searchType == 'Artist') {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ArtistPage(
+                        artistID: getArtistId(item),
+                      ),
+                    ),
+                  );
                 }
               },
               child: Container(
@@ -168,7 +182,6 @@ class SearchResultsWidget<T> extends StatelessWidget {
                   ),
                   onTap: () {
                     // Handle the result tap action
-                    print('lu been her');
                     print(searchType);
                     if (searchType == 'Album') {
                       Navigator.push(
@@ -190,6 +203,15 @@ class SearchResultsWidget<T> extends StatelessWidget {
                               fromCurrentPlaylist: false,
                             ),
                           );
+                    } else if (searchType == 'Artist') {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ArtistPage(
+                            artistID: getArtistId(item),
+                          ),
+                        ),
+                      );
                     }
                   },
                 ),

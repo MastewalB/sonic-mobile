@@ -53,7 +53,7 @@ class AlbumDataProvider {
 }
 
 class ArtistDataProvider {
-  final _baseUrl = 'http://localhost:8000/api/v1/music/';
+  final _baseUrl = Constants.musicUrl;
   final http.Client httpClient;
 
   ArtistDataProvider({required this.httpClient});
@@ -61,7 +61,7 @@ class ArtistDataProvider {
   // get artist by id
   Future<Artist> getArtist(String artistId) async {
     final response =
-        await httpClient.get(Uri.parse('${_baseUrl}artists/$artistId'));
+        await httpClient.get(Uri.parse('${_baseUrl}artists/$artistId/'));
 
     if (response.statusCode == 200) {
       final artist = jsonDecode(response.body);
