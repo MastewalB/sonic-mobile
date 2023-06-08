@@ -76,6 +76,7 @@ class YourPlaylists extends StatelessWidget {
                             TextEditingController nameController =
                                 TextEditingController();
                             return AlertDialog(
+                              backgroundColor: Color.fromARGB(255, 47, 49, 66),
                               title: const Text("Enter playlist title."),
                               content: TextField(
                                 controller: nameController,
