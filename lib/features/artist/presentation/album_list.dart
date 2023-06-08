@@ -5,6 +5,7 @@ import 'dart:collection';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sonic_mobile/features/album/presentation/album_page.dart';
+import 'package:sonic_mobile/features/artist/presentation/widgets/album_grid.dart';
 import 'package:sonic_mobile/features/audio_player/bloc/audio_player_bloc.dart';
 import 'package:sonic_mobile/features/library/presentation/widgets/list_playlists.dart';
 import 'package:sonic_mobile/models/models.dart';
@@ -60,12 +61,12 @@ class AlbumListWidget extends StatelessWidget {
                 padding: EdgeInsets.fromLTRB(20.0, 5.0, 20.0, 0.0),
                 sliver: SliverToBoxAdapter(
                   child: Container(
-                    height: 300,
+                    height: 250,
                     // width: 100,
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(15),
                       child: AspectRatio(
-                        aspectRatio: 1.0,
+                        aspectRatio: 0.5,
                         child: Container(
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10.0),
@@ -81,7 +82,7 @@ class AlbumListWidget extends StatelessWidget {
                 ),
               ),
               SliverPadding(
-                padding: EdgeInsets.fromLTRB(25.0, 15.0, 15.0, 0.0),
+                padding: EdgeInsets.fromLTRB(25.0, 15.0, 15.0, 20.0),
                 sliver: SliverToBoxAdapter(
                   child: Text(
                     name,
@@ -93,12 +94,32 @@ class AlbumListWidget extends StatelessWidget {
                   ),
                 ),
               ),
-              SliverList(
-                delegate: SliverChildBuilderDelegate(
-                    (BuildContext context, int index) {
-                  return Padding(
-                    padding: const EdgeInsets.fromLTRB(30.0, 15.0, 0.0, 0.0),
-                    child: InkWell(
+              SliverPadding(
+                padding: EdgeInsets.fromLTRB(25.0, 15.0, 15.0, 20.0),
+                sliver: SliverToBoxAdapter(
+                  child: Text(
+                    'Albums',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 14,
+                        fontFamily: "Poppins",
+                        fontWeight: FontWeight.w300),
+                  ),
+                ),
+              ),
+
+              SliverGrid.builder(
+                  // shrinkWrap: true,
+                  itemCount: albums.length,
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    childAspectRatio: 0.9,
+                    mainAxisSpacing: 10.0,
+                    crossAxisSpacing: 10.0,
+                  ),
+                  itemBuilder: (context, index) {
+                    return InkWell(
+                      splashColor: Colors.white,
                       onTap: () {
                         Navigator.push(
                           context,
@@ -108,40 +129,58 @@ class AlbumListWidget extends StatelessWidget {
                           ),
                         );
                       },
-                      onDoubleTap: () {},
-                      child: Row(
-                        mainAxisSize: MainAxisSize.max,
-                        children: [
-                          InkWell(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: const [
-                                Text(
-                                  '-',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 15,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            onTap: () {},
-                          ),
-                          SizedBox(
-                            width: 20,
-                          ),
-                          Expanded(
-                              child: CardSmall(
-                            title: albums[index].name,
-                            duration: '',
-                            // image: 'assets/music_icon_image.jpg',
-                          )),
-                        ],
-                      ),
-                    ),
-                  );
-                }, childCount: albums.length),
-              )
+                      child: AlbumCard(album: albums[index]),
+                    );
+                  }),
+              // SliverList(
+              //   delegate: SliverChildBuilderDelegate(
+              //       (BuildContext context, int index) {
+              //     return Padding(
+              //       padding: const EdgeInsets.fromLTRB(30.0, 15.0, 0.0, 0.0),
+              //       child: InkWell(
+              //         onTap: () {
+              //           Navigator.push(
+              //             context,
+              //             MaterialPageRoute(
+              //               builder: (context) =>
+              //                   AlbumPage(albumID: albums[index].id),
+              //             ),
+              //           );
+              //         },
+              //         onDoubleTap: () {},
+              //         child: Row(
+              //           mainAxisSize: MainAxisSize.max,
+              //           children: [
+              //             InkWell(
+              //               child: Column(
+              //                 crossAxisAlignment: CrossAxisAlignment.center,
+              //                 children: const [
+              //                   Text(
+              //                     '-',
+              //                     style: TextStyle(
+              //                       color: Colors.white,
+              //                       fontSize: 15,
+              //                     ),
+              //                   ),
+              //                 ],
+              //               ),
+              //               onTap: () {},
+              //             ),
+              //             SizedBox(
+              //               width: 20,
+              //             ),
+              //             Expanded(
+              //                 child: CardSmall(
+              //               title: albums[index].name,
+              //               duration: '',
+              //               // image: 'assets/music_icon_image.jpg',
+              //             )),
+              //           ],
+              //         ),
+              //       ),
+              //     );
+              //   }, childCount: albums.length),
+              // )
             ])));
   }
 }
