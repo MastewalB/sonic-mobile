@@ -15,6 +15,28 @@ class ProfileScreen extends StatelessWidget {
           children: [
             SizedBox(height: defaultPadding),
             ProfileHeader(),
+             Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Padding
+            (
+              padding: EdgeInsets.all(10),
+              child: Text(
+                
+                "My Playlists",
+                style: TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.w800,
+                      color: Colors.white,
+                    ),
+                
+                
+              ),
+            ),
+          
+            
+          ],
+        ),
             ProfileLists(),
             FollowerLists(),
           ],

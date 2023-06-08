@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import '../core/constants/colors.dart';
 import '../features/profile/presentation/responsive.dart';
 import '../models/files.dart';
-import 'profile_info_card.dart';
+import 'home_song_card.dart';
 
-class ProfileLists extends StatelessWidget {
-  const ProfileLists({
+class HomeSongLists extends StatelessWidget {
+  const HomeSongLists({
     Key? key,
   }) : super(key: key);
 
@@ -17,12 +17,12 @@ class ProfileLists extends StatelessWidget {
         
         SizedBox(height: defaultPadding),
         Responsive(
-          mobile: ProfileInfoCardGridView(
+          mobile: HomeSongInfoCardGridView(
             crossAxisCount: _size.width < 650 ? 2 : 4,
             childAspectRatio: _size.width < 650 && _size.width > 350 ? 1.3 : 1,
           ),
-          tablet: ProfileInfoCardGridView(),
-          desktop: ProfileInfoCardGridView(
+          tablet: HomeSongInfoCardGridView(),
+          desktop: HomeSongInfoCardGridView(
             childAspectRatio: _size.width < 1400 ? 1.1 : 1.4,
           ),
         ),
@@ -31,10 +31,10 @@ class ProfileLists extends StatelessWidget {
   }
 }
 
-class ProfileInfoCardGridView extends StatelessWidget {
-  const ProfileInfoCardGridView({
+class HomeSongInfoCardGridView extends StatelessWidget {
+  const HomeSongInfoCardGridView({
     Key? key,
-    this.crossAxisCount = 4,
+    this.crossAxisCount = 8,
     this.childAspectRatio = 1,
   }) : super(key: key);
 
@@ -57,7 +57,7 @@ class ProfileInfoCardGridView extends StatelessWidget {
         // ),
         itemBuilder: (context, index) => Padding(
           padding: const EdgeInsets.symmetric(horizontal:4.0),
-          child: ProfileInfoCard(info: demoMyFiles[index]),
+          child: HomeSongInfoCard(info: demoMyFiles[index]),
         ),
       ),
     );
