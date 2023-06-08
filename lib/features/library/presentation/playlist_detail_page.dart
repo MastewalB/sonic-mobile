@@ -174,17 +174,19 @@ class _PlaylistDetailPageState extends State<PlaylistDetailPage> {
                           padding:
                               const EdgeInsets.fromLTRB(30.0, 15.0, 0.0, 0.0),
                           child: InkWell(
-                            onTap: () {},
+                            onTap: () {
+                              ListQueue<Audio> playlist =
+                              ListQueue.from(widget.playlist.playlistItems);
+                              context.read<AudioPlayerBloc>().add(
+                                PlayAudioEvent(
+                                  playlist: playlist,
+                                  currentIndex: index,
+                                  fromCurrentPlaylist: false,
+                                ),
+                              );
+                            },
                             onDoubleTap: () {
-                              // ListQueue<Audio> playlist =
-                              // ListQueue.from(widget.podcast.episodes);
-                              // context.read<AudioPlayerBloc>().add(
-                              //   PlayAudioEvent(
-                              //     playlist: playlist,
-                              //     currentIndex: index,
-                              //     fromCurrentPlaylist: false,
-                              //   ),
-                              // );
+                              
                             },
                             child: Row(
                               mainAxisSize: MainAxisSize.max,
@@ -218,11 +220,13 @@ class _PlaylistDetailPageState extends State<PlaylistDetailPage> {
                                 const SizedBox(
                                   width: 20,
                                 ),
-                                CardSmall(
-                                  title: widget
-                                      .playlist.playlistItems[index].title,
-                                  duration: "00:12",
-                                  image: 'assets/music_icon_image.jpg',
+                                Expanded(
+                                  child: CardSmall(
+                                    title: widget
+                                        .playlist.playlistItems[index].title,
+                                    duration: "00:12",
+                                    image: 'assets/music_icon_image.jpg',
+                                  ),
                                 ),
                                 IconButton(
                                     color: Colors.white,

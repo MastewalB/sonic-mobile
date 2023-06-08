@@ -162,7 +162,7 @@ class YourPlaylists extends StatelessWidget {
                                               playlistTitle:
                                                   nameController.value.text,
                                             ));
-                                        Navigator.pop(context);
+                                        Navigator.pop(dialogContext);
                                       }
                                     },
                                     child: const Text(

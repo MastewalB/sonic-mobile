@@ -45,10 +45,10 @@ class Homepage extends StatelessWidget {
                         context, ProfilePage.routeName);
                   },
                   child: Padding(
-                    padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 25),
+                    padding: const EdgeInsets.all(14),
                     child: CircleAvatar(
+                      backgroundColor: Colors.white,
                       child: Icon(Icons.person),
-                      backgroundColor: Colors.grey[300],
                     ),
                   ),
                 ),
