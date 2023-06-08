@@ -20,6 +20,7 @@ class Homepage extends StatelessWidget {
   static const String routeName = "home";
 
   final VoidCallback? toggleDrawer;
+
   const Homepage({Key? key, this.toggleDrawer}) : super(key: key);
 
   @override
@@ -37,20 +38,7 @@ class Homepage extends StatelessWidget {
                   Scaffold.of(context).openDrawer();
                 },
               ),
-              backgroundColor: Colors.transparent,
-            ),
-            backgroundColor: Colors.black,
-            body: ListView(
-              children: [
-                //  IconButton(
-                //   icon: Icon(
-                //     Icons.more_vert,
-                //     color: Colors.white,
-                //   ),
-                //   onPressed: () {
-                //     Scaffold.of(context).openDrawer();
-                //   },
-                // ),
+              actions: [
                 GestureDetector(
                   onTap: () {
                     Navigator.pushReplacementNamed(
@@ -58,11 +46,18 @@ class Homepage extends StatelessWidget {
                   },
                   child: Padding(
                     padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 25),
-                    child: Header(
-                      profileName: 'Labile',
+                    child: CircleAvatar(
+                      child: Icon(Icons.person),
+                      backgroundColor: Colors.grey[300],
                     ),
                   ),
                 ),
+              ],
+              backgroundColor: Colors.transparent,
+            ),
+            backgroundColor: Colors.black,
+            body: ListView(
+              children: [
                 CatchPhrase(
                   text: "The Ultimate Sound",
                 ),
