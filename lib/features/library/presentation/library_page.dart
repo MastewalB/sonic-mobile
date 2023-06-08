@@ -85,7 +85,7 @@ class _LibraryPageState extends State<LibraryPage> {
           ListTile(
             title: const Text(
               "Home",
-              style: TextStyle(color: Colors.white, fontSize: 24),
+              style: TextStyle(color: Colors.white, fontSize: 20),
             ),
             onTap: () {
               Navigator.pushReplacementNamed(
@@ -97,7 +97,7 @@ class _LibraryPageState extends State<LibraryPage> {
           ListTile(
             title: const Text(
               "Sonic Studio",
-              style: TextStyle(color: Colors.white, fontSize: 24),
+              style: TextStyle(color: Colors.white, fontSize: 20),
             ),
             onTap: () {
               Navigator.pushReplacementNamed(context, StudioLibrary.routeName);
@@ -105,7 +105,7 @@ class _LibraryPageState extends State<LibraryPage> {
           ),
           ListTile(
             title: Text("Logout",
-                style: TextStyle(color: Colors.white, fontSize: 24)),
+                style: TextStyle(color: Colors.white, fontSize: 20)),
             onTap: () {
               context.read<ProfileBloc>().add(LogoutEvent());
               Future.delayed(Duration(seconds: 1)).then((_) {
