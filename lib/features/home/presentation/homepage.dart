@@ -30,7 +30,7 @@ class Homepage extends StatelessWidget {
             appBar: AppBar(
               leading: IconButton(
                 icon: Icon(
-                  Icons.more_vert,
+                  Icons.menu,
                   color: Colors.white,
                 ),
                 onPressed: () {

@@ -1,8 +1,12 @@
+import 'dart:collection';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sonic_mobile/core/core.dart';
 import 'package:sonic_mobile/features/library/bloc/playlist_bloc/playlist_bloc.dart';
+import 'package:sonic_mobile/features/audio_player/bloc/audio_player_bloc.dart';
+import 'package:sonic_mobile/features/library/presentation/widgets/list_playlists.dart';
 import 'package:sonic_mobile/models/models.dart';
 
 class PlaylistDetailPage extends StatefulWidget {
@@ -46,7 +50,6 @@ class _PlaylistDetailPageState extends State<PlaylistDetailPage> {
                         onSelected: (value) {
                           switch (value.toString()) {
                             case "edit":
-
                               break;
                             case "delete":
                               showDialog(
@@ -201,15 +204,15 @@ class _PlaylistDetailPageState extends State<PlaylistDetailPage> {
                                     ],
                                   ),
                                   onTap: () {
-                                    // ListQueue<Audio> playlist =
-                                    // ListQueue.from(widget.podcast.episodes);
-                                    // context.read<AudioPlayerBloc>().add(
-                                    //   PlayAudioEvent(
-                                    //     playlist: playlist,
-                                    //     currentIndex: index,
-                                    //     fromCurrentPlaylist: false,
-                                    //   ),
-                                    // );
+                                    ListQueue<Audio> playlist = ListQueue.from(
+                                        widget.playlist.playlistItems);
+                                    context.read<AudioPlayerBloc>().add(
+                                          PlayAudioEvent(
+                                            playlist: playlist,
+                                            currentIndex: index,
+                                            fromCurrentPlaylist: false,
+                                          ),
+                                        );
                                   },
                                 ),
                                 const SizedBox(
@@ -221,6 +224,69 @@ class _PlaylistDetailPageState extends State<PlaylistDetailPage> {
                                   duration: "00:12",
                                   image: 'assets/music_icon_image.jpg',
                                 ),
+                                IconButton(
+                                    color: Colors.white,
+                                    icon: Icon(Icons.more_vert),
+                                    onPressed: () {
+                                      showBottomSheet(
+                                          context: context,
+                                          backgroundColor: Colors.black,
+                                          builder: (context) {
+                                            return SizedBox(
+                                              height: 300,
+                                              child: SingleChildScrollView(
+                                                child: Column(
+                                                  children: [
+                                                    ListTile(
+                                                      title: Text(
+                                                        "Remove from Playlist",
+                                                        style: TextStyle(
+                                                          color: Colors.white,
+                                                        ),
+                                                      ),
+                                                      onTap: () {
+                                                        context
+                                                            .read<
+                                                                PlaylistBloc>()
+                                                            .add(RemoveItemEvent(
+                                                                playlistId:
+                                                                    widget
+                                                                        .playlist
+                                                                        .id,
+                                                                songId: widget
+                                                                    .playlist
+                                                                    .playlistItems[
+                                                                        index]
+                                                                    .id));
+                                                      },
+                                                    ),
+                                                    ListTile(
+                                                      title: Text(
+                                                        "Add to other Playlist",
+                                                        style: TextStyle(
+                                                          color: Colors.white,
+                                                        ),
+                                                      ),
+                                                      onTap: () {
+                                                        Navigator.push(context,
+                                                            MaterialPageRoute(
+                                                                builder:
+                                                                    (context) {
+                                                          return ChoosePlaylist(
+                                                              songId: widget
+                                                                  .playlist
+                                                                  .playlistItems[
+                                                                      index]
+                                                                  .id);
+                                                        }));
+                                                      },
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            );
+                                          });
+                                    }),
                               ],
                             ),
                           ),
