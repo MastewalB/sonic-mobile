@@ -73,7 +73,7 @@ class Profile extends StatelessWidget {
                         Text(
                           "Profile",
                           style: TextStyle(
-                            fontSize: 10,
+                            fontSize: 12,
                             fontWeight: FontWeight.w800,
                             color: Colors.white,
                           ),
@@ -81,60 +81,63 @@ class Profile extends StatelessWidget {
                         Text(
                           '${state.profile.firstName} ${state.profile.lastName}',
                           style: TextStyle(
-                              fontSize: 20,
+                              fontSize: 26,
                               fontWeight: FontWeight.w900,
                               color: Colors.white,
                               overflow: TextOverflow.ellipsis),
                         ),
-                        RichText(
-                          selectionColor: Colors.white,
-                          text: TextSpan(
-                            text: ".8",
-                            style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w100,
-                              color: Colors.white,
-                            ),
-                            children: [
-                              TextSpan(
-                                text: ' Followers   ',
-                                style: TextStyle(
-                                  // fontFamily: 'courier',
-                                  fontSize: 14,
-                                  color: Colors.white,
-                                ),
-                              ),
-                              TextSpan(
-                                text: '.13',
-                                style: TextStyle(
-                                  // fontFamily: 'courier',
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w800,
-                                  color: Colors.white,
-                                ),
-                              ),
-                              TextSpan(
-                                text: ' Following',
-                                style: TextStyle(
-                                  // fontFamily: 'courier',
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w100,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
+                        // RichText(
+                        //   selectionColor: Colors.white,
+                        //   text: TextSpan(
+                        //     text: ".8",
+                        //     style: TextStyle(
+                        //       fontSize: 14,
+                        //       fontWeight: FontWeight.w100,
+                        //       color: Colors.white,
+                        //     ),
+                        //     children: [
+                        //       TextSpan(
+                        //         text: ' Followers   ',
+                        //         style: TextStyle(
+                        //           // fontFamily: 'courier',
+                        //           fontSize: 14,
+                        //           color: Colors.white,
+                        //         ),
+                        //       ),
+                        //       TextSpan(
+                        //         text: '.13',
+                        //         style: TextStyle(
+                        //           // fontFamily: 'courier',
+                        //           fontSize: 14,
+                        //           fontWeight: FontWeight.w800,
+                        //           color: Colors.white,
+                        //         ),
+                        //       ),
+                        //       TextSpan(
+                        //         text: ' Following',
+                        //         style: TextStyle(
+                        //           // fontFamily: 'courier',
+                        //           fontSize: 14,
+                        //           fontWeight: FontWeight.w100,
+                        //           color: Colors.white,
+                        //         ),
+                        //       ),
+                        //     ],
+                        //   ),
+                        // ),
                       ],
                     ),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.pushReplacementNamed(
-                            context, EditProfilePage.routeName);
-                      },
-                      child: Icon(
-                        Icons.edit,
-                        color: Colors.blue,
+                    Padding(
+                      padding: const EdgeInsets.only(left:12.0),
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.pushReplacementNamed(
+                              context, EditProfilePage.routeName);
+                        },
+                        child: Icon(
+                          Icons.edit,
+                          color: Colors.blue,
+                        ),
                       ),
                     )
                   ],

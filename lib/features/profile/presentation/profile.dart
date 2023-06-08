@@ -3,6 +3,9 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sonic_mobile/core/core.dart';
+import 'package:sonic_mobile/features/library/bloc/library_bloc/library_bloc.dart';
+import 'package:sonic_mobile/features/library/presentation/playlist_detail_page.dart';
+import 'package:sonic_mobile/features/library/presentation/widgets/screen_arguments.dart';
 import 'package:sonic_mobile/features/profile/bloc/view_profile/profile_bloc.dart';
 import 'package:sonic_mobile/features/profile/presentation/widgets/profile_info.dart';
 import 'responsive.dart';
@@ -120,13 +123,69 @@ class ProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double safeAreaWidth = MediaQueryManager.safeAreaHorizontal;
+    double circleAvatarWidth = safeAreaWidth * 8;
+
     return Scaffold(
         body: SafeArea(
       child: Column(
-        children: const [
-          Profile(),
-
-          // const Expanded(child: PlaylistLists())
+        children: [
+          const Profile(),
+          const SizedBox(height: 16.0,),
+          const Padding(
+            padding: EdgeInsets.fromLTRB(0,28,0,10),
+            child: Center(
+                child: Text(
+              "Your Playlists",
+              style: TextStyle(
+                  fontSize: 20,
+                  color: Colors.white,
+                  fontWeight: FontWeight.w500,
+                  letterSpacing: BorderSide.strokeAlignCenter),
+            )),
+          ),
+          // const SizedBox(height: 22.0,),
+          Expanded(
+            child: BlocBuilder<LibraryBloc, LibraryState>(
+              builder: (context, state) {
+                return ListView.builder(
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8),
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.pushNamed(
+                            context,
+                            PlaylistDetailPage.routeName,
+                            arguments: PlaylistDetailArgument(
+                              state.playlists[index],
+                            ),
+                          );
+                        },
+                        child: ListTile(
+                          title: Text(
+                            state.playlists[index].playlistTitle,
+                            style: const TextStyle(
+                              fontSize: 19,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.white,
+                            ),
+                          ),
+                          leading: CircleAvatar(
+                            radius: circleAvatarWidth,
+                            backgroundImage: const AssetImage(
+                              "assets/images/podcast_icon.jpg",
+                            ),
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                  itemCount: state.playlists.length,
+                );
+              },
+            ),
+          ),
 
           //Place to add the bottom dashboard
         ],
