@@ -140,7 +140,12 @@ class YourPodcastsPage extends StatelessWidget {
                     ),
                   ),
                   RawMaterialButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.pushNamed(
+                        context,
+                        CreatePodcastPage.routeName,
+                      );
+                    },
                     elevation: 2.0,
                     fillColor: const Color.fromARGB(255, 60, 60, 70),
                     padding: const EdgeInsets.all(15.0),

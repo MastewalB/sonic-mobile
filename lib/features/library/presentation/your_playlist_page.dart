@@ -96,7 +96,7 @@ class YourPlaylists extends StatelessWidget {
                                   child: const Text(
                                     "Create Playlist",
                                     style: TextStyle(
-                                      color: Colors.green,
+                                      color: Colors.black,
                                     ),
                                   ),
                                 ),
