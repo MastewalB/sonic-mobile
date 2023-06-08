@@ -5,6 +5,7 @@ import 'dart:collection';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sonic_mobile/features/audio_player/bloc/audio_player_bloc.dart';
+import 'package:sonic_mobile/features/library/presentation/widgets/list_playlists.dart';
 import 'package:sonic_mobile/models/models.dart';
 import 'package:sonic_mobile/core/core.dart';
 
@@ -14,6 +15,7 @@ class AudioListWidget extends StatelessWidget {
   final String title;
   final String artist;
   final int numberOfSongs;
+
   // final DateTime releaseDate;
   final int year;
 
@@ -191,7 +193,35 @@ class AudioListWidget extends StatelessWidget {
                             color: Colors.white,
                             icon: Icon(Icons.more_vert),
                             onPressed: () {
-                              print(songs[index].title);
+                              showBottomSheet(
+                                  context: context,
+                                  backgroundColor: Colors.black,
+                                  builder: (context) {
+                                    return SizedBox(
+                                      height: 300,
+                                      child: SingleChildScrollView(
+                                        child: Column(
+                                          children: [
+                                            ListTile(
+                                              title: Text(
+                                                "Add to Playlist",
+                                                style: TextStyle(
+                                                    color: Colors.white),
+                                              ),
+                                              onTap: () {
+                                                Navigator.push(context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) {
+                                                  return ChoosePlaylist(
+                                                      songId: songs[index].id);
+                                                }));
+                                              },
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    );
+                                  });
                             },
                           )
                         ],
@@ -203,7 +233,7 @@ class AudioListWidget extends StatelessWidget {
             ])));
   }
 }
-  
+
 //     return Material(
 //       child: Expanded(
 //         child: SingleChildScrollView(

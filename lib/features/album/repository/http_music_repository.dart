@@ -5,7 +5,7 @@ import 'dart:convert';
 import 'package:sonic_mobile/models/models.dart';
 
 class AlbumDataProvider {
-  final _baseUrl = 'http://192.168.200.116:8000/api/v1/music';
+  final _baseUrl = 'http://localhost:8000/api/v1/music';
   final http.Client httpClient;
 
   AlbumDataProvider({required this.httpClient});

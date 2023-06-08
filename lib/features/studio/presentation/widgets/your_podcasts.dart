@@ -16,6 +16,15 @@ class YourPodcastsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     double safeAreaWidth = MediaQueryManager.safeAreaHorizontal;
     double circleAvatarWidth = safeAreaWidth * 8;
+    IconButton iconButton = IconButton(
+      icon: Icon(
+        Icons.menu,
+        color: Colors.white,
+      ),
+      onPressed: () {
+        Scaffold.of(context).openDrawer();
+      },
+    );
 
     Future _refreshData() async {
       await Future.delayed(const Duration(seconds: 1));
@@ -36,6 +45,7 @@ class YourPodcastsPage extends StatelessWidget {
         if (state.status.isError) {
           return Scaffold(
             appBar: AppBar(
+              leading: iconButton,
               title: const Text("Your Podcasts"),
               actions: [
                 PopupMenuButton(
@@ -90,6 +100,7 @@ class YourPodcastsPage extends StatelessWidget {
         if (state.status.isLoaded && state.podcasts.isEmpty) {
           return Scaffold(
             appBar: AppBar(
+              leading: iconButton,
               title: const Text("Your Podcasts"),
               actions: [
                 PopupMenuButton(
@@ -120,6 +131,7 @@ class YourPodcastsPage extends StatelessWidget {
             ),
             body: Center(
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const Text(
                     "Your Podcasts will appear Here.",
@@ -153,6 +165,7 @@ class YourPodcastsPage extends StatelessWidget {
           child: SafeArea(
             child: Scaffold(
               appBar: AppBar(
+                leading: iconButton,
                 title: const Text("Your Podcasts"),
                 actions: [
                   PopupMenuButton(
