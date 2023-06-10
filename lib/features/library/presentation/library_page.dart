@@ -175,12 +175,20 @@ class _LibraryPageState extends State<LibraryPage> {
                                             'assets/music_icon_image.jpg',
                                           ),
                                         )
-                                      : const DecorationImage(
-                                          image: AssetImage(
-                                            'assets/music_icon_image.jpg',
-                                          ),
-                                          fit: BoxFit.cover,
-                                        ),
+                                      : (state.audioQueue!
+                                                  .elementAt(state.currentIndex)
+                                                  .imageUrl !=
+                                              null)
+                                          ? DecorationImage(
+                                              image: NetworkImage(state
+                                                  .audioQueue!
+                                                  .elementAt(state.currentIndex)
+                                                  .imageUrl!))
+                                          : const DecorationImage(
+                                              image: AssetImage(
+                                                'assets/music_icon_image.jpg',
+                                              ),
+                                            ),
                                 ),
                                 constraints: const BoxConstraints(
                                   // maxHeight: 60,
