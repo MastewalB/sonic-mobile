@@ -61,6 +61,7 @@ class AudioPlayerBloc extends Bloc<AudioPlayerEvent, AudioPlayerState> {
         audioPlayer: audioPlayer,
         isPlaying: true,
         status: AudioPlayerStatus.loading,
+        currentIndex: currentIndex,
         audioQueue: audioQueue,
       ));
 

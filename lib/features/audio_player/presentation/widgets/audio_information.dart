@@ -29,14 +29,21 @@ class AudioInformation extends StatelessWidget {
                     borderRadius: BorderRadius.circular(5.0),
                   ),
                   clipBehavior: Clip.antiAlias,
-                  child: const Image(
+                  child: Image(
                     fit: BoxFit.cover,
-                    height: 350,
+                    height: 300,
                     width: 400,
                     gaplessPlayback: true,
-                    image: AssetImage(
-                      'assets/music_icon_image.jpg',
-                    ),
+                    image: (state.audioQueue!
+                                .elementAt(state.currentIndex)
+                                .imageUrl !=
+                            null)
+                        ? NetworkImage(state.audioQueue!
+                            .elementAt(state.currentIndex)
+                            .imageUrl!) as ImageProvider
+                        : const AssetImage(
+                            'assets/music_icon_image.jpg',
+                          ),
                   )
                   // : CachedNetworkImage(
                   //     fit: BoxFit.cover,
@@ -60,7 +67,7 @@ class AudioInformation extends StatelessWidget {
             ),
           ),
           const SizedBox(
-            height: 90,
+            height: 70,
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 30),
@@ -75,7 +82,9 @@ class AudioInformation extends StatelessWidget {
                         ),
                         child: Marquee(
                           text: state.audioQueue!
-                              .elementAt(state.currentIndex)
+                              .elementAt(
+                                state.currentIndex,
+                              )
                               .title,
                           //state.audioQueue!.elementAt(state.currentIndex).id,
                           style: const TextStyle(
@@ -113,7 +122,7 @@ class AudioInformation extends StatelessWidget {
               audioQueue.elementAt(state.currentIndex).artistName,
               textDirection: TextDirection.ltr,
               style: const TextStyle(
-                fontSize: 18,
+                fontSize: 16,
                 color: Colors.white,
                 fontWeight: FontWeight.w400,
               ),
