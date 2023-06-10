@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class Constants {
-  static const String apiUrl = "http://192.168.200.116:8000/api/v1/";
+  static const String apiUrl = "http://localhost:8000/api/v1/";
   static const String refreshTokenUrl = "${apiUrl}token/refresh/";
   static const String accountsUrl = "${apiUrl}accounts/";
   static const String signupUrl = "${accountsUrl}signup/";
@@ -24,6 +24,13 @@ class Constants {
 
   //Storage
   static const String recordingDirectory = "Sonic/recordings/";
+
+  //iTunes URL
+  static const String iTunesSearchUrl =
+      "https://itunes.apple.com/search?media=podcast";
+  static const String iTunesLookupUrl = "https://itunes.apple.com/lookup?";
+  static const String iTunesTopList =
+      "https://itunes.apple.com/us/rss/toppodcasts/json";
 
   //Characters
   static const String kEllipsis = ' . . .';

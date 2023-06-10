@@ -1,5 +1,4 @@
 export 'song.dart';
-export 'podcast.dart';
 export 'playlist.dart';
 export 'user.dart';
 export 'audio.dart';
@@ -9,3 +8,7 @@ export 'artist.dart';
 export 'studio_episode.dart';
 export 'studio_podcast.dart';
 export 'recording.dart';
+export 'podcast_models/podcast.dart';
+export 'podcast_models/podcast_search_result.dart';
+export 'podcast_models/feed.dart';
+export 'podcast_models/feed_item.dart';
