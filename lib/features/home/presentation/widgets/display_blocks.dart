@@ -31,6 +31,16 @@ class DisplayBlock extends StatelessWidget {
           height: 200.0,
           child: BlocBuilder<SongBloc, SongState>(
             builder: (context, state) {
+              if (state is SongErrorState) {
+                return const Center(
+                  child: Text(
+                    "A Network Error Occurred",
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                );
+              }
               if (state is SongLoadedState) {
                 final songs = state.songs; // Access the songs from the state
 
@@ -95,10 +105,9 @@ class DisplayBlock extends StatelessWidget {
                     );
                   },
                 );
-              } else {
-                // Show a placeholder or loading state when songs are not yet loaded
-                return const Center(child: CircularProgressIndicator());
               }
+              // Show a placeholder or loading state when songs are not yet loaded
+              return const Center(child: CircularProgressIndicator());
             },
           ),
         ),
