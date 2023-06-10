@@ -41,7 +41,7 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
 
   void _onTextChanged(String value) {
     _debounceTimer?.cancel();
-    _debounceTimer = Timer(const Duration(seconds: 2), () {
+    _debounceTimer = Timer(const Duration(milliseconds: 45), () {
       // Perform live searching here
 
       print('Live searching: $value');

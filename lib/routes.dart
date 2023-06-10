@@ -10,9 +10,11 @@ import 'package:sonic_mobile/features/library/presentation/playlist_detail_page.
 import 'package:sonic_mobile/features/library/presentation/widgets/screen_arguments.dart';
 import 'package:sonic_mobile/features/library/presentation/your_library_page.dart';
 import 'package:sonic_mobile/features/profile/bloc/edit_profile/edit_profile_bloc.dart';
+import 'package:sonic_mobile/features/profile/bloc/user_profile/user_profile_bloc.dart';
 import 'package:sonic_mobile/features/profile/bloc/view_profile/profile_bloc.dart';
 import 'package:sonic_mobile/features/profile/presentation/edit_profile_page.dart';
 import 'package:sonic_mobile/features/profile/presentation/profile.dart';
+import 'package:sonic_mobile/features/profile/presentation/user_profile_view.dart';
 import 'package:sonic_mobile/features/profile/repository/profile_data_provider.dart';
 import 'package:sonic_mobile/features/search/presentation/widgets/search_view.dart';
 import 'package:sonic_mobile/features/studio/bloc/podcast_detail_bloc/podcast_detail_bloc.dart';
@@ -69,6 +71,7 @@ class PageRouter {
             child: const ProfilePage(),
           );
         });
+
       case Homepage.routeName:
         final HomeScreenArguments? homeScreenArguments =
             (routeSettings.arguments != null)

@@ -129,12 +129,10 @@ class _LoginPageState extends State<LoginPage> {
                         padding: EdgeInsets.fromLTRB(0, 100, 0, 0),
                         child: GestureDetector(
                           onTap: () {
-                            WidgetsBinding.instance.addPostFrameCallback((_) {
-                              Navigator.pushReplacementNamed(
-                                context,
-                                SignUpPage.routeName,
-                              );
-                            });
+                            Navigator.pushReplacementNamed(
+                              context,
+                              SignUpPage.routeName,
+                            );
                           },
                           child: RichText(
                             text: TextSpan(

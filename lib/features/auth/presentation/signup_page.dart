@@ -35,7 +35,6 @@ class _SignUpPageState extends State<SignUpPage> {
 
   @override
   Widget build(BuildContext context) {
-
     return BlocBuilder<SignupBloc, SignupState>(
       builder: (context, state) {
         if (state.status.isSuccess) {
@@ -177,7 +176,7 @@ class _SignUpPageState extends State<SignUpPage> {
                               country = pickedCountry.displayNameNoCountryCode;
                               // print(country);
                               setState(() {
-                                if(country != null) {
+                                if (country != null) {
                                   // print(country);
                                   countrySelected = true;
                                 }
@@ -311,10 +310,8 @@ class _SignUpPageState extends State<SignUpPage> {
                     padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
                     child: GestureDetector(
                       onTap: () {
-                        WidgetsBinding.instance.addPostFrameCallback((_) {
-                          Navigator.pushReplacementNamed(
-                              context, LoginPage.routeName);
-                        });
+                        Navigator.pushReplacementNamed(
+                            context, LoginPage.routeName);
                       },
                       child: RichText(
                         text: const TextSpan(

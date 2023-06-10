@@ -1,16 +1,17 @@
 import 'package:http/http.dart' as http;
+import 'package:sonic_mobile/core/constants/constants.dart';
 import 'dart:convert';
 import 'package:sonic_mobile/models/models.dart';
 
 class HomeDataProvider {
-  final _baseUrl = 'http://192.168.200.116:8000/api/v1/music';
+  final _baseUrl = Constants.musicUrl;
   final http.Client httpClient;
 
   HomeDataProvider({required this.httpClient});
 
   //get songs
   Future<List<Song>> getRecommendedSongs() async {
-    final response = await httpClient.get(Uri.parse('$_baseUrl/songs/'));
+    final response = await httpClient.get(Uri.parse('${_baseUrl}songs/'));
     // print("here");
     // print(response.body);
     if (response.statusCode == 200) {
@@ -34,7 +35,7 @@ class HomeDataProvider {
   }
 
   Future<List<Album>> getRecommendedAlbums() async {
-    final response = await httpClient.get(Uri.parse('$_baseUrl/albums/'));
+    final response = await httpClient.get(Uri.parse('${_baseUrl}albums/'));
     // print("here");
     if (response.statusCode == 200) {
       final List<dynamic> albums = jsonDecode(response.body);

@@ -29,4 +29,15 @@ class ProfileDataProvider {
       throw Exception('Failed: $e');
     }
   }
+
+  Future<PublicUser> getProfile(String userId) async {
+    Uri uri = Uri.parse('${apiUrl}accounts/users/$userId/');
+
+    try {
+      final response = await http.get(uri);
+      return PublicUser.fromJson(json.decode(response.body));
+    } catch (e) {
+      throw Exception('Failed: $e');
+    }
+  }
 }

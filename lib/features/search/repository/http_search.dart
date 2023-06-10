@@ -1,14 +1,15 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:sonic_mobile/core/constants/constants.dart';
 
 class SearchDataProvider {
-  static const String _baseUrl =
-      'http://192.168.200.116:8000/api/v1'; // Replace with your API base URL
+  static const String _baseUrl = Constants.apiUrl;
+  // Replace with your API base URL
 
   Future<List<dynamic>> search(String query) async {
     print(query);
     final url =
-        Uri.parse('$_baseUrl/search/?search_query=$query&search_type=all');
+        Uri.parse('${_baseUrl}search/?search_query=$query&search_type=all');
 
     try {
       final response = await http.get(url);
@@ -19,6 +20,7 @@ class SearchDataProvider {
           'song': [],
           'album': [],
           'artist': [],
+          'user': []
         };
 
         for (final result in results) {
