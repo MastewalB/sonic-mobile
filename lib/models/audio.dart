@@ -4,18 +4,20 @@ class Audio {
   final String title;
   final String artistName;
   final String fileUrl;
+  final String? imageUrl;
 
-  Audio(
-    this.title,
-    this.artistName,
-    this.fileUrl,
-  );
+  Audio({
+    required this.title,
+    required this.artistName,
+    required this.fileUrl,
+    this.imageUrl,
+  });
 
   factory Audio.fromSongModel(SongModel songModel) {
     return Audio(
-      songModel.title,
-      songModel.artist ?? "Unknown",
-      songModel.data,
+      title: songModel.title,
+      artistName: songModel.artist ?? "Unknown",
+      fileUrl: songModel.data,
     );
   }
 }

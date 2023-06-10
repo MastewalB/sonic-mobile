@@ -8,6 +8,8 @@ class Song implements Audio {
   final AlbumInfo album;
   final String songFile;
   final String contentType;
+  @override
+  final String? imageUrl;
   // final DateTime dateAdded;
 
   Song({
@@ -17,6 +19,7 @@ class Song implements Audio {
     required this.album,
     required this.songFile,
     required this.contentType,
+    this.imageUrl,
     // required this.dateAdded
   });
 
