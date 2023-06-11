@@ -13,6 +13,11 @@ class AudioPlayerFailedEvent extends AudioPlayerEvent {
   List<Object?> get props => [];
 }
 
+class AudioPlayerLoadingEvent extends AudioPlayerEvent {
+  @override
+  List<Object?> get props => [];
+}
+
 class PlayAudioEvent extends AudioPlayerEvent {
   ListQueue<Audio>? playlist;
   int? currentIndex;

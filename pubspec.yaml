@@ -57,6 +57,7 @@ dependencies:
   anim_search_bar: ^2.0.3
   xml: ^6.1.0
   flutter_markdown: ^0.6.15
+  web_socket_channel: ^2.3.0
 
 dev_dependencies:
   flutter_test:

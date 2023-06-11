@@ -22,6 +22,9 @@ class Constants {
   static const String studioUrl = "${apiUrl}studio/";
   static const String studioPodcastsUrl = "${apiUrl}studio/podcasts/";
 
+  //Channel URL
+  static const String connectStreamUrl = "ws://localhost:8000/ws/stream/";
+
   //Storage
   static const String recordingDirectory = "Sonic/recordings/";
 

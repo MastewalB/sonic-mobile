@@ -49,6 +49,8 @@ void main() async {
           ),
           BlocProvider(
             create: (context) => AudioPlayerBloc(
+              userProfileRepository:
+                  DependencyProvider.getUserProfileRepository()!,
               audioPlayer: DependencyProvider.getAudioPlayer()!,
             ),
           ),
