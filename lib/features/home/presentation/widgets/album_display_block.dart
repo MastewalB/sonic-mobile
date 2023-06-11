@@ -29,6 +29,16 @@ class AlbumDisplayBlock extends StatelessWidget {
           height: 200.0,
           child: BlocBuilder<AlbumBloc, AlbumState>(
             builder: (context, state) {
+              if (state is AlbumErrorState) {
+                return const Center(
+                  child: Text(
+                    "A Network Error Occurred",
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                );
+              }
               if (state is AlbumLoadedState) {
                 final albums = state.albums; // Access the songs from the state
 
@@ -90,10 +100,9 @@ class AlbumDisplayBlock extends StatelessWidget {
                     );
                   },
                 );
-              } else {
-                // Show a placeholder or loading state when songs are not yet loaded
-                return const Center(child: CircularProgressIndicator());
               }
+              // Show a placeholder or loading state when songs are not yet loaded
+              return const Center(child: CircularProgressIndicator());
             },
           ),
         ),

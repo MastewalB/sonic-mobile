@@ -13,50 +13,52 @@ class PlayerPage extends StatelessWidget {
     final audioPlayerBloc = BlocProvider.of<AudioPlayerBloc>(context);
 
     debugPrint(audioPlayerBloc.audioQueue.length.toString());
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: const Color.fromARGB(255, 50, 50, 50),
-        elevation: 20,
-        shadowColor: const Color.fromARGB(255, 100, 100, 100),
-        leading: GestureDetector(
-          child: const Icon(
-            Icons.keyboard_arrow_down,
-            textDirection: TextDirection.ltr,
-            color: Colors.white,
+    return SafeArea(
+      child: Scaffold(
+        // appBar: AppBar(
+        //   backgroundColor: const Color.fromARGB(255, 50, 50, 50),
+        //   elevation: 20,
+        //   shadowColor: const Color.fromARGB(255, 100, 100, 100),
+        //   leading: GestureDetector(
+        //     child: const Icon(
+        //       Icons.keyboard_arrow_down,
+        //       textDirection: TextDirection.ltr,
+        //       color: Colors.white,
+        //     ),
+        //     onTap: () {
+        //       Navigator.pop(context);
+        //     },
+        //   ),
+        //   actions: const [
+        //     Icon(
+        //       Icons.more_vert,
+        //       textDirection: TextDirection.ltr,
+        //       color: Colors.white,
+        //     ),
+        //   ],
+        // ),
+        body: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                Color(Colors.grey.shade50.value),
+                Color(Colors.grey.shade900.value),
+                Color(Colors.black87.value),
+              ],
+              begin: FractionalOffset.topCenter,
+              end: FractionalOffset.bottomCenter,
+              stops: const [0.0, 0.7, 1.0],
+              tileMode: TileMode.clamp,
+            ),
           ),
-          onTap: () {
-            Navigator.pop(context);
-          },
-        ),
-        actions: const [
-          Icon(
-            Icons.more_vert,
-            textDirection: TextDirection.ltr,
-            color: Colors.white,
-          ),
-        ],
-      ),
-      body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              Color(Colors.grey.shade50.value),
-              Color(Colors.grey.shade900.value),
-              Color(Colors.black87.value),
+          child: ListView(
+            children: const [
+              PlayerAppBar(),
+              AudioInformation(),
+              TimeSlider(),
+              PlayerControls(),
             ],
-            begin: FractionalOffset.topCenter,
-            end: FractionalOffset.bottomCenter,
-            stops: const [0.0, 0.7, 1.0],
-            tileMode: TileMode.clamp,
           ),
-        ),
-        child: ListView(
-          children: const [
-            // PlayerAppBar(),
-            AudioInformation(),
-            TimeSlider(),
-            PlayerControls(),
-          ],
         ),
       ),
     );
