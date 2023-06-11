@@ -71,7 +71,7 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
           IconButton(
             icon: Icon(widget.backIcon),
             onPressed: () {
-              Navigator.pushReplacementNamed(context, SearchView.routeName);
+              Navigator.maybePop(context);
             },
           ),
           Expanded(
