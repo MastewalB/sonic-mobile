@@ -35,13 +35,16 @@ class _FolderSongsState extends State<FolderSongs> {
       child: Scaffold(
         appBar: AppBar(
           // automaticallyImplyLeading: false,
-          leading:  IconButton(
-            icon: Icon(Icons.arrow_back_ios),
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back_ios),
             onPressed: () {
               Navigator.pop(context);
             },
           ),
-          title: Text(widget.folderName),
+          title: Text(
+            widget.folderName,
+            style: TextStyle(fontSize: 17),
+          ),
         ),
         body: SafeArea(
           child: (widget.songs.isEmpty)
@@ -54,7 +57,8 @@ class _FolderSongsState extends State<FolderSongs> {
                             builder: (context, state) {
                               return ListTile(
                                 onTap: () {
-                                  ListQueue<Audio> playlist = ListQueue<Audio>();
+                                  ListQueue<Audio> playlist =
+                                      ListQueue<Audio>();
                                   for (SongModel song in widget.songs) {
                                     if (song.uri != null) {
                                       playlist.add(Audio.fromSongModel(song));
@@ -74,13 +78,17 @@ class _FolderSongsState extends State<FolderSongs> {
                                 },
                                 leading: Image.asset(
                                   'assets/music_icon_image.jpg',
+                                  width: 45,
+                                  height: 45,
                                 ),
                                 title: Text(
                                   e.displayName,
                                   style: TextStyle(
+                                    fontSize: 14,
                                     color: (state.audioQueue!.isNotEmpty &&
                                             state.audioQueue!
-                                                    .elementAt(state.currentIndex)
+                                                    .elementAt(
+                                                        state.currentIndex)
                                                     .fileUrl ==
                                                 e.data)
                                         ? Colors.green
@@ -92,9 +100,11 @@ class _FolderSongsState extends State<FolderSongs> {
                                 subtitle: Text(
                                   e.artist ?? "Unknown",
                                   style: TextStyle(
+                                    fontSize: 13,
                                     color: (state.audioQueue!.isNotEmpty &&
                                             state.audioQueue!
-                                                    .elementAt(state.currentIndex)
+                                                    .elementAt(
+                                                        state.currentIndex)
                                                     .fileUrl ==
                                                 e.data)
                                         ? Colors.green
