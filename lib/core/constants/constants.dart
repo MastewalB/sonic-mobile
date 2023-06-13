@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class Constants {
-  static const String apiUrl = "http://localhost:8000/api/v1/";
+  static const String apiUrl = "http://192.168.72.116:7000/api/v1/";
   static const String refreshTokenUrl = "${apiUrl}token/refresh/";
   static const String accountsUrl = "${apiUrl}accounts/";
   static const String signupUrl = "${accountsUrl}signup/";

@@ -196,17 +196,29 @@ class AudioListWidget extends StatelessWidget {
                               showBottomSheet(
                                   context: context,
                                   backgroundColor: Colors.black,
+                                  shape: Border(
+                                      left: BorderSide(color: Colors.black),
+                                      right: BorderSide(color: Colors.black),
+                                      top: BorderSide(color: Colors.black)),
+                                  // clipBehavior: Clip.hardEdge,
+                                  // shape: BorderRadius.only(topLeft: Radius.circular(25.0)),
                                   builder: (context) {
                                     return SizedBox(
-                                      height: 300,
+                                      height: 150,
                                       child: SingleChildScrollView(
                                         child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
                                           children: [
                                             ListTile(
-                                              title: Text(
-                                                "Add to Playlist",
-                                                style: TextStyle(
-                                                    color: Colors.white),
+                                              tileColor: Colors.white,
+                                              title: Center(
+                                                child: Text(
+                                                  "Add to Playlist",
+                                                  style: TextStyle(
+                                                      color: Colors.black,
+                                                      fontSize: 18),
+                                                ),
                                               ),
                                               onTap: () {
                                                 Navigator.push(context,
@@ -217,6 +229,17 @@ class AudioListWidget extends StatelessWidget {
                                                 }));
                                               },
                                             ),
+                                            ListTile(
+                                              title: Center(
+                                                child: Text(
+                                                  "Go to Similar Songs",
+                                                  style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 18),
+                                                ),
+                                              ),
+                                              onTap: () {},
+                                            )
                                           ],
                                         ),
                                       ),
