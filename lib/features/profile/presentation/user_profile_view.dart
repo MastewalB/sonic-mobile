@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sonic_mobile/core/core.dart';
+import 'package:sonic_mobile/dependency_provider.dart';
+import 'package:sonic_mobile/features/follow/bloc/follow_bloc.dart';
 import 'package:sonic_mobile/features/library/bloc/library_bloc/library_bloc.dart';
 import 'package:sonic_mobile/features/library/presentation/playlist_detail_page.dart';
 import 'package:sonic_mobile/features/library/presentation/widgets/screen_arguments.dart';
@@ -12,11 +14,17 @@ import 'responsive.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:http/http.dart' as http;
 
-class UserProfileView extends StatelessWidget {
+class UserProfileView extends StatefulWidget {
   // static const String routeName = "user_profile";
   final String userId;
+
   const UserProfileView({required this.userId, Key? key}) : super(key: key);
 
+  @override
+  State<UserProfileView> createState() => _UserProfileViewState();
+}
+
+class _UserProfileViewState extends State<UserProfileView> {
   @override
   Widget build(BuildContext context) {
     double safeAreaWidth = MediaQueryManager.safeAreaHorizontal;
@@ -29,8 +37,8 @@ class UserProfileView extends StatelessWidget {
             // context.read<UserProfileBloc>().add(LoadUserProfile(userId)),
             UserProfileBloc(ProfileDataProvider(httpClient: http.Client())),
         child: Builder(builder: (context) {
-          final userPorfileBloc = context.read<UserProfileBloc>();
-          userPorfileBloc.add(LoadUserProfile(userId));
+          final userProfileBloc = context.read<UserProfileBloc>();
+          userProfileBloc.add(LoadUserProfile(widget.userId));
           return Column(
             children: [
               Container(
@@ -86,37 +94,70 @@ class UserProfileView extends StatelessWidget {
                                   ],
                                 ),
                               ),
-                              Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "Profile",
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w800,
-                                      color: Colors.white,
+                              Flexible(
+                                child: Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    const Text(
+                                      "Profile",
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w800,
+                                        color: Colors.white,
+                                      ),
                                     ),
-                                  ),
-                                  Text(
-                                    '${state.profile.firstName} ${state.profile.lastName}',
-                                    style: TextStyle(
+                                    Text(
+                                      state.profile.fullName,
+                                      style: const TextStyle(
                                         fontSize: 26,
                                         fontWeight: FontWeight.w900,
                                         color: Colors.white,
-                                        overflow: TextOverflow.ellipsis),
-                                  ),
-                                ],
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
-                              Padding(
-                                padding: const EdgeInsets.only(left: 12.0),
-                                child: GestureDetector(
-                                  onTap: () {},
-                                  child: Icon(
-                                    Icons.add_box_rounded,
-                                    color: Colors.blue,
-                                  ),
+                              BlocProvider(
+                                create: (context) => FollowBloc(
+                                    followRepository: DependencyProvider
+                                        .getHttpFollowProvider()!,
+                                    userProfileRepository: DependencyProvider
+                                        .getUserProfileRepository()!)
+                                  ..add(GetFollowersEvent()),
+                                child: BlocBuilder<FollowBloc, FollowState>(
+                                  builder: (context, state) {
+                                    print(state.toString());
+                                    if (state is FollowersListLoaded) {
+                                      print(state.users);
+                                      return Padding(
+                                        padding:
+                                            const EdgeInsets.only(left: 12.0),
+                                        child: IconButton(
+                                          icon: (state.users.contains(widget.userId))
+                                              ? Icon(Icons.person_remove)
+                                              : Icon(
+                                                  Icons.person_add,
+                                                ),
+                                          color: Colors.blue,
+                                          onPressed: () {
+                                            (state.users.contains(widget.userId))
+                                                ? context
+                                                    .read<FollowBloc>()
+                                                    .add(UnfollowUserEvent(
+                                                        userId: widget.userId))
+                                                : context
+                                                    .read<FollowBloc>()
+                                                    .add(FollowUserEvent(
+                                                        userId: widget.userId));
+                                          },
+                                        ),
+                                      );
+                                    }
+                                    return Container();
+                                  },
                                 ),
                               )
                             ],

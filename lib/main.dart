@@ -6,6 +6,8 @@ import 'package:sonic_mobile/core/core.dart';
 import 'package:flutter/services.dart';
 import 'package:sonic_mobile/features/album/presentation/album_page.dart';
 import 'package:sonic_mobile/features/auth/blocs/login_bloc/login_bloc.dart';
+import 'package:sonic_mobile/features/follow/bloc/follow_bloc.dart';
+import 'package:sonic_mobile/features/follow/bloc_stream/stream_bloc.dart';
 import 'package:sonic_mobile/features/home/presentation/homepage.dart';
 import 'package:sonic_mobile/features/library/bloc/playlist_bloc/playlist_bloc.dart';
 import 'package:sonic_mobile/features/profile/bloc/view_profile/profile_bloc.dart';
@@ -55,16 +57,30 @@ void main() async {
             ),
           ),
           BlocProvider(
-              create: (context) => ProfileBloc(
-                    userProfileRepository:
-                        DependencyProvider.getUserProfileRepository()!,
-                    secureStorage: DependencyProvider.getSecureStorage()!,
-                  )),
+            create: (context) => ProfileBloc(
+              userProfileRepository:
+                  DependencyProvider.getUserProfileRepository()!,
+              secureStorage: DependencyProvider.getSecureStorage()!,
+            ),
+          ),
           BlocProvider(
-              create: (context) => PlaylistBloc(
-                  libraryRepository:
-                      DependencyProvider.getHttpLibraryProvider()!,
-                  notificationCubit: notificationCubit))
+            create: (context) => PlaylistBloc(
+                libraryRepository: DependencyProvider.getHttpLibraryProvider()!,
+                notificationCubit: notificationCubit),
+          ),
+          BlocProvider(
+            create: (context) => FollowBloc(
+                followRepository: DependencyProvider.getHttpFollowProvider()!,
+                userProfileRepository:
+                    DependencyProvider.getUserProfileRepository()!),
+          ),
+          BlocProvider(
+            create: (context) => StreamBloc(
+              followRepository: DependencyProvider.getHttpFollowProvider()!,
+              userProfileRepository:
+                  DependencyProvider.getUserProfileRepository()!,
+            ),
+          )
         ],
         child: MultiBlocListener(
           listeners: [

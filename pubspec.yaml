@@ -109,6 +109,8 @@ flutter:
       fonts:
         - asset: fonts/poppins/Poppins-Regular.ttf
         - asset: fonts/poppins/Poppins-Bold.ttf
+        - asset: fonts/poppins/Poppins-SemiBold.ttf
+        - asset: fonts/poppins/Poppins-Medium.ttf
         - asset: fonts/poppins/Poppins-Light.ttf
   #   - family: Trajan Pro
   #     fonts:

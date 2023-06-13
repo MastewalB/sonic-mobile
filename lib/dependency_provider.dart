@@ -11,6 +11,7 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:sonic_mobile/features/library/repository/library_repository.dart';
 import 'package:sonic_mobile/features/library/data_provider/http_library_provider.dart';
 import 'package:sonic_mobile/features/podcast/data_provider/http_podcast_provider.dart';
+import 'package:sonic_mobile/features/follow/repository/http_follow_repository.dart';
 
 class DependencyProvider {
   static http.Client? _httpClient;
@@ -28,6 +29,8 @@ class DependencyProvider {
 
   static HttpLibraryProvider? _libraryProvider;
   static HttpPodcastProvider? _httpPodcastProvider;
+
+  static HttpFollowProvider? _httpFollowProvider;
 
 
   static http.Client? getHttpClient() {
@@ -92,5 +95,10 @@ class DependencyProvider {
   static HttpPodcastProvider? getHttpPodcastProvider(){
     _httpPodcastProvider ??= HttpPodcastProvider(httpClientLibrary: getHttpClient()!);
     return _httpPodcastProvider;
+  }
+
+  static HttpFollowProvider? getHttpFollowProvider(){
+    _httpFollowProvider ??= HttpFollowProvider(httpClient: getAuthenticatedHttpClient()!);
+    return _httpFollowProvider;
   }
 }

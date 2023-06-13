@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:collection';
 import 'dart:convert';
+import 'dart:ffi';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:sonic_mobile/core/core.dart';
 
@@ -21,6 +22,7 @@ class AudioPlayerBloc extends Bloc<AudioPlayerEvent, AudioPlayerState> {
   final AudioPlayer audioPlayer;
   final UserProfileRepository userProfileRepository;
   WebSocketChannel? channel;
+  bool isStreamOwner = false;
 
   int currentIndex = 0;
   bool isPlaying = false;
@@ -35,16 +37,18 @@ class AudioPlayerBloc extends Bloc<AudioPlayerEvent, AudioPlayerState> {
     AudioPlayer.logEnabled = false;
 
     state.audioPlayer.onPlayerCompletion.listen((event) async {
-      if (isLooping) {
-        await state.audioPlayer.setUrl(
-          audioQueue.elementAt(currentIndex).fileUrl,
-        );
-        add(PlayAudioEvent(
-          currentIndex: currentIndex,
-          fromCurrentPlaylist: true,
-        ));
-      } else {
-        add(PlayNextEvent());
+      if (channel == null) {
+        if (isLooping) {
+          await state.audioPlayer.setUrl(
+            audioQueue.elementAt(currentIndex).fileUrl,
+          );
+          add(PlayAudioEvent(
+            currentIndex: currentIndex,
+            fromCurrentPlaylist: true,
+          ));
+        } else {
+          add(PlayNextEvent());
+        }
       }
     });
 
@@ -60,6 +64,14 @@ class AudioPlayerBloc extends Bloc<AudioPlayerEvent, AudioPlayerState> {
           String msgType = jsonData["MSG_TYPE"];
           switch (msgType) {
             case "STATUS_REQ":
+              if (isStreamOwner) {
+                int currentPosition =
+                    await state.audioPlayer.getCurrentPosition();
+                Audio audio = state.audioQueue!.elementAt(state.currentIndex);
+                sendMessage("STATUS_UPDATE", null, audio, currentPosition,
+                    state.status.isPlaying);
+              }
+              return;
             case "STATUS_UPDATE":
               switch (jsonData["OPERATION"]) {
                 case "PLAY":
@@ -190,6 +202,7 @@ class AudioPlayerBloc extends Bloc<AudioPlayerEvent, AudioPlayerState> {
 
     on<StopAudioEvent>((event, emit) async {
       //send message to the group streaming interface
+      isStreamOwner = false;
       disconnect();
       // ! ------ !
 
@@ -314,11 +327,24 @@ class AudioPlayerBloc extends Bloc<AudioPlayerEvent, AudioPlayerState> {
     channel = newChannel;
   }
 
-  void connect(String streamId) {
+  void connect(String? sId) async {
+    UserProfile userProfile = await userProfileRepository.getUser();
+    String streamId = sId ?? userProfile.id;
     String connectUrl = Constants.connectStreamUrl;
     WebSocketChannel connection =
         WebSocketChannel.connect(Uri.parse("$connectUrl$streamId/"));
     channel = connection;
+    if (userProfile.id == streamId) {
+      isStreamOwner = true;
+    } else {
+      sendMessage(
+        "STATUS_REQ",
+        null,
+        null,
+        null,
+        null,
+      );
+    }
   }
 
   void disconnect() {
@@ -330,7 +356,7 @@ class AudioPlayerBloc extends Bloc<AudioPlayerEvent, AudioPlayerState> {
     if (channel != null) {
       final UserProfile userProfile = await userProfileRepository.getUser();
       var body = json.encode({
-        "OWNER": null,
+        "OWNER": (isStreamOwner) ? userProfile.id : null,
         "SENDER": userProfile.id,
         "MSG_TYPE": msgType,
         "OPERATION": operation,

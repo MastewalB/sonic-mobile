@@ -9,7 +9,7 @@ class FollowersPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView.builder(
       itemBuilder: (_, __) {
-        return const UserListSmall();
+        return Container();
       },
       itemCount: 6,
     );

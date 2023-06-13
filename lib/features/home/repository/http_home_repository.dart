@@ -20,7 +20,6 @@ class HomeDataProvider {
       // Map JSON songs to Song objects
       final List<Song> songList =
           songs.map((songData) => Song.fromJson(songData)).toList();
-      print(songList.first.fileUrl);
       // Sort songs by dateAdded in descending order
       // Need to add the dateAdded field in the serializer (not returned as of now)
       // songList.sort((a, b) => b.dateAdded.compareTo(a.dateAdded));

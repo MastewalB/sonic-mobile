@@ -1,24 +1,37 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sonic_mobile/core/core.dart';
+import 'package:sonic_mobile/features/audio_player/bloc/audio_player_bloc.dart';
+import 'package:sonic_mobile/models/models.dart';
 
 class UserListSmall extends StatelessWidget {
-  const UserListSmall({Key? key}) : super(key: key);
+  final PublicUser user;
+
+  const UserListSmall({
+    Key? key,
+    required this.user,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     double safeAreaWidth = MediaQueryManager.safeAreaHorizontal;
 
-    double circleAvatarWidth = safeAreaWidth * 8;
+    double circleAvatarWidth = safeAreaWidth * 6;
     double trailingWidth = safeAreaWidth * 25;
     double sizedBoxWidth = trailingWidth * .01;
-    Size buttonSize = Size(trailingWidth * 0.65, trailingWidth * 0.3); //width and height
+    Size buttonSize =
+        Size(trailingWidth * 0.65, trailingWidth * 0.3); //width and height
 
     return ListTile(
       title: Text(
-        "Black Stone Cherry",
-        style: TextStyle(fontSize: 19, fontWeight: FontWeight.w500),
+        user.fullName,
+        style: TextStyle(
+          color: Colors.white,
+          fontSize: 16,
+          fontWeight: FontWeight.w500,
+        ),
       ),
-      subtitle: Text("7 Followers"),
+      // subtitle: Text("7 Followers"),
       leading: Stack(
         children: [
           CircleAvatar(
@@ -30,10 +43,10 @@ class UserListSmall extends StatelessWidget {
             right: 0,
             bottom: 0,
             child: Container(
-              padding: EdgeInsets.all(7.5),
+              padding: EdgeInsets.all(5),
               decoration: BoxDecoration(
-                border: Border.all(width: 2, color: Colors.white),
-                borderRadius: BorderRadius.circular(90.0),
+                border: Border.all(width: 1, color: Colors.white,),
+                borderRadius: BorderRadius.circular(80.0),
                 color: Colors.green,
               ),
             ),
@@ -46,10 +59,12 @@ class UserListSmall extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             OutlinedButton(
-              onPressed: () {},
-              child: Text(
+              onPressed: () {
+                context.read<AudioPlayerBloc>().connect(user.id);
+              },
+              child: const Text(
                 "Join",
-                style: TextStyle(color: Colors.black),
+                style: TextStyle(color: Colors.white),
               ),
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all(Colors.transparent),
@@ -62,10 +77,10 @@ class UserListSmall extends StatelessWidget {
             SizedBox(
               width: sizedBoxWidth,
             ),
-            Icon(
-              Icons.person_remove_sharp,
-              color: Colors.red.shade300,
-            ),
+            // Icon(
+            //   Icons.person_remove_sharp,
+            //   color: Colors.red.shade200,
+            // ),
           ],
         ),
       ),
