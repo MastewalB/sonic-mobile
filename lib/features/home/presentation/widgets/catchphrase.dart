@@ -44,16 +44,18 @@ class _CatchPhraseState extends State<CatchPhrase>
       child: FadeTransition(
         opacity: _opacityAnimation,
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 24.0),
-          child: Text(
-            widget.text,
-            style: const TextStyle(
-              color: Colors.blue,
-              fontSize: 33.0,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-        ),
+            padding: const EdgeInsets.symmetric(vertical: 24.0),
+            // child: Text(
+            //   widget.text,
+            //   style: const TextStyle(
+            //     color: Colors.blue,
+            //     fontSize: 33.0,
+            //     fontWeight: FontWeight.w600,
+            //   ),
+            // ),
+            child: Center(
+              child: Image(image: AssetImage('assets/soniclogo.png')),
+            )),
       ),
     );
   }
