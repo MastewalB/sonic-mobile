@@ -30,6 +30,7 @@ class AudioPlayerBloc extends Bloc<AudioPlayerEvent, AudioPlayerState> {
 
   ListQueue<Audio> audioQueue = ListQueue<Audio>();
 
+  void initialize() async {}
   AudioPlayerBloc({
     required this.audioPlayer,
     required this.userProfileRepository,
@@ -58,18 +59,22 @@ class AudioPlayerBloc extends Bloc<AudioPlayerEvent, AudioPlayerState> {
     });
 
     channel.stream.listen((data) async {
+      print(data);
       final UserProfile userProfile = await userProfileRepository.getUser();
       var jsonData = json.decode(data);
+
       if (jsonData["SENDER"] != userProfile.id) {
+        print('ereee');
         String msgType = jsonData["MSG_TYPE"];
+        print(msgType);
         switch (msgType) {
           case "STATUS_REQ":
             if (isStreamOwner) {
               int currentPosition =
                   await state.audioPlayer.getCurrentPosition();
               Audio audio = state.audioQueue!.elementAt(state.currentIndex);
-              sendMessage("STATUS_UPDATE", null, audio, currentPosition,
-                  state.status.isPlaying);
+              sendMessage(
+                  "STATUS_UPDATE", "PLAY", audio, currentPosition, true);
             }
             return;
           case "STATUS_UPDATE":
@@ -93,14 +98,20 @@ class AudioPlayerBloc extends Bloc<AudioPlayerEvent, AudioPlayerState> {
                   title: title,
                   imageUrl: imageUrl,
                 ));
-                if (jsonData["DATA"]["PLAY"]) {
-                  add(
-                    PlayAudioEvent(
-                        playlist: playlist,
-                        fromCurrentPlaylist: false,
-                        currentIndex: 0),
-                  );
-                }
+                add(
+                  PlayAudioEvent(
+                      playlist: playlist,
+                      fromCurrentPlaylist: false,
+                      currentIndex: 0),
+                );
+                // if (jsonData["DATA"]["PLAY"]) {
+                //   add(
+                //     PlayAudioEvent(
+                //         playlist: playlist,
+                //         fromCurrentPlaylist: false,
+                //         currentIndex: 0),
+                //   );
+                // }
                 break;
               case "PAUSE":
                 add(PauseAudioEvent());
@@ -117,6 +128,8 @@ class AudioPlayerBloc extends Bloc<AudioPlayerEvent, AudioPlayerState> {
         }
       }
     });
+
+    initialize();
 
     on<AudioPlayerLoadingEvent>((event, emit) async {
       emit(state.copyWith(
