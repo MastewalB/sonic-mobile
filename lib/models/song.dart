@@ -30,13 +30,15 @@ class Song implements Audio {
   String get fileUrl => songFile;
 
   factory Song.fromJson(Map<String, dynamic> json) {
+    AlbumInfo albumInfo = AlbumInfo.fromJson(json["s_album"]);
     return Song(
       id: json["id"].toString(),
       title: json["title"],
       artist: Artist.fromJson(json["s_artist"]),
-      album: AlbumInfo.fromJson(json["s_album"]),
+      album: albumInfo,
       songFile: json["song_file"],
       contentType: json["content_type"],
+      imageUrl: albumInfo.cover,
       // dateAdded: json["dateAdded"],
     );
   }

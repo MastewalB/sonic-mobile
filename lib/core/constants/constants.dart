@@ -7,6 +7,7 @@ class Constants {
   static const String signupUrl = "${accountsUrl}signup/";
   static const String loginUrl = "${accountsUrl}login/";
   static const String followUrl = "${apiUrl}follow/";
+  static const String followerListUrl = "${apiUrl}follow/list/";
   static const String musicUrl = "${apiUrl}music/";
   static const String searchUrl = "${apiUrl}search/";
 
@@ -18,9 +19,16 @@ class Constants {
   static const String deleteItemFromPlaylistUrl = "${playlistUrl}remove/";
   static const String deletePlaylistUrl = "${playlistUrl}delete/";
 
+  //Stream URLs
+  static const String toggleStreamUrl = "${apiUrl}streams/";
+  static const String streamingUsersUrl = "${apiUrl}streams/list/";
+
   //Studio Urls
   static const String studioUrl = "${apiUrl}studio/";
   static const String studioPodcastsUrl = "${apiUrl}studio/podcasts/";
+
+  //Channel URL
+  static const String connectStreamUrl = "ws://192.168.72.116:8000/ws/stream/";
 
   //Storage
   static const String recordingDirectory = "Sonic/recordings/";

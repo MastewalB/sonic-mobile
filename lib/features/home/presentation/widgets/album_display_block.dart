@@ -41,6 +41,16 @@ class AlbumDisplayBlock extends StatelessWidget {
               }
               if (state is AlbumLoadedState) {
                 final albums = state.albums; // Access the songs from the state
+                if(albums.isEmpty){
+                  return const Center(
+                    child: Text(
+                      "No albums found",
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
+                    ),
+                  );
+                }
 
                 return ListView.builder(
                   scrollDirection: Axis.horizontal,

@@ -72,7 +72,7 @@ class _LibraryPageState extends State<LibraryPage> {
     final audioPlayerBloc = BlocProvider.of<AudioPlayerBloc>(context);
     const TextStyle miniPlayerTitleStyle = TextStyle(
       color: Colors.white,
-      fontSize: 15,
+      fontSize: 14,
     );
 
     return Scaffold(

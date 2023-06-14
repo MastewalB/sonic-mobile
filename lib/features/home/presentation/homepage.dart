@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sonic_mobile/features/album/bloc/album/album_event.dart';
+import 'package:sonic_mobile/features/follow/presentation/streaming_users_page.dart';
 import 'package:sonic_mobile/features/home/bloc/song/blocs.dart';
 import 'package:sonic_mobile/features/home/bloc/song/song_bloc.dart';
 import 'package:sonic_mobile/features/home/presentation/widgets/album_display_block.dart';
@@ -42,6 +43,16 @@ class Homepage extends StatelessWidget {
             },
           ),
           actions: [
+            Center(
+                child: IconButton(
+                    onPressed: () {
+                      Navigator.pushNamed(
+                          context, StreamingUsersPage.routeName);
+                    },
+                    icon: Icon(
+                      Icons.group,
+                      color: Colors.white,
+                    ))),
             GestureDetector(
               onTap: () {
                 Navigator.pushReplacementNamed(context, ProfilePage.routeName);

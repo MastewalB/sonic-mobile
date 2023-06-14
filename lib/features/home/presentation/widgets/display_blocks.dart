@@ -43,6 +43,16 @@ class DisplayBlock extends StatelessWidget {
               }
               if (state is SongLoadedState) {
                 final songs = state.songs; // Access the songs from the state
+                if(songs.isEmpty){
+                  return const Center(
+                    child: Text(
+                      "No Songs found",
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
+                    ),
+                  );
+                }
 
                 return ListView.builder(
                   scrollDirection: Axis.horizontal,

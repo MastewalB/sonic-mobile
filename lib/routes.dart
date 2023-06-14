@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sonic_mobile/dependency_provider.dart';
 import 'package:sonic_mobile/features/auth/auth.dart';
+import 'package:sonic_mobile/features/follow/bloc/follow_bloc.dart';
+import 'package:sonic_mobile/features/follow/presentation/streaming_users_page.dart';
 import 'package:sonic_mobile/features/home/presentation/homepage.dart';
 import 'package:sonic_mobile/features/library/bloc/library_bloc/library_bloc.dart';
 import 'package:sonic_mobile/features/library/bloc/playlist_bloc/playlist_bloc.dart';
@@ -30,8 +32,6 @@ import 'package:sonic_mobile/features/studio/presentation/widgets/update_podcast
 import 'package:sonic_mobile/features/studio/presentation/widgets/your_podcasts.dart';
 import 'package:sonic_mobile/features/auth/blocs/signup_bloc/signup_bloc.dart';
 import 'package:sonic_mobile/features/auth/blocs/login_bloc/login_bloc.dart';
-import 'package:sonic_mobile/features/auth/presentation/signup_page.dart';
-import 'package:sonic_mobile/features/auth/presentation/login_page.dart';
 import 'package:http/http.dart' as http;
 import 'features/audio_player/presentation/player_page.dart';
 import 'features/search/bloc/search/search_bloc.dart';
@@ -46,6 +46,17 @@ import 'package:sonic_mobile/features/library/presentation/your_playlist_page.da
 class PageRouter {
   Route<dynamic>? generateRoute(RouteSettings routeSettings) {
     switch (routeSettings.name) {
+      case StreamingUsersPage.routeName:
+        return MaterialPageRoute(builder: (context) {
+          return BlocProvider(
+            create: (context) => FollowBloc(
+                followRepository: DependencyProvider.getHttpFollowProvider()!,
+                userProfileRepository:
+                    DependencyProvider.getUserProfileRepository()!)
+              ..add(GetStreamingFriends()),
+            child: const StreamingUsersPage(),
+          );
+        });
       case EditProfilePage.routeName:
         return MaterialPageRoute(builder: (context) {
           return BlocProvider(
@@ -87,8 +98,8 @@ class PageRouter {
       case SearchView.routeName:
         return MaterialPageRoute(builder: (context) {
           return BlocProvider<SearchBloc>(
-            create: (context) => SearchBloc(
-                SearchDataProvider()), // Provide SearchDataProvider instance here
+            create: (context) => SearchBloc(SearchDataProvider()),
+            // Provide SearchDataProvider instance here
             child: const SearchView(
               query: '',
             ),

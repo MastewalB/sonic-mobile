@@ -10,7 +10,6 @@ class SongBloc extends Bloc<SongEvent, SongState> {
 
   SongBloc(this.songRepository) : super(SongInitial()) {
     on<LoadRecommendedSongsEvent>((event, emit) async {
-      print("about to emit");
       emit(SongLoadingState());
 
       try {

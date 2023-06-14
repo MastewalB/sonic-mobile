@@ -57,6 +57,7 @@ dependencies:
   anim_search_bar: ^2.0.3
   xml: ^6.1.0
   flutter_markdown: ^0.6.15
+  web_socket_channel: ^2.3.0
 
 dev_dependencies:
   flutter_test:
@@ -108,6 +109,8 @@ flutter:
       fonts:
         - asset: fonts/poppins/Poppins-Regular.ttf
         - asset: fonts/poppins/Poppins-Bold.ttf
+        - asset: fonts/poppins/Poppins-SemiBold.ttf
+        - asset: fonts/poppins/Poppins-Medium.ttf
         - asset: fonts/poppins/Poppins-Light.ttf
   #   - family: Trajan Pro
   #     fonts:
