@@ -57,7 +57,7 @@ class AudioInformation extends StatelessWidget {
                   ),
                   imageUrl:
                       state.audioQueue!.elementAt(state.currentIndex).imageUrl!,
-                  height: 350,
+                  height: 300,
                   width: 350,
                 ),
                 // NetworkImage(state.audioQueue!
@@ -137,7 +137,7 @@ class AudioInformation extends StatelessWidget {
                             context.read<StreamBloc>().add(StopStreamEvent());
                           } else {
                             context.read<StreamBloc>().add(StartStreamEvent());
-                            context.read<AudioPlayerBloc>().connect(null);
+                            // context.read<AudioPlayerBloc>().connect(null);
                           }
                         },
                         icon: (streamState is StreamSuccess)

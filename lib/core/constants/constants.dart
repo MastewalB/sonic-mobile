@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class Constants {
-  static const String apiUrl = "http://localhost:8000/api/v1/";
+  static const String apiUrl = "http://192.168.72.116:8000/api/v1/";
   static const String refreshTokenUrl = "${apiUrl}token/refresh/";
   static const String accountsUrl = "${apiUrl}accounts/";
   static const String signupUrl = "${accountsUrl}signup/";
@@ -28,7 +28,7 @@ class Constants {
   static const String studioPodcastsUrl = "${apiUrl}studio/podcasts/";
 
   //Channel URL
-  static const String connectStreamUrl = "ws://localhost:8000/ws/stream/";
+  static const String connectStreamUrl = "ws://192.168.72.116:8000/ws/stream/";
 
   //Storage
   static const String recordingDirectory = "Sonic/recordings/";
