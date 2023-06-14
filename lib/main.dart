@@ -23,6 +23,7 @@ import 'package:sonic_mobile/features/studio/bloc/record_bloc/record_bloc.dart';
 import 'package:sonic_mobile/features/studio/presentation/studio_library.dart';
 import 'package:sonic_mobile/dependency_provider.dart';
 import 'package:sonic_mobile/routes.dart';
+import 'package:web_socket_channel/web_socket_channel.dart';
 import 'features/auth/blocs/signup_bloc/signup_bloc.dart';
 import 'features/auth/models/user_profile.dart';
 import 'features/studio/bloc/studio_bloc/studio_bloc.dart';
@@ -40,6 +41,9 @@ void main() async {
   final NotificationCubit notificationCubit =
       DependencyProvider.getNotificationCubit()!;
 
+  UserProfile userProfile =
+      await DependencyProvider.getUserProfileRepository()!.getUser();
+
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
   ]).then(
@@ -54,6 +58,9 @@ void main() async {
               userProfileRepository:
                   DependencyProvider.getUserProfileRepository()!,
               audioPlayer: DependencyProvider.getAudioPlayer()!,
+              channel: WebSocketChannel.connect(
+                Uri.parse("${Constants.connectStreamUrl}${userProfile.id}/"),
+              ),
             ),
           ),
           BlocProvider(

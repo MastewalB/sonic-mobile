@@ -21,7 +21,7 @@ part 'audio_player_state.dart';
 class AudioPlayerBloc extends Bloc<AudioPlayerEvent, AudioPlayerState> {
   final AudioPlayer audioPlayer;
   final UserProfileRepository userProfileRepository;
-  WebSocketChannel? channel;
+  WebSocketChannel channel;
   bool isStreamOwner = false;
 
   int currentIndex = 0;
@@ -33,11 +33,12 @@ class AudioPlayerBloc extends Bloc<AudioPlayerEvent, AudioPlayerState> {
   AudioPlayerBloc({
     required this.audioPlayer,
     required this.userProfileRepository,
+    required this.channel,
   }) : super(AudioPlayerState(audioPlayer: audioPlayer, isLooping: false)) {
     AudioPlayer.logEnabled = false;
 
     state.audioPlayer.onPlayerCompletion.listen((event) async {
-      if (channel == null) {
+      if (isStreamOwner) {
         if (isLooping) {
           await state.audioPlayer.setUrl(
             audioQueue.elementAt(currentIndex).fileUrl,
@@ -56,68 +57,66 @@ class AudioPlayerBloc extends Bloc<AudioPlayerEvent, AudioPlayerState> {
       add(AudioPlayerFailedEvent(errorMessage: event.toString()));
     });
 
-    if (channel != null) {
-      channel!.stream.listen((data) async {
-        final UserProfile userProfile = await userProfileRepository.getUser();
-        var jsonData = json.decode(data);
-        if (jsonData["SENDER"] != userProfile.id) {
-          String msgType = jsonData["MSG_TYPE"];
-          switch (msgType) {
-            case "STATUS_REQ":
-              if (isStreamOwner) {
-                int currentPosition =
-                    await state.audioPlayer.getCurrentPosition();
-                Audio audio = state.audioQueue!.elementAt(state.currentIndex);
-                sendMessage("STATUS_UPDATE", null, audio, currentPosition,
-                    state.status.isPlaying);
-              }
-              return;
-            case "STATUS_UPDATE":
-              switch (jsonData["OPERATION"]) {
-                case "PLAY":
-                  String url = jsonData["DATA"]["URL"];
-                  String artistName = jsonData["DATA"]["ARTIST_NAME"];
-                  String title = jsonData["DATA"]["TITLE"];
-                  String imageUrl = jsonData["DATA"]["IMAGE_URL"];
-                  ListQueue<Audio> playlist = ListQueue<Audio>();
+    channel.stream.listen((data) async {
+      final UserProfile userProfile = await userProfileRepository.getUser();
+      var jsonData = json.decode(data);
+      if (jsonData["SENDER"] != userProfile.id) {
+        String msgType = jsonData["MSG_TYPE"];
+        switch (msgType) {
+          case "STATUS_REQ":
+            if (isStreamOwner) {
+              int currentPosition =
+                  await state.audioPlayer.getCurrentPosition();
+              Audio audio = state.audioQueue!.elementAt(state.currentIndex);
+              sendMessage("STATUS_UPDATE", null, audio, currentPosition,
+                  state.status.isPlaying);
+            }
+            return;
+          case "STATUS_UPDATE":
+            switch (jsonData["OPERATION"]) {
+              case "PLAY":
+                String url = jsonData["DATA"]["URL"];
+                String artistName = jsonData["DATA"]["ARTIST_NAME"];
+                String title = jsonData["DATA"]["TITLE"];
+                String imageUrl = jsonData["DATA"]["IMAGE_URL"];
+                ListQueue<Audio> playlist = ListQueue<Audio>();
 
-                  //Load the information to the audio player state
-                  await state.audioPlayer
-                      .setUrl(audioQueue.elementAt(currentIndex).fileUrl);
-                  add(AudioPlayerLoadingEvent());
+                //Load the information to the audio player state
+                await state.audioPlayer
+                    .setUrl(audioQueue.elementAt(currentIndex).fileUrl);
+                add(AudioPlayerLoadingEvent());
 
-                  //start playing the audio
-                  playlist.add(Audio(
-                    fileUrl: url,
-                    artistName: artistName,
-                    title: title,
-                    imageUrl: imageUrl,
-                  ));
-                  if (jsonData["DATA"]["PLAY"]) {
-                    add(
-                      PlayAudioEvent(
-                          playlist: playlist,
-                          fromCurrentPlaylist: false,
-                          currentIndex: 0),
-                    );
-                  }
-                  break;
-                case "PAUSE":
-                  add(PauseAudioEvent());
-                  break;
-                case "RESUME":
-                  add(ResumeAudioEvent());
-                  break;
-                case "SEEK":
-                  int seekSeconds = jsonData['DATA']['SEEK'];
-                  add(SeekAudioEvent(
-                      newPosition: Duration(seconds: seekSeconds)));
-                  break;
-              }
-          }
+                //start playing the audio
+                playlist.add(Audio(
+                  fileUrl: url,
+                  artistName: artistName,
+                  title: title,
+                  imageUrl: imageUrl,
+                ));
+                if (jsonData["DATA"]["PLAY"]) {
+                  add(
+                    PlayAudioEvent(
+                        playlist: playlist,
+                        fromCurrentPlaylist: false,
+                        currentIndex: 0),
+                  );
+                }
+                break;
+              case "PAUSE":
+                add(PauseAudioEvent());
+                break;
+              case "RESUME":
+                add(ResumeAudioEvent());
+                break;
+              case "SEEK":
+                int seekSeconds = jsonData['DATA']['SEEK'];
+                add(SeekAudioEvent(
+                    newPosition: Duration(seconds: seekSeconds)));
+                break;
+            }
         }
-      });
-    }
+      }
+    });
 
     on<AudioPlayerLoadingEvent>((event, emit) async {
       emit(state.copyWith(
@@ -347,29 +346,29 @@ class AudioPlayerBloc extends Bloc<AudioPlayerEvent, AudioPlayerState> {
     }
   }
 
-  void disconnect() {
-    channel = null;
+  void disconnect() async {
+    UserProfile userProfile = await userProfileRepository.getUser();
+    channel = WebSocketChannel.connect(
+        Uri.parse("${Constants.connectStreamUrl}${userProfile.id}/"));
   }
 
   void sendMessage(String msgType, String? operation, Audio? audio,
       int? seconds, bool? startPlaying) async {
-    if (channel != null) {
-      final UserProfile userProfile = await userProfileRepository.getUser();
-      var body = json.encode({
-        "OWNER": (isStreamOwner) ? userProfile.id : null,
-        "SENDER": userProfile.id,
-        "MSG_TYPE": msgType,
-        "OPERATION": operation,
-        "DATA": {
-          "URL": audio?.fileUrl,
-          "ARTIST_NAME": audio?.artistName,
-          "TITLE": audio?.title,
-          "IMAGE_URL": audio?.imageUrl,
-          "PLAY": startPlaying,
-          "SEEK": seconds
-        }
-      });
-      channel!.sink.add(body);
-    }
+    final UserProfile userProfile = await userProfileRepository.getUser();
+    var body = json.encode({
+      "OWNER": (isStreamOwner) ? userProfile.id : null,
+      "SENDER": userProfile.id,
+      "MSG_TYPE": msgType,
+      "OPERATION": operation,
+      "DATA": {
+        "URL": audio?.fileUrl,
+        "ARTIST_NAME": audio?.artistName,
+        "TITLE": audio?.title,
+        "IMAGE_URL": audio?.imageUrl,
+        "PLAY": startPlaying,
+        "SEEK": seconds
+      }
+    });
+    channel.sink.add(body);
   }
 }

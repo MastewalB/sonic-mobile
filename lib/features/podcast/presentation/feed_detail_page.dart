@@ -1,5 +1,6 @@
 import 'dart:collection';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -67,7 +68,26 @@ class _FeedDetailPageState extends State<FeedDetailPage> {
                           // width: 100,
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(15),
-                            child: Image.network(state.feed.imageUrl),
+                            child: CachedNetworkImage(
+                              fit: BoxFit.cover,
+                              errorWidget: (BuildContext context, _, __) =>
+                                  Container(
+                                // fit: BoxFit.cover,
+                                child: SvgPicture.asset(
+                                    'assets/icons/music-circle.svg'),
+                              ),
+                              placeholder: (BuildContext context, _) =>
+                                  Container(
+                                // fit: BoxFit.cover,
+                                color: Colors.black26,
+                                child: SvgPicture.asset(
+                                    'assets/icons/music-circle.svg'),
+                              ),
+                              imageUrl: state.feed.imageUrl,
+                              height: 350,
+                              width: 350,
+                            ),
+                            // Image.network(state.feed.imageUrl),
                           ),
                         ),
                       ),
@@ -105,26 +125,26 @@ class _FeedDetailPageState extends State<FeedDetailPage> {
                     ),
                     SliverToBoxAdapter(
                       child: Padding(
-                          padding:
-                              const EdgeInsets.fromLTRB(25.0, 0.0, 15.0, 10.0),
-                          child:
-                          // Markdown(
-                          //   data: state.feed.description,
-                          //   shrinkWrap: true,
-                          //   selectable: true,
-                          // )
-                          ReadMore(
-                            data: state.feed.description,
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 14,
-                            ),
-                            trimLines: 4,
-                            trimCollapsedText: 'Show more',
-                            trimExpandedText: 'Show less',
-                            // moreStyle:
+                        padding:
+                            const EdgeInsets.fromLTRB(25.0, 0.0, 15.0, 10.0),
+                        child:
+                            // Markdown(
+                            //   data: state.feed.description,
+                            //   shrinkWrap: true,
+                            //   selectable: true,
+                            // )
+                            ReadMore(
+                          data: state.feed.description,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 14,
                           ),
-                          ),
+                          trimLines: 4,
+                          trimCollapsedText: 'Show more',
+                          trimExpandedText: 'Show less',
+                          // moreStyle:
+                        ),
+                      ),
                     ),
                     SliverList(
                       delegate: SliverChildBuilderDelegate(
@@ -154,7 +174,8 @@ class _FeedDetailPageState extends State<FeedDetailPage> {
                                           CrossAxisAlignment.center,
                                       children: [
                                         Text(
-                                          (state.feed.episodes.length - index).toString(),
+                                          (state.feed.episodes.length - index)
+                                              .toString(),
                                           style: const TextStyle(
                                             color: Colors.white,
                                             fontSize: 15,

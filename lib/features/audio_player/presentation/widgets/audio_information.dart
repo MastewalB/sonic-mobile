@@ -1,6 +1,8 @@
 import 'dart:core';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:marquee/marquee.dart';
 import 'package:sonic_mobile/features/audio_player/bloc/audio_player_bloc.dart';
 import 'package:sonic_mobile/features/follow/bloc/follow_bloc.dart';
@@ -26,46 +28,45 @@ class AudioInformation extends StatelessWidget {
                 BoxShadow(color: Colors.black45, blurRadius: 15)
               ]),
               child: Card(
-                  elevation: 20.0,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(5.0),
+                elevation: 20.0,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(5.0),
+                ),
+                clipBehavior: Clip.antiAlias,
+                child:
+                    // Image(
+                    //   fit: BoxFit.cover,
+                    //   height: 300,
+                    //   width: 400,
+                    //   gaplessPlayback: true,
+                    //   image: (state.audioQueue!
+                    //               .elementAt(state.currentIndex)
+                    //               .imageUrl !=
+                    //           null)
+                    //       ?
+                    CachedNetworkImage(
+                  fit: BoxFit.cover,
+                  errorWidget: (BuildContext context, _, __) => Container(
+                    // fit: BoxFit.cover,
+                    child: SvgPicture.asset('assets/icons/music-circle.svg'),
                   ),
-                  clipBehavior: Clip.antiAlias,
-                  child: Image(
-                    fit: BoxFit.cover,
-                    height: 300,
-                    width: 400,
-                    gaplessPlayback: true,
-                    image: (state.audioQueue!
-                                .elementAt(state.currentIndex)
-                                .imageUrl !=
-                            null)
-                        ? NetworkImage(state.audioQueue!
-                            .elementAt(state.currentIndex)
-                            .imageUrl!) as ImageProvider
-                        : const AssetImage(
-                            'assets/music_icon_image.jpg',
-                          ),
-                  )
-                  // : CachedNetworkImage(
-                  //     fit: BoxFit.cover,
-                  //     errorWidget: (BuildContext context, _, __) => Container(
-                  //       // fit: BoxFit.cover,
-                  //       child:
-                  //           SvgPicture.asset('assets/icons/music-circle.svg'),
-                  //     ),
-                  //     placeholder: (BuildContext context, _) => Container(
-                  //       // fit: BoxFit.cover,
-                  //       color: Colors.black26,
-                  //       child:
-                  //           SvgPicture.asset('assets/icons/music-circle.svg'),
-                  //     ),
-                  //     imageUrl:
-                  //         audioQueue.elementAt(state.currentIndex).thumbnail,
-                  //     height: 350,
-                  //     width: 350,
-                  //   ),
+                  placeholder: (BuildContext context, _) => Container(
+                    // fit: BoxFit.cover,
+                    color: Colors.black26,
+                    child: SvgPicture.asset('assets/icons/music-circle.svg'),
                   ),
+                  imageUrl:
+                      state.audioQueue!.elementAt(state.currentIndex).imageUrl!,
+                  height: 350,
+                  width: 350,
+                ),
+                // NetworkImage(state.audioQueue!
+                //         .elementAt(state.currentIndex)
+                //         .imageUrl!) as ImageProvider
+                // : const AssetImage(
+                //     'assets/music_icon_image.jpg',
+                //   ),
+              ),
             ),
           ),
           const SizedBox(
