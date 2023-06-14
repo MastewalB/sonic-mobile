@@ -43,7 +43,7 @@ class DisplayBlock extends StatelessWidget {
               }
               if (state is SongLoadedState) {
                 final songs = state.songs; // Access the songs from the state
-                if(songs.isEmpty){
+                if (songs.isEmpty) {
                   return const Center(
                     child: Text(
                       "No Songs found",
@@ -93,12 +93,20 @@ class DisplayBlock extends StatelessWidget {
                                 ),
                               )),
                           const SizedBox(height: 8.0),
-                          Text(
-                            song.title, // Use the title from the song object
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 16.0,
-                              fontWeight: FontWeight.bold,
+                          Flexible(
+                            child: Container(
+                              constraints: BoxConstraints(maxWidth: 120),
+                              child: Text(
+                                song.title, // Use the title from the song object
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 16.0,
+                                  fontWeight: FontWeight.bold,
+                                  overflow: TextOverflow.fade,
+                                ),
+                                softWrap: true,
+                                maxLines: 3,
+                              ),
                             ),
                           ),
                           const SizedBox(height: 4.0),

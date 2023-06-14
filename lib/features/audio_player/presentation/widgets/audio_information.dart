@@ -121,38 +121,38 @@ class AudioInformation extends StatelessWidget {
                             ),
                           )
                     : const Text(""),
-                BlocBuilder<StreamBloc, StreamState>(
-                  builder: (context, streamState) {
-                    return Container(
-                      decoration: BoxDecoration(
-                          color: (streamState is StreamSuccess)
-                              ? Colors.green
-                              : Colors.transparent,
-                          border: Border.all(
-                            color: Colors.green,
-                          )),
-                      child: IconButton(
-                        onPressed: () {
-                          if (streamState is StreamSuccess) {
-                            context.read<StreamBloc>().add(StopStreamEvent());
-                          } else {
-                            context.read<StreamBloc>().add(StartStreamEvent());
-                            // context.read<AudioPlayerBloc>().connect(null);
-                          }
-                        },
-                        icon: (streamState is StreamSuccess)
-                            ? const Icon(
-                                Icons.cell_tower,
-                                color: Colors.white,
-                              )
-                            : const Icon(
-                                Icons.cell_tower_sharp,
-                                color: Colors.white,
-                              ),
-                      ),
-                    );
-                  },
-                ),
+                // BlocBuilder<StreamBloc, StreamState>(
+                //   builder: (context, streamState) {
+                //     return Container(
+                //       decoration: BoxDecoration(
+                //           color: (streamState is StreamSuccess)
+                //               ? Colors.green
+                //               : Colors.transparent,
+                //           border: Border.all(
+                //             color: Colors.green,
+                //           )),
+                //       child: IconButton(
+                //         onPressed: () {
+                //           if (streamState is StreamSuccess) {
+                //             context.read<StreamBloc>().add(StopStreamEvent());
+                //           } else {
+                //             context.read<StreamBloc>().add(StartStreamEvent());
+                //             // context.read<AudioPlayerBloc>().connect(null);
+                //           }
+                //         },
+                //         icon: (streamState is StreamSuccess)
+                //             ? const Icon(
+                //                 Icons.cell_tower,
+                //                 color: Colors.white,
+                //               )
+                //             : const Icon(
+                //                 Icons.cell_tower_sharp,
+                //                 color: Colors.white,
+                //               ),
+                //       ),
+                //     );
+                //   },
+                // ),
               ],
             ),
           ),

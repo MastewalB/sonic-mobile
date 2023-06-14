@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sonic_mobile/features/audio_player/bloc/audio_player_bloc.dart';
 import 'package:sonic_mobile/features/library/presentation/widgets/list_playlists.dart';
+import 'package:sonic_mobile/features/recommendation/presentation/recommendation_page.dart';
+import 'package:sonic_mobile/features/studio/presentation/record_page.dart';
 import 'package:sonic_mobile/models/models.dart';
 import 'package:sonic_mobile/core/core.dart';
 
@@ -232,13 +234,22 @@ class AudioListWidget extends StatelessWidget {
                                             ListTile(
                                               title: Center(
                                                 child: Text(
-                                                  "Go to Similar Songs",
+                                                  "Find Similar Songs",
                                                   style: TextStyle(
                                                       color: Colors.white,
                                                       fontSize: 18),
                                                 ),
                                               ),
-                                              onTap: () {},
+                                              onTap: () {
+                                                Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            RecommendationPage(
+                                                                songId:
+                                                                    songs[index]
+                                                                        .id)));
+                                              },
                                             )
                                           ],
                                         ),

@@ -269,14 +269,12 @@ class _SignUpPageState extends State<SignUpPage> {
                     onPressed: () {
                       if (usernameController.text.isEmpty ||
                           emailController.text.isEmpty ||
-                          countryController.text.isEmpty ||
                           firstNameController.text.isEmpty ||
                           lastNameController.text.isEmpty ||
                           passwordController.text.isEmpty ||
                           confirmPasswordController.text.isEmpty ||
-                          confirmPasswordController.text
-                                  .compareTo(passwordController.text) !=
-                              0 ||
+                          confirmPasswordController.text !=
+                              passwordController.text ||
                           dateOfBirth == null ||
                           country == null) {
                         setState(() {

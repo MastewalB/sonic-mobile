@@ -29,21 +29,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
     on<LoginInitialEvent>((event, emit) async {
       emit(state.copyWith(status: LoginStatus.loading));
-      try {
-        await userProfileRepository.userExists().then((value) {
-          if (value) {
-            emit(state.copyWith(status: LoginStatus.userExists));
-          } else {
-            emit(state.copyWith(status: LoginStatus.loaded));
-          }
-        });
-      } on AppException catch (e) {
-        notificationCubit.errorNotification(message: e.errorType.getMessage);
-        emit(state.copyWith(
-          status: LoginStatus.error,
-          errorType: e.errorType,
-        ));
-      }
+
+      emit(state.copyWith(status: LoginStatus.loaded));
     });
 
     on<LoginSubmitEvent>((event, emit) async {
@@ -64,8 +51,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
                   refreshToken: refreshToken)
               .then((value) async {
             await userProfileRepository.setUser(UserProfile.fromUser(user));
-            notificationCubit.successNotification(
-                message: "Login Successful.");
+            notificationCubit.successNotification(message: "Login Successful.");
             emit(state.copyWith(status: LoginStatus.success));
           });
         });

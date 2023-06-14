@@ -54,7 +54,7 @@ class _CatchPhraseState extends State<CatchPhrase>
             //   ),
             // ),
             child: Center(
-              child: Image(image: AssetImage('assets/soniclogo.png')),
+              child: Image(image: AssetImage('assets/logoblack.png')),
             )),
       ),
     );

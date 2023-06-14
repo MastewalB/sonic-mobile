@@ -41,9 +41,6 @@ void main() async {
   final NotificationCubit notificationCubit =
       DependencyProvider.getNotificationCubit()!;
 
-  UserProfile userProfile =
-      await DependencyProvider.getUserProfileRepository()!.getUser();
-
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
   ]).then(
@@ -59,7 +56,7 @@ void main() async {
                   DependencyProvider.getUserProfileRepository()!,
               audioPlayer: DependencyProvider.getAudioPlayer()!,
               channel: WebSocketChannel.connect(
-                Uri.parse("${Constants.connectStreamUrl}${userProfile.id}/"),
+                Uri.parse("${Constants.connectStreamUrl}/user/"),
               ),
             ),
           ),
