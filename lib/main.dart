@@ -14,6 +14,7 @@ import 'package:sonic_mobile/screens/desktopProfile.dart';
 import 'package:sonic_mobile/screens/desktop_home.dart';
 import 'package:sonic_mobile/screens/desktop_playlist.dart';
 import 'package:sonic_mobile/screens/profile_screen.dart';
+import 'package:sonic_mobile/screens/recording_screen.dart';
 import 'package:window_size/window_size.dart';
 import 'components/side_menu.dart';
 import 'features/auth/blocs/signup_bloc/signup_bloc.dart';

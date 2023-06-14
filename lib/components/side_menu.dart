@@ -78,9 +78,7 @@ class _SideMenuState extends State<SideMenu> {
                       }),
                 ),
               ),
-              Expanded(
-                child: views.elementAt(selectedIndex),
-              )
+              
             ],
           ),
         ),

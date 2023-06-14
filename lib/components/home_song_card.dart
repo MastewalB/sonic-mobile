@@ -28,8 +28,9 @@ class HomeSongInfoCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Container(
-                padding: EdgeInsets.all(defaultPadding * 0.75),
-                height: 150,
+                padding:EdgeInsets.fromLTRB(defaultPadding * 0.12, defaultPadding * 0.12, defaultPadding * 0.12, 0),
+                
+                height: 143,
                 width: 200,
                 decoration: BoxDecoration(
                   borderRadius: const BorderRadius.all(Radius.circular(0)),
@@ -39,14 +40,15 @@ class HomeSongInfoCard extends StatelessWidget {
                   child: Image.asset(
                     'assets/images/shay.jpeg',
                     fit: BoxFit.fill,
-                    width: 200,
+                    width: 250,
                   ),
                 ),
               ),
               //Icon(Icons.play_arrow_outlined, color: Colors.white54)
             ],
           ),
-          Expanded(
+          Padding(
+            padding:EdgeInsets.fromLTRB(0, 4, 0, 0),
             child: Text(
               info.title!,
               maxLines: 1,

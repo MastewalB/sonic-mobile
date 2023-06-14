@@ -20,13 +20,13 @@ class PlaylistFiles extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding
-                  (padding: EdgeInsets.fromLTRB(15, 4, 0, 15),
+                  (padding: EdgeInsets.fromLTRB(0, 0, 0, 5),
                     
                       child: IconButton(
                         onPressed: (){},
-                        icon: SvgPicture.asset('assets/icons/playbutton.svg',
-                        color: Colors.white,),
-                        iconSize: 55,
+                        icon: const Icon(Icons.play_circle_fill_outlined ,
+                        color: Color.fromARGB(179, 78, 161, 213),),
+                        iconSize: 65,
             ),
                     
                   ),

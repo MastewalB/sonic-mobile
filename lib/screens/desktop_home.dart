@@ -57,26 +57,7 @@ class DashboardScreen extends StatelessWidget {
             ),
             HomeSongLists(),
             SizedBox(height: defaultPadding),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(
-                  flex: 5,
-                  child: Column(
-                    children: [
-                      SizedBox(height: defaultPadding),
-                      RecentFiles(),
-                    ],
-                  ),
-                ),
-                SizedBox(width: defaultPadding),
-                // On Mobile we don't want to show it
-                Expanded(
-                  flex: 2,
-                  child: StorageDetails(),
-                ),
-              ],
-            )
+           
           ],
         ),
       ),
