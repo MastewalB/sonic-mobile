@@ -4,6 +4,16 @@ import 'package:hive/hive.dart';
 import 'package:flutter/services.dart';
 import 'package:sonic_mobile/core/core.dart';
 import 'package:flutter/services.dart';
+import 'package:sonic_mobile/features/album/presentation/album_page.dart';
+import 'package:sonic_mobile/features/auth/blocs/login_bloc/login_bloc.dart';
+import 'package:sonic_mobile/features/home/presentation/homepage.dart';
+import 'package:sonic_mobile/features/library/bloc/playlist_bloc/playlist_bloc.dart';
+import 'package:sonic_mobile/features/profile/bloc/view_profile/profile_bloc.dart';
+import 'package:sonic_mobile/features/studio/bloc/create_podcast_bloc/create_podcast_bloc.dart';
+
+// import 'package:sonic_mobile/features/studio/presentation/record_page.dart';
+import 'package:sonic_mobile/features/studio/presentation/widgets/create_podcast_page.dart';
+import 'package:sonic_mobile/features/studio/presentation/widgets/your_podcasts.dart';
 import 'package:sonic_mobile/features/audio_player/bloc/audio_player_bloc.dart';
 import 'package:sonic_mobile/features/profile.dart';
 import 'package:sonic_mobile/features/studio/bloc/record_bloc/record_bloc.dart';
@@ -51,13 +61,24 @@ void main() async {
               audioPlayer: DependencyProvider.getAudioPlayer()!,
             ),
           ),
+          BlocProvider(
+              create: (context) => ProfileBloc(
+                    userProfileRepository:
+                        DependencyProvider.getUserProfileRepository()!,
+                    secureStorage: DependencyProvider.getSecureStorage()!,
+                  )),
+          BlocProvider(
+              create: (context) => PlaylistBloc(
+                  libraryRepository:
+                      DependencyProvider.getHttpLibraryProvider()!,
+                  notificationCubit: notificationCubit))
         ],
         child: MultiBlocListener(
           listeners: [
             BlocListener<NotificationCubit, NotificationState>(
                 listener: (context, state) {
               Color? color = (state is NotificationSuccess)
-                  ? Colors.green.shade300
+                  ? Colors.blue
                   : (state is NotificationError)
                       ? Colors.red.shade500
                       : null;
@@ -136,34 +157,16 @@ class _SonicState extends State<Sonic> with WidgetsBindingObserver {
   Widget build(BuildContext context) {
     MediaQueryManager.init(context);
 
-      return Scaffold(
-      body: Container(
-        constraints: BoxConstraints(
-               minWidth: minScreenWidth,// Minimum height for the app
-                ),
-        child: SafeArea(
-          child: Row(children: [ 
-            Container(
-            width: 260,
-            child: SideMenu(),
-          ),
-            Expanded(
-              flex: 5,
-              child: DashboardScreen(),)
-          ],),),
-      ),
-        );
-    // return BlocProvider(
-    //   create: (context) => SignupBloc(
-    //     authenticationRepository:
-    //     DependencyProvider.getHttpAuthenticationRepository()!,
-    //     notificationCubit: DependencyProvider.getNotificationCubit()!,
-    //     userProfileRepository:
-    //     DependencyProvider.getUserProfileRepository()!,
-    //     secureStorage: DependencyProvider.getSecureStorage()!,
-    //   ),
-    //   child: const StudioLibrary(),
-    // );
+    return BlocProvider(
+      create: (context) => LoginBloc(
+        authenticationRepository:
+            DependencyProvider.getHttpAuthenticationRepository()!,
+        notificationCubit: DependencyProvider.getNotificationCubit()!,
+        userProfileRepository: DependencyProvider.getUserProfileRepository()!,
+        secureStorage: DependencyProvider.getSecureStorage()!,
+      )..add(LoginInitialEvent()),
+      child: const LoginPage(),
+    );
     // return MultiBlocProvider(
     //   providers: [
     //     BlocProvider(

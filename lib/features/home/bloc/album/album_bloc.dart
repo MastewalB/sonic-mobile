@@ -1,4 +1,4 @@
-import 'package:bloc/bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:sonic_mobile/features/home/repository/http_home_repository.dart';
 import 'package:sonic_mobile/models/models.dart';
@@ -19,7 +19,7 @@ class AlbumBloc extends Bloc<AlbumEvent, AlbumState> {
             await songRepository.getRecommendedAlbums();
 
         emit(AlbumLoadedState(recommendedAlbums.take(15).toList()));
-      } catch (error) {
+      } catch (e) {
         emit(AlbumErrorState('Failed to load recommended songs'));
       }
     });

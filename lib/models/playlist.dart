@@ -2,7 +2,7 @@ import 'models.dart';
 
 class Playlist implements AudioList {
   final String id;
-  final User createdBy;
+  final PublicUser createdBy;
   final String playlistTitle;
   final List<Song> playlistItems;
 
@@ -26,7 +26,7 @@ class Playlist implements AudioList {
     }
     return Playlist(
       id: json["id"],
-      createdBy: json["created_by"],
+      createdBy: PublicUser.fromJson(json["created_by"]),
       playlistTitle: json["playlist_title"],
       playlistItems: songs,
     );

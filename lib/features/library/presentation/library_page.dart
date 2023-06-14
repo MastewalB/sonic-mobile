@@ -2,12 +2,18 @@ import 'dart:math';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:marquee/marquee.dart';
+import 'package:sonic_mobile/dependency_provider.dart';
 import 'package:sonic_mobile/features/audio_player/bloc/audio_player_bloc.dart';
 import 'package:sonic_mobile/features/audio_player/presentation/player_page.dart';
 import 'package:flutter/material.dart';
+import 'package:sonic_mobile/features/auth/auth.dart';
 import 'package:sonic_mobile/features/home/presentation/homepage.dart';
+import 'package:sonic_mobile/features/library/presentation/your_library_page.dart';
 import 'package:sonic_mobile/features/library/presentation/your_playlist_page.dart';
+import 'package:sonic_mobile/features/profile/bloc/view_profile/profile_bloc.dart';
 import 'package:sonic_mobile/features/search/presentation/widgets/search_view.dart';
+import 'package:sonic_mobile/features/studio/bloc/record_bloc/record_bloc.dart';
+import 'package:sonic_mobile/features/studio/bloc/studio_bloc/studio_bloc.dart';
 import 'package:sonic_mobile/features/studio/presentation/studio_library.dart';
 import 'package:sonic_mobile/routes.dart';
 import 'package:sonic_mobile/features/audio_player/presentation/widgets/time_slider.dart';
@@ -22,6 +28,14 @@ class LibraryPage extends StatefulWidget {
 }
 
 class _LibraryPageState extends State<LibraryPage> {
+  bool isDrawerOpen = false;
+
+  void toggleDrawer() {
+    setState(() {
+      isDrawerOpen = !isDrawerOpen;
+    });
+  }
+
   int _selectedIndex = 0;
   final PageRouter pageRouter = PageRouter();
 
@@ -71,21 +85,34 @@ class _LibraryPageState extends State<LibraryPage> {
           ListTile(
             title: const Text(
               "Home",
-              style: TextStyle(color: Colors.white, fontSize: 24),
+              style: TextStyle(color: Colors.white, fontSize: 20),
             ),
             onTap: () {
-              Navigator.pushReplacementNamed(context, LibraryPage.routeName);
+              Navigator.pushReplacementNamed(
+                context,
+                LibraryPage.routeName,
+              );
             },
           ),
           ListTile(
             title: const Text(
               "Sonic Studio",
-              style: TextStyle(color: Colors.white, fontSize: 24),
+              style: TextStyle(color: Colors.white, fontSize: 20),
             ),
             onTap: () {
               Navigator.pushReplacementNamed(context, StudioLibrary.routeName);
             },
-          )
+          ),
+          ListTile(
+            title: Text("Logout",
+                style: TextStyle(color: Colors.white, fontSize: 20)),
+            onTap: () {
+              context.read<ProfileBloc>().add(LogoutEvent());
+              Future.delayed(Duration(seconds: 1)).then((_) {
+                Navigator.pushReplacementNamed(context, LoginPage.routeName);
+              });
+            },
+          ),
         ]),
       ),
       body: IndexedStack(
@@ -114,7 +141,7 @@ class _LibraryPageState extends State<LibraryPage> {
             child: Navigator(
               key: _yourPlaylistPageKey,
               onGenerateRoute: pageRouter.generateRoute,
-              initialRoute: YourPlaylists.routeName,
+              initialRoute: YourLibraryPage.routeName,
             ),
           ),
         ],
@@ -148,12 +175,20 @@ class _LibraryPageState extends State<LibraryPage> {
                                             'assets/music_icon_image.jpg',
                                           ),
                                         )
-                                      : const DecorationImage(
-                                          image: AssetImage(
-                                            'assets/music_icon_image.jpg',
-                                          ),
-                                          fit: BoxFit.cover,
-                                        ),
+                                      : (state.audioQueue!
+                                                  .elementAt(state.currentIndex)
+                                                  .imageUrl !=
+                                              null)
+                                          ? DecorationImage(
+                                              image: NetworkImage(state
+                                                  .audioQueue!
+                                                  .elementAt(state.currentIndex)
+                                                  .imageUrl!))
+                                          : const DecorationImage(
+                                              image: AssetImage(
+                                                'assets/music_icon_image.jpg',
+                                              ),
+                                            ),
                                 ),
                                 constraints: const BoxConstraints(
                                   // maxHeight: 60,
@@ -352,7 +387,10 @@ class _LibraryPageState extends State<LibraryPage> {
                 SizedBox(
                   height: 55,
                   child: BottomNavigationBar(
-                    elevation: 3,
+                    backgroundColor: Colors.black,
+                    fixedColor: Colors.blueAccent,
+                    // fixedColor: Colors.black,
+                    // elevation: 3,
                     currentIndex: _selectedIndex,
                     onTap: (index) => setState(() {
                       _selectedIndex = index;
@@ -376,6 +414,12 @@ class _LibraryPageState extends State<LibraryPage> {
                         ),
                         label: "Library",
                       ),
+                      // BottomNavigationBarItem(
+                      //   icon: Icon(
+                      //     Icons.business,
+                      //   ),
+                      //   label: "Studio",
+                      // ),
                     ],
                   ),
                 ),

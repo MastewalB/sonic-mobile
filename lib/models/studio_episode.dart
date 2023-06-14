@@ -9,6 +9,8 @@ class StudioEpisode implements Audio {
   final String description;
   final DateTime uploadDate;
   final String file;
+  @override
+  final String? imageUrl;
 
   @override
   String get artistName => podcast.author.fullName;
@@ -24,6 +26,7 @@ class StudioEpisode implements Audio {
     required this.description,
     required this.uploadDate,
     required this.file,
+    this.imageUrl,
   });
 
   factory StudioEpisode.fromJson(Map<String, dynamic> json) {

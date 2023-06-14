@@ -73,10 +73,20 @@ class _PlayerControlsState extends State<PlayerControls> {
                                                       ));
                                                 },
                                                 child: ListTile(
-                                                  leading: SvgPicture.asset(
-                                                    'assets/icons/music-circle.svg',
-                                                    color: Colors.white,
-                                                  ),
+                                                  leading: (queueState
+                                                              .audioQueue!
+                                                              .elementAt(index)
+                                                              .imageUrl !=
+                                                          null)
+                                                      ? Image.network(
+                                                          queueState.audioQueue!
+                                                              .elementAt(index)
+                                                              .imageUrl!,
+                                                        )
+                                                      : SvgPicture.asset(
+                                                          'assets/icons/music-circle.svg',
+                                                          color: Colors.white,
+                                                        ),
                                                   title: Text(
                                                     queueState.audioQueue!
                                                         .elementAt(index)
@@ -110,7 +120,7 @@ class _PlayerControlsState extends State<PlayerControls> {
                                                   trailing: (queueState
                                                               .currentIndex ==
                                                           index)
-                                                      ? Icon(
+                                                      ? const Icon(
                                                           Icons
                                                               .stacked_bar_chart_rounded,
                                                           color:

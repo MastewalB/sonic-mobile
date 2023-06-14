@@ -60,6 +60,7 @@ class AudioPlayerBloc extends Bloc<AudioPlayerEvent, AudioPlayerState> {
       emit(state.copyWith(
         audioPlayer: audioPlayer,
         isPlaying: true,
+        currentIndex: currentIndex,
         status: AudioPlayerStatus.loading,
         audioQueue: audioQueue,
       ));
@@ -137,7 +138,7 @@ class AudioPlayerBloc extends Bloc<AudioPlayerEvent, AudioPlayerState> {
     });
 
     on<PlayPreviousEvent>((event, emit) async {
-      if(await state.audioPlayer.getCurrentPosition() < 5000) {
+      if (await state.audioPlayer.getCurrentPosition() < 5000) {
         currentIndex--;
       }
       if (currentIndex < 0) {

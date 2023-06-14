@@ -61,6 +61,8 @@ dependencies:
   country_picker: ^2.0.20
   easy_sidemenu: ^0.4.1
   anim_search_bar: ^2.0.3
+  xml: ^6.1.0
+  flutter_markdown: ^0.6.15
 
 dev_dependencies:
   flutter_test:

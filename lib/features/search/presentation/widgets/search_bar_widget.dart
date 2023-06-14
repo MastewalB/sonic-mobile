@@ -2,7 +2,9 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sonic_mobile/features/home/presentation/homepage.dart';
 import 'package:sonic_mobile/features/search/bloc/search/blocs.dart';
+import 'package:sonic_mobile/features/search/presentation/widgets/search_view.dart';
 
 class SearchBarWidget extends StatefulWidget {
   final String hintText;
@@ -39,7 +41,7 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
 
   void _onTextChanged(String value) {
     _debounceTimer?.cancel();
-    _debounceTimer = Timer(const Duration(seconds: 2), () {
+    _debounceTimer = Timer(const Duration(milliseconds: 45), () {
       // Perform live searching here
 
       print('Live searching: $value');
@@ -69,7 +71,7 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
           IconButton(
             icon: Icon(widget.backIcon),
             onPressed: () {
-              Navigator.pop(context);
+              Navigator.pushReplacementNamed(context, SearchView.routeName);
             },
           ),
           Expanded(

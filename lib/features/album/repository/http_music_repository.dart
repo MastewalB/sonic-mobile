@@ -1,11 +1,12 @@
 import 'package:http/http.dart' as http;
+import 'package:sonic_mobile/core/core.dart';
 import 'dart:convert';
 
 // import 'package:sonic_mobile/models/album.dart';
 import 'package:sonic_mobile/models/models.dart';
 
 class AlbumDataProvider {
-  final _baseUrl = 'http://192.168.200.116:8000/api/v1/music';
+  final _baseUrl = Constants.musicUrl;
   final http.Client httpClient;
 
   AlbumDataProvider({required this.httpClient});
@@ -13,7 +14,7 @@ class AlbumDataProvider {
   // get album by id
   Future<Album> getAlbum(String albumId) async {
     final response =
-        await httpClient.get(Uri.parse('$_baseUrl/albums/$albumId/'));
+        await httpClient.get(Uri.parse('${_baseUrl}albums/$albumId/'));
     print(response.statusCode);
     // print(albumId);
     if (response.statusCode == 200) {
@@ -27,7 +28,7 @@ class AlbumDataProvider {
 
   // get all albums
   Future<Album> getAllAlbums() async {
-    final response = await httpClient.get(Uri.parse('$_baseUrl/albums/'));
+    final response = await httpClient.get(Uri.parse('${_baseUrl}albums/'));
 
     if (response.statusCode == 200) {
       final albums = jsonDecode(response.body);
@@ -39,7 +40,7 @@ class AlbumDataProvider {
 
   //get songs
   Future<List<Song>> getSongs(Album album) async {
-    final response = await httpClient.get(Uri.parse('$_baseUrl/songs/'));
+    final response = await httpClient.get(Uri.parse('${_baseUrl}songs/'));
 
     if (response.statusCode == 200) {
       final List<dynamic> songs = jsonDecode(response.body);
@@ -52,7 +53,7 @@ class AlbumDataProvider {
 }
 
 class ArtistDataProvider {
-  final _baseUrl = 'http://localhost:8000/api/v1/music/';
+  final _baseUrl = Constants.musicUrl;
   final http.Client httpClient;
 
   ArtistDataProvider({required this.httpClient});
@@ -60,7 +61,7 @@ class ArtistDataProvider {
   // get artist by id
   Future<Artist> getArtist(String artistId) async {
     final response =
-        await httpClient.get(Uri.parse('$_baseUrl/artists/$artistId'));
+        await httpClient.get(Uri.parse('${_baseUrl}artists/$artistId/'));
 
     if (response.statusCode == 200) {
       final artist = jsonDecode(response.body);
@@ -72,7 +73,7 @@ class ArtistDataProvider {
 
   // get all artists
   Future<Artist> getAllArtists() async {
-    final response = await httpClient.get(Uri.parse('$_baseUrl/artists/'));
+    final response = await httpClient.get(Uri.parse('${_baseUrl}artists/'));
 
     if (response.statusCode == 200) {
       final artist = jsonDecode(response.body);

@@ -91,7 +91,11 @@ class _SearchViewState extends State<SearchView> {
                       SearchResultsWidget(
                         searchType: 'Artist',
                         items: state.searchData[2],
-                      )
+                      ),
+                      SearchResultsWidget(
+                        searchType: 'User',
+                        items: state.searchData[3],
+                      ),
                     ])
                   : (state is SearchEmptyState)
                       ? nothingFound(context)

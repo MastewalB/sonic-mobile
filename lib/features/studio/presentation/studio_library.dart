@@ -2,10 +2,12 @@ import 'dart:math';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:marquee/marquee.dart';
+import 'package:sonic_mobile/features/auth/auth.dart';
 import 'package:sonic_mobile/features/audio_player/bloc/audio_player_bloc.dart';
 import 'package:sonic_mobile/features/audio_player/presentation/player_page.dart';
 import 'package:flutter/material.dart';
 import 'package:sonic_mobile/features/audio_player/presentation/widgets/time_slider.dart';
+import 'package:sonic_mobile/features/profile/bloc/view_profile/profile_bloc.dart';
 import 'package:sonic_mobile/features/library/presentation/library_page.dart';
 import 'package:sonic_mobile/features/studio/presentation/local_songs.dart';
 import 'package:sonic_mobile/features/studio/presentation/recording_list_page.dart';
@@ -79,7 +81,7 @@ class _StudioLibraryState extends State<StudioLibrary> {
           ListTile(
             title: const Text(
               "Home",
-              style: TextStyle(color: Colors.white, fontSize: 24),
+              style: TextStyle(color: Colors.white, fontSize: 20),
             ),
             onTap: () {
               Navigator.pushReplacementNamed(context, LibraryPage.routeName);
@@ -88,12 +90,22 @@ class _StudioLibraryState extends State<StudioLibrary> {
           ListTile(
             title: const Text(
               "Sonic Studio",
-              style: TextStyle(color: Colors.white, fontSize: 24),
+              style: TextStyle(color: Colors.white, fontSize: 20),
             ),
             onTap: () {
               Navigator.pushReplacementNamed(context, StudioLibrary.routeName);
             },
-          )
+          ),
+          ListTile(
+            title: Text("Logout",
+                style: TextStyle(color: Colors.white, fontSize: 20)),
+            onTap: () {
+              context.read<ProfileBloc>().add(LogoutEvent());
+              Future.delayed(Duration(seconds: 1)).then((_) {
+                Navigator.pushReplacementNamed(context, LoginPage.routeName);
+              });
+            },
+          ),
         ]),
       ),
       body: IndexedStack(
@@ -154,12 +166,20 @@ class _StudioLibraryState extends State<StudioLibrary> {
                                             'assets/music_icon_image.jpg',
                                           ),
                                         )
-                                      : const DecorationImage(
-                                          image: AssetImage(
-                                            'assets/music_icon_image.jpg',
-                                          ),
-                                          fit: BoxFit.cover,
-                                        ),
+                                      : (state.audioQueue!
+                                                  .elementAt(state.currentIndex)
+                                                  .imageUrl !=
+                                              null)
+                                          ? DecorationImage(
+                                              image: NetworkImage(state
+                                                  .audioQueue!
+                                                  .elementAt(state.currentIndex)
+                                                  .imageUrl!))
+                                          : const DecorationImage(
+                                              image: AssetImage(
+                                                'assets/music_icon_image.jpg',
+                                              ),
+                                            ),
                                 ),
                                 constraints: const BoxConstraints(
                                   // maxHeight: 60,

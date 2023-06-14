@@ -12,10 +12,32 @@ class ProfileDataProvider {
     required this.httpClient,
   });
 
-  // Future<User> getProfile(userId) async {
-  //   try {} catch (e) {
-  //     throw Exception('Failed: $e');
-  //   }
-  //   return
-  // }
+  Future<User> updateProfile(
+      String userId, String firstName, String lastName, String password) async {
+    Uri uri = Uri.parse('${apiUrl}accounts/update/');
+    var body = json.encode(
+        {"first_name": firstName, "last_name": lastName, "password": password});
+
+    try {
+      final response = await httpClient.patch(uri,
+          headers: <String, String>{
+            'Content-Type': 'application/json',
+          },
+          body: body);
+      return User.fromJson(json.decode(response.body));
+    } catch (e) {
+      throw Exception('Failed: $e');
+    }
+  }
+
+  Future<PublicUser> getProfile(String userId) async {
+    Uri uri = Uri.parse('${apiUrl}accounts/users/$userId/');
+
+    try {
+      final response = await http.get(uri);
+      return PublicUser.fromJson(json.decode(response.body));
+    } catch (e) {
+      throw Exception('Failed: $e');
+    }
+  }
 }

@@ -89,7 +89,7 @@ class HttpLibraryProvider implements LibraryRepository {
 
   @override
   Future<List<Playlist>> getPlaylistsByUser(String userId) async {
-    Uri uri = Uri.parse("${Constants.getUserPlaylistUrl}$userId");
+    Uri uri = Uri.parse("${Constants.getUserPlaylistUrl}$userId/");
     try {
       final response = await httpClient.get(
         uri,

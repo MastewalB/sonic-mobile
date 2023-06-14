@@ -1,3 +1,4 @@
+import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:date_field/date_field.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -17,30 +18,38 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpPage> {
+  TextEditingController usernameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController firstNameController = TextEditingController();
+  TextEditingController lastNameController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  TextEditingController confirmPasswordController = TextEditingController();
+  TextEditingController countryController = TextEditingController();
+  DateTime? dateOfBirth;
+
   bool validated = true;
   bool emailValidator = true;
   bool passwordValidator = true;
+  bool countrySelected = false;
+  String? country;
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController usernameController = TextEditingController();
-    TextEditingController emailController = TextEditingController();
-    TextEditingController firstNameController = TextEditingController();
-    TextEditingController lastNameController = TextEditingController();
-    TextEditingController passwordController = TextEditingController();
-    TextEditingController confirmPasswordController = TextEditingController();
-    TextEditingController countryController = TextEditingController();
-    DateTime? dateOfBirth;
-
     return BlocBuilder<SignupBloc, SignupState>(
       builder: (context, state) {
-        if (state.status.isSuccess || state.status.isUserExists) {
+        if (state.status.isSuccess) {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            Navigator.pushReplacementNamed(context, LoginPage.routeName);
+          });
+        }
+
+        if (state.status.isUserExists) {
           WidgetsBinding.instance.addPostFrameCallback((_) {
             Navigator.pushReplacementNamed(context, LibraryPage.routeName);
           });
         }
 
-        if (state.status.isLoading|| state.status.isInitial) {
+        if (state.status.isLoading || state.status.isInitial) {
           return const Scaffold(
             body: Center(child: CircularProgressIndicator()),
           );
@@ -153,26 +162,41 @@ class _SignUpPageState extends State<SignUpPage> {
                       //     : null,
                       onDateSelected: (DateTime value) {
                         dateOfBirth = value;
-                        print(value);
+                        // print(value);
                       },
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(0, 0, 0, 15),
-                    child: TextFormField(
-                      style: const TextStyle(
-                        color: Colors.white,
-                      ),
-                      controller: countryController,
-                      decoration: InputDecoration(
-                        errorText: !validated ? 'Value Can\'t Be Empty' : null,
-                        filled: true,
-                        fillColor: Color.fromARGB(97, 80, 73, 73),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.blueGrey),
+                    child: OutlinedButton(
+                      onPressed: () {
+                        showCountryPicker(
+                            context: context,
+                            onSelect: (Country pickedCountry) {
+                              country = pickedCountry.displayNameNoCountryCode;
+                              // print(country);
+                              setState(() {
+                                if (country != null) {
+                                  // print(country);
+                                  countrySelected = true;
+                                }
+                              });
+                            });
+                      },
+                      style: ButtonStyle(
+                          minimumSize: MaterialStateProperty.all(Size(300, 50)),
+                          side: MaterialStateProperty.all(BorderSide(
+                            color: Colors.blueGrey,
+                            style: BorderStyle.solid,
+                          )),
+                          shape: MaterialStateProperty.all(
+                              RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(5)))),
+                      child: Text(
+                        (countrySelected) ? country! : "Select Country",
+                        style: TextStyle(
+                          color: Colors.white,
                         ),
-                        labelText: 'Country',
-                        labelStyle: TextStyle(color: Colors.white),
                       ),
                     ),
                   ),
@@ -253,7 +277,8 @@ class _SignUpPageState extends State<SignUpPage> {
                           confirmPasswordController.text
                                   .compareTo(passwordController.text) !=
                               0 ||
-                          dateOfBirth == null) {
+                          dateOfBirth == null ||
+                          country == null) {
                         setState(() {
                           validated = false;
                         });
@@ -263,7 +288,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                 username: usernameController.value.text,
                                 firstName: firstNameController.value.text,
                                 lastName: lastNameController.value.text,
-                                country: countryController.value.text,
+                                country: country!,
                                 dateOfBirth:
                                     "${dateOfBirth!.year}-${dateOfBirth!.month}-${dateOfBirth!.day}",
                                 email: emailController.value.text,
@@ -285,10 +310,8 @@ class _SignUpPageState extends State<SignUpPage> {
                     padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
                     child: GestureDetector(
                       onTap: () {
-                        WidgetsBinding.instance.addPostFrameCallback((_) {
-                          Navigator.pushReplacementNamed(
-                              context, LoginPage.routeName);
-                        });
+                        Navigator.pushReplacementNamed(
+                            context, LoginPage.routeName);
                       },
                       child: RichText(
                         text: const TextSpan(

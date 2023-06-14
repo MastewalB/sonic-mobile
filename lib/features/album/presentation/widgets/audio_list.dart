@@ -5,6 +5,7 @@ import 'dart:collection';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sonic_mobile/features/audio_player/bloc/audio_player_bloc.dart';
+import 'package:sonic_mobile/features/library/presentation/widgets/list_playlists.dart';
 import 'package:sonic_mobile/models/models.dart';
 import 'package:sonic_mobile/core/core.dart';
 
@@ -14,6 +15,7 @@ class AudioListWidget extends StatelessWidget {
   final String title;
   final String artist;
   final int numberOfSongs;
+
   // final DateTime releaseDate;
   final int year;
 
@@ -41,6 +43,22 @@ class AudioListWidget extends StatelessWidget {
         child: Scaffold(
             backgroundColor: const Color.fromARGB(255, 31, 29, 43),
             body: CustomScrollView(slivers: [
+              SliverPadding(
+                padding: EdgeInsets.fromLTRB(14.0, 12.0, 0, 0),
+                sliver: SliverToBoxAdapter(
+                  child: Container(
+                    alignment: Alignment.topLeft,
+                    child: GestureDetector(
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                        child: Icon(
+                          Icons.arrow_back_ios,
+                          color: Colors.white,
+                        )),
+                  ),
+                ),
+              ),
               SliverPadding(
                 padding: EdgeInsets.fromLTRB(20.0, 5.0, 20.0, 0.0),
                 sliver: SliverToBoxAdapter(
@@ -165,11 +183,70 @@ class AudioListWidget extends StatelessWidget {
                           SizedBox(
                             width: 20,
                           ),
-                          CardSmall(
+                          Expanded(
+                              child: CardSmall(
                             title: songs[index].title,
                             duration: "03:12",
                             // image: 'assets/music_icon_image.jpg',
-                          ),
+                          )),
+                          IconButton(
+                            color: Colors.white,
+                            icon: Icon(Icons.more_vert),
+                            onPressed: () {
+                              showBottomSheet(
+                                  context: context,
+                                  backgroundColor: Colors.black,
+                                  shape: Border(
+                                      left: BorderSide(color: Colors.black),
+                                      right: BorderSide(color: Colors.black),
+                                      top: BorderSide(color: Colors.black)),
+                                  // clipBehavior: Clip.hardEdge,
+                                  // shape: BorderRadius.only(topLeft: Radius.circular(25.0)),
+                                  builder: (context) {
+                                    return SizedBox(
+                                      height: 150,
+                                      child: SingleChildScrollView(
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            ListTile(
+                                              tileColor: Colors.white,
+                                              title: Center(
+                                                child: Text(
+                                                  "Add to Playlist",
+                                                  style: TextStyle(
+                                                      color: Colors.black,
+                                                      fontSize: 18),
+                                                ),
+                                              ),
+                                              onTap: () {
+                                                Navigator.push(context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) {
+                                                  return ChoosePlaylist(
+                                                      songId: songs[index].id);
+                                                }));
+                                              },
+                                            ),
+                                            ListTile(
+                                              title: Center(
+                                                child: Text(
+                                                  "Go to Similar Songs",
+                                                  style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 18),
+                                                ),
+                                              ),
+                                              onTap: () {},
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                    );
+                                  });
+                            },
+                          )
                         ],
                       ),
                     ),
@@ -179,7 +256,7 @@ class AudioListWidget extends StatelessWidget {
             ])));
   }
 }
-  
+
 //     return Material(
 //       child: Expanded(
 //         child: SingleChildScrollView(

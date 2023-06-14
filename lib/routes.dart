@@ -8,8 +8,14 @@ import 'package:sonic_mobile/features/library/bloc/playlist_bloc/playlist_bloc.d
 import 'package:sonic_mobile/features/library/presentation/library_page.dart';
 import 'package:sonic_mobile/features/library/presentation/playlist_detail_page.dart';
 import 'package:sonic_mobile/features/library/presentation/widgets/screen_arguments.dart';
+import 'package:sonic_mobile/features/library/presentation/your_library_page.dart';
+import 'package:sonic_mobile/features/profile/bloc/edit_profile/edit_profile_bloc.dart';
+import 'package:sonic_mobile/features/profile/bloc/user_profile/user_profile_bloc.dart';
 import 'package:sonic_mobile/features/profile/bloc/view_profile/profile_bloc.dart';
+import 'package:sonic_mobile/features/profile/presentation/edit_profile_page.dart';
 import 'package:sonic_mobile/features/profile/presentation/profile.dart';
+import 'package:sonic_mobile/features/profile/presentation/user_profile_view.dart';
+import 'package:sonic_mobile/features/profile/repository/profile_data_provider.dart';
 import 'package:sonic_mobile/features/search/presentation/widgets/search_view.dart';
 import 'package:sonic_mobile/features/studio/bloc/podcast_detail_bloc/podcast_detail_bloc.dart';
 import 'package:sonic_mobile/features/studio/bloc/studio_bloc/studio_bloc.dart';
@@ -26,7 +32,7 @@ import 'package:sonic_mobile/features/auth/blocs/signup_bloc/signup_bloc.dart';
 import 'package:sonic_mobile/features/auth/blocs/login_bloc/login_bloc.dart';
 import 'package:sonic_mobile/features/auth/presentation/signup_page.dart';
 import 'package:sonic_mobile/features/auth/presentation/login_page.dart';
-
+import 'package:http/http.dart' as http;
 import 'features/audio_player/presentation/player_page.dart';
 import 'features/search/bloc/search/search_bloc.dart';
 import 'features/search/repository/http_search.dart';
@@ -40,19 +46,43 @@ import 'package:sonic_mobile/features/library/presentation/your_playlist_page.da
 class PageRouter {
   Route<dynamic>? generateRoute(RouteSettings routeSettings) {
     switch (routeSettings.name) {
+      case EditProfilePage.routeName:
+        return MaterialPageRoute(builder: (context) {
+          return BlocProvider(
+            create: (context) => EditProfileBloc(
+              userProfileRepository:
+                  DependencyProvider.getUserProfileRepository()!,
+              profileRepository: ProfileDataProvider(
+                httpClient: DependencyProvider.getAuthenticatedHttpClient()!,
+              ),
+              notificationCubit: DependencyProvider.getNotificationCubit()!,
+            )..add(EditProfile()),
+            child: const EditProfilePage(),
+          );
+        });
       case ProfilePage.routeName:
         return MaterialPageRoute(builder: (context) {
           return BlocProvider(
             create: (context) => ProfileBloc(
               userProfileRepository:
                   DependencyProvider.getUserProfileRepository()!,
+              secureStorage: DependencyProvider.getSecureStorage()!,
             )..add(LoadProfile()),
             child: const ProfilePage(),
           );
         });
+
       case Homepage.routeName:
+        final HomeScreenArguments? homeScreenArguments =
+            (routeSettings.arguments != null)
+                ? routeSettings.arguments as HomeScreenArguments
+                : null;
         return MaterialPageRoute(builder: (context) {
-          return const Homepage();
+          return Homepage(
+            toggleDrawer: (homeScreenArguments != null)
+                ? homeScreenArguments.callback
+                : null,
+          );
         });
       case SearchView.routeName:
         return MaterialPageRoute(builder: (context) {
@@ -74,7 +104,7 @@ class PageRouter {
               userProfileRepository:
                   DependencyProvider.getUserProfileRepository()!,
               secureStorage: DependencyProvider.getSecureStorage()!,
-            ),
+            )..add(SignUpInitialEvent()),
             child: const SignUpPage(),
           );
         });
@@ -88,7 +118,7 @@ class PageRouter {
               userProfileRepository:
                   DependencyProvider.getUserProfileRepository()!,
               secureStorage: DependencyProvider.getSecureStorage()!,
-            ),
+            )..add(LoginInitialEvent()),
             child: const LoginPage(),
           );
         });
@@ -122,7 +152,10 @@ class PageRouter {
             child: const YourPodcastsPage(),
           );
         });
-
+      case YourLibraryPage.routeName:
+        return MaterialPageRoute(builder: (context) {
+          return const YourLibraryPage();
+        });
       case YourPlaylists.routeName:
         return MaterialPageRoute(builder: (context) {
           return BlocProvider(

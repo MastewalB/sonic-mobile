@@ -3,7 +3,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sonic_mobile/core/core.dart';
+import 'package:sonic_mobile/features/home/presentation/homepage.dart';
 import 'package:sonic_mobile/features/profile/bloc/view_profile/profile_bloc.dart';
+import 'package:sonic_mobile/features/profile/presentation/edit_profile_page.dart';
 
 class Profile extends StatelessWidget {
   const Profile({
@@ -26,6 +28,15 @@ class Profile extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                GestureDetector(
+                    onTap: () {
+                      Navigator.pushReplacementNamed(
+                          context, Homepage.routeName);
+                    },
+                    child: Icon(
+                      Icons.arrow_back_ios,
+                      color: Colors.white,
+                    )),
                 Row(
                   children: [
                     Padding(
@@ -62,7 +73,7 @@ class Profile extends StatelessWidget {
                         Text(
                           "Profile",
                           style: TextStyle(
-                            fontSize: 10,
+                            fontSize: 12,
                             fontWeight: FontWeight.w800,
                             color: Colors.white,
                           ),
@@ -70,51 +81,64 @@ class Profile extends StatelessWidget {
                         Text(
                           '${state.profile.firstName} ${state.profile.lastName}',
                           style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.w900,
-                            color: Colors.white,
-                          ),
-                        ),
-                        RichText(
-                          selectionColor: Colors.white,
-                          text: TextSpan(
-                            text: ".8",
-                            style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w100,
+                              fontSize: 26,
+                              fontWeight: FontWeight.w900,
                               color: Colors.white,
-                            ),
-                            children: [
-                              TextSpan(
-                                text: ' Followers   ',
-                                style: TextStyle(
-                                  // fontFamily: 'courier',
-                                  fontSize: 14,
-                                  color: Colors.white,
-                                ),
-                              ),
-                              TextSpan(
-                                text: '.13',
-                                style: TextStyle(
-                                  // fontFamily: 'courier',
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w800,
-                                  color: Colors.white,
-                                ),
-                              ),
-                              TextSpan(
-                                text: ' Following',
-                                style: TextStyle(
-                                  // fontFamily: 'courier',
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w100,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ],
-                          ),
+                              overflow: TextOverflow.ellipsis),
                         ),
+                        // RichText(
+                        //   selectionColor: Colors.white,
+                        //   text: TextSpan(
+                        //     text: ".8",
+                        //     style: TextStyle(
+                        //       fontSize: 14,
+                        //       fontWeight: FontWeight.w100,
+                        //       color: Colors.white,
+                        //     ),
+                        //     children: [
+                        //       TextSpan(
+                        //         text: ' Followers   ',
+                        //         style: TextStyle(
+                        //           // fontFamily: 'courier',
+                        //           fontSize: 14,
+                        //           color: Colors.white,
+                        //         ),
+                        //       ),
+                        //       TextSpan(
+                        //         text: '.13',
+                        //         style: TextStyle(
+                        //           // fontFamily: 'courier',
+                        //           fontSize: 14,
+                        //           fontWeight: FontWeight.w800,
+                        //           color: Colors.white,
+                        //         ),
+                        //       ),
+                        //       TextSpan(
+                        //         text: ' Following',
+                        //         style: TextStyle(
+                        //           // fontFamily: 'courier',
+                        //           fontSize: 14,
+                        //           fontWeight: FontWeight.w100,
+                        //           color: Colors.white,
+                        //         ),
+                        //       ),
+                        //     ],
+                        //   ),
+                        // ),
                       ],
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left:12.0),
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.pushReplacementNamed(
+                              context, EditProfilePage.routeName);
+                        },
+                        child: Icon(
+                          Icons.edit,
+                          color: Colors.blue,
+                        ),
+                      ),
                     )
                   ],
                 ),

@@ -39,7 +39,8 @@ class _CatchPhraseState extends State<CatchPhrase>
   Widget build(BuildContext context) {
     return Container(
       alignment: Alignment.center,
-      color: const Color.fromARGB(255, 31, 29, 43),
+      // color: const Color.fromARGB(255, 31, 29, 43),
+      color: Colors.transparent,
       child: FadeTransition(
         opacity: _opacityAnimation,
         child: Padding(

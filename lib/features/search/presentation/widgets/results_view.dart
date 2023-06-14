@@ -5,9 +5,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'dart:math';
 
 import 'package:sonic_mobile/features/album/presentation/album_page.dart';
+import 'package:sonic_mobile/features/artist/presentation/artist_page.dart';
 import 'package:sonic_mobile/features/audio_player/bloc/audio_player_bloc.dart';
+import 'package:sonic_mobile/features/auth/models/user_profile.dart';
 import 'package:sonic_mobile/models/audio.dart';
 import 'package:sonic_mobile/models/song.dart';
+import 'package:sonic_mobile/features/profile/presentation/user_profile_view.dart';
 
 class SearchResultsWidget<T> extends StatelessWidget {
   final String searchType;
@@ -31,6 +34,8 @@ class SearchResultsWidget<T> extends StatelessWidget {
         return inp['name'] as String;
       } else if (searchType == 'Album') {
         return inp['name'] as String;
+      } else if (searchType == 'User') {
+        return inp['username'] as String;
       }
       return ''; // Default value
     }
@@ -45,6 +50,8 @@ class SearchResultsWidget<T> extends StatelessWidget {
         return inp['picture'] as String;
       } else if (searchType == 'Album') {
         return inp['cover'] as String;
+      } else if (searchType == 'User') {
+        return 'https://www.iconspng.com/images/young-user-icon.jpg';
       }
       return ''; // Default value
     }
@@ -55,6 +62,8 @@ class SearchResultsWidget<T> extends StatelessWidget {
         return inp['s_artist']['name'] as String;
       } else if (searchType == 'Album') {
         return inp['artist']['name'] as String;
+      } else if (searchType == 'User') {
+        return inp['first_name'] + ' ' + inp['last_name'] as String;
       }
       return '';
     }
@@ -67,6 +76,16 @@ class SearchResultsWidget<T> extends StatelessWidget {
     Song getSong(inpt) {
       var inp = Song.fromJson(inpt['data']);
       return inp;
+    }
+
+    String getArtistId(inpt) {
+      var inp = inpt['data'];
+      return inp['id'].toString();
+    }
+
+    String getUserId(inpt) {
+      var inp = inpt['data'];
+      return inp['id'].toString();
     }
 
     return Column(
@@ -109,31 +128,7 @@ class SearchResultsWidget<T> extends StatelessWidget {
             final item = items[index]; // Get the item at the current index
             print(searchType);
             return InkWell(
-              onTap: () {
-                print('lu been her');
-                print(searchType);
-                if (searchType == 'Album') {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => AlbumPage(
-                        albumID: getAlbumId(item),
-                      ),
-                    ),
-                  );
-                } else if (searchType == 'Song') {
-                  ListQueue<Audio> playlist = ListQueue<Audio>();
-                  // debugPrint(playlist.elementAt(index).fileUrl);
-                  playlist.add(getSong(item));
-                  context.read<AudioPlayerBloc>().add(
-                        PlayAudioEvent(
-                          playlist: playlist,
-                          currentIndex: 0,
-                          fromCurrentPlaylist: false,
-                        ),
-                      );
-                }
-              },
+              onTap: () {},
               child: Container(
                 color: Colors.transparent,
                 child: ListTile(
@@ -144,11 +139,10 @@ class SearchResultsWidget<T> extends StatelessWidget {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10.0),
                       image: DecorationImage(
-                        fit: BoxFit.cover,
-                        image: NetworkImage(
-                          getImageUrl(item),
-                        ),
-                      ),
+                          fit: BoxFit.cover,
+                          image: NetworkImage(
+                            getImageUrl(item),
+                          )),
                     ),
                   ),
                   title: Text(
@@ -168,7 +162,6 @@ class SearchResultsWidget<T> extends StatelessWidget {
                   ),
                   onTap: () {
                     // Handle the result tap action
-                    print('lu been her');
                     print(searchType);
                     if (searchType == 'Album') {
                       Navigator.push(
@@ -190,6 +183,24 @@ class SearchResultsWidget<T> extends StatelessWidget {
                               fromCurrentPlaylist: false,
                             ),
                           );
+                    } else if (searchType == 'Artist') {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ArtistPage(
+                            artistID: getArtistId(item),
+                          ),
+                        ),
+                      );
+                    } else if (searchType == 'User') {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => UserProfileView(
+                            userId: getUserId(item),
+                          ),
+                        ),
+                      );
                     }
                   },
                 ),
