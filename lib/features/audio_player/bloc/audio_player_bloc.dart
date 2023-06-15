@@ -31,6 +31,7 @@ class AudioPlayerBloc extends Bloc<AudioPlayerEvent, AudioPlayerState> {
   ListQueue<Audio> audioQueue = ListQueue<Audio>();
 
   void initialize() async {}
+
   AudioPlayerBloc({
     required this.audioPlayer,
     required this.userProfileRepository,
@@ -59,23 +60,18 @@ class AudioPlayerBloc extends Bloc<AudioPlayerEvent, AudioPlayerState> {
     });
 
     channel.stream.listen((data) async {
-      print(data);
       final UserProfile userProfile = await userProfileRepository.getUser();
       var jsonData = json.decode(data);
 
       if (jsonData["SENDER"] != userProfile.id) {
-        print('ereee');
         String msgType = jsonData["MSG_TYPE"];
-        print(msgType);
         switch (msgType) {
           case "STATUS_REQ":
-            if (isStreamOwner) {
-              int currentPosition =
-                  await state.audioPlayer.getCurrentPosition();
-              Audio audio = state.audioQueue!.elementAt(state.currentIndex);
-              sendMessage(
-                  "STATUS_UPDATE", "PLAY", audio, currentPosition, true);
-            }
+            // if (isStreamOwner) {
+            int currentPosition = await state.audioPlayer.getCurrentPosition();
+            Audio audio = state.audioQueue!.elementAt(state.currentIndex);
+            sendMessage("STATUS_UPDATE", "PLAY", audio, currentPosition, true);
+            // }
             return;
           case "STATUS_UPDATE":
             switch (jsonData["OPERATION"]) {
@@ -84,12 +80,11 @@ class AudioPlayerBloc extends Bloc<AudioPlayerEvent, AudioPlayerState> {
                 String artistName = jsonData["DATA"]["ARTIST_NAME"];
                 String title = jsonData["DATA"]["TITLE"];
                 String imageUrl = jsonData["DATA"]["IMAGE_URL"];
-                ListQueue<Audio> playlist = ListQueue<Audio>();
+                ListQueue<Audio> playlist = ListQueue<Audio>(0);
 
                 //Load the information to the audio player state
-                await state.audioPlayer
-                    .setUrl(audioQueue.elementAt(currentIndex).fileUrl);
-                add(AudioPlayerLoadingEvent());
+                // await state.audioPlayer
+                //     .setUrl(audioQueue.elementAt(currentIndex).fileUrl);
 
                 //start playing the audio
                 playlist.add(Audio(
@@ -98,11 +93,15 @@ class AudioPlayerBloc extends Bloc<AudioPlayerEvent, AudioPlayerState> {
                   title: title,
                   imageUrl: imageUrl,
                 ));
+                // audioQueue = playlist;
+                currentIndex = 0;
+                // add(AudioPlayerLoadingEvent());
                 add(
                   PlayAudioEvent(
-                      playlist: playlist,
-                      fromCurrentPlaylist: false,
-                      currentIndex: 0),
+                    playlist: playlist,
+                    fromCurrentPlaylist: false,
+                    currentIndex: currentIndex,
+                  ),
                 );
                 // if (jsonData["DATA"]["PLAY"]) {
                 //   add(
@@ -183,7 +182,7 @@ class AudioPlayerBloc extends Bloc<AudioPlayerEvent, AudioPlayerState> {
 
       //send message to the group streaming interface
       sendMessage("STATUS_UPDATE", "PLAY",
-          state.audioQueue!.elementAt(state.currentIndex), null, true);
+          audioQueue.elementAt(currentIndex), null, true);
       // ! ------ !
 
       await state.audioPlayer.play(

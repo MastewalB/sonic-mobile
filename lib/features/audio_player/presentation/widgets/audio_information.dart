@@ -169,7 +169,7 @@ class AudioInformation extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 30.0),
             child: Text(
-              audioQueue.elementAt(state.currentIndex).artistName,
+              state.audioQueue!.elementAt(state.currentIndex).artistName,
               textDirection: TextDirection.ltr,
               style: const TextStyle(
                 fontSize: 15,
