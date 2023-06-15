@@ -76,10 +76,11 @@ class AudioPlayerBloc extends Bloc<AudioPlayerEvent, AudioPlayerState> {
             case "STATUS_REQ":
               // if (isStreamOwner) {
               int currentPosition =
-                  await state.audioPlayer.getCurrentPosition();
+                  (await state.audioPlayer.getCurrentPosition()) ~/ 1000;
               Audio audio = state.audioQueue!.elementAt(state.currentIndex);
-              sendMessage(
-                  "STATUS_UPDATE", "PLAY", audio, currentPosition, true);
+              bool playerStatus = (state.status.isPlaying) ? true : false;
+              sendMessage("STATUS_UPDATE", "PLAY", audio, currentPosition,
+                  playerStatus);
               // }
               return;
             case "STATUS_UPDATE":
@@ -105,13 +106,20 @@ class AudioPlayerBloc extends Bloc<AudioPlayerEvent, AudioPlayerState> {
                   // audioQueue = playlist;
                   currentIndex = 0;
                   // add(AudioPlayerLoadingEvent());
+                  int seekSeconds = jsonData['DATA']['SEEK'] ?? 0;
+                  // if (jsonData['DATA']['SEEK'] != null) {
+                  //   seekSeconds = jsonData['DATA']['SEEK'];
+                  // }
+                  print(seekSeconds);
                   add(
                     PlayAudioEvent(
                       playlist: playlist,
                       fromCurrentPlaylist: false,
                       currentIndex: currentIndex,
+                      duration: Duration(seconds: seekSeconds),
                     ),
                   );
+
                   // if (jsonData["DATA"]["PLAY"]) {
                   //   add(
                   //     PlayAudioEvent(
@@ -194,11 +202,9 @@ class AudioPlayerBloc extends Bloc<AudioPlayerEvent, AudioPlayerState> {
       sendMessage("STATUS_UPDATE", "PLAY", audioQueue.elementAt(currentIndex),
           null, true);
       // ! ------ !
-
-      await state.audioPlayer.play(
-        audioQueue.elementAt(currentIndex).fileUrl,
-        isLocal: event.isLocal,
-      );
+      print(event.duration);
+      await state.audioPlayer.play(audioQueue.elementAt(currentIndex).fileUrl,
+          isLocal: event.isLocal);
     });
 
     on<ResumeAudioEvent>((event, emit) async {
@@ -391,6 +397,9 @@ class AudioPlayerBloc extends Bloc<AudioPlayerEvent, AudioPlayerState> {
         "SEEK": seconds
       }
     });
-    channel.sink.add(body);
+    final bool isStreamOn = await followRepository.isStreamOn();
+    if (isStreamOn) {
+      channel.sink.add(body);
+    }
   }
 }

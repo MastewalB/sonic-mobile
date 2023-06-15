@@ -23,13 +23,15 @@ class PlayAudioEvent extends AudioPlayerEvent {
   int? currentIndex;
   bool fromCurrentPlaylist;
   bool isLocal;
+  Duration duration;
 
   PlayAudioEvent({
     this.playlist,
     this.currentIndex,
     this.fromCurrentPlaylist = false,
     this.isLocal = false,
-  });
+    duration,
+  }) : duration = duration ?? const Duration(seconds: 0);
 
   @override
   List<Object?> get props => [];
