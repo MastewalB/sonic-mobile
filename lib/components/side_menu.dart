@@ -2,6 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:side_navigation/side_navigation.dart';
 import 'package:sonic_mobile/core/core.dart';
+import 'package:sonic_mobile/features/auth/auth.dart';
+import 'package:sonic_mobile/screens/desktopProfile.dart';
+import 'package:sonic_mobile/screens/desktop_home.dart';
+
+import 'package:sonic_mobile/screens/desktop_library.dart';
+import 'package:sonic_mobile/screens/profile_screen.dart';
+
+import '../screens/desktop_playlist.dart';
 
 class SideMenu extends StatefulWidget {
   const SideMenu({Key? key}) : super(key: key);
@@ -11,18 +19,18 @@ class SideMenu extends StatefulWidget {
 }
 
 class _SideMenuState extends State<SideMenu> {
-  List<Widget> views = const [
+  List<Widget> views = [
     Center(
-      child: Text('Dashboard'),
+      child: DashboardScreen(),
     ),
     Center(
-      child: Text('Playlists'),
+      child: DesktopPlaylist(),
     ),
     Center(
-      child: Text('Profile'),
+      child: ProfileScreen(),
     ),
     Center(
-      child: Text('Settings'),
+      child: DesktopPlaylist(),
     ),
 
   ];
@@ -31,7 +39,8 @@ class _SideMenuState extends State<SideMenu> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
+      body: 
+      Padding(
         padding: EdgeInsets.fromLTRB(5,40,5,0),
         child: Container(
           decoration: BoxDecoration(
@@ -76,8 +85,12 @@ class _SideMenuState extends State<SideMenu> {
                       onToggle: () {
                         print('Toggle');
                       }),
+
                 ),
               ),
+              Expanded(
+            child: views.elementAt(selectedIndex),
+          )
               
             ],
           ),

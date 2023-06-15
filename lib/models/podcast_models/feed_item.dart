@@ -40,6 +40,7 @@ class FeedItem implements Audio {
     String durationString =
         episodeElement.findElements("itunes:duration").first.text;
     final enclosure = episodeElement.findElements('enclosure').first;
+    print("jhere");
     // print(enclosure.getAttribute("url"));
     // final imageElement = episodeElement.findElements('image').first;
     // final imageLink = imageElement.findElements('url').first.text;

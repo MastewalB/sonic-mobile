@@ -33,6 +33,10 @@ import 'package:sonic_mobile/features/auth/blocs/login_bloc/login_bloc.dart';
 import 'package:sonic_mobile/features/auth/presentation/signup_page.dart';
 import 'package:sonic_mobile/features/auth/presentation/login_page.dart';
 import 'package:http/http.dart' as http;
+import 'package:sonic_mobile/screens/desktopProfile.dart';
+import 'package:sonic_mobile/screens/desktop_playlist.dart';
+import 'package:sonic_mobile/screens/home_page/homepage.dart';
+import 'package:sonic_mobile/screens/profile_screen.dart';
 import 'features/audio_player/presentation/player_page.dart';
 import 'features/search/bloc/search/search_bloc.dart';
 import 'features/search/repository/http_search.dart';
@@ -46,6 +50,24 @@ import 'package:sonic_mobile/features/library/presentation/your_playlist_page.da
 class PageRouter {
   Route<dynamic>? generateRoute(RouteSettings routeSettings) {
     switch (routeSettings.name) {
+
+
+      //Desktop Routes
+      case DesktopHomePage.routeName:
+      return MaterialPageRoute(builder: (context) {
+          return const DesktopHomePage();
+        });
+
+  case ProfileScreen.routeName:
+      return MaterialPageRoute(builder: (context) {
+          return ProfileScreen();
+        });
+  case DesktopPlaylist.routeName:
+      return MaterialPageRoute(builder: (context) {
+          return DesktopPlaylist();
+        });
+  
+    //Mobile Routes
       case EditProfilePage.routeName:
         return MaterialPageRoute(builder: (context) {
           return BlocProvider(

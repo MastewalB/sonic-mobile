@@ -15,6 +15,7 @@ class FollowerInfoCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      height: 250,
       padding: EdgeInsets.all(defaultPadding),
       decoration: BoxDecoration(
         color: secondaryColor,
@@ -29,14 +30,13 @@ class FollowerInfoCard extends StatelessWidget {
             children: [
               Container(
                 padding: EdgeInsets.all(defaultPadding * 0.75),
-                height: 120,
-                width: 120,
+                
                 decoration: BoxDecoration(
                   borderRadius: const BorderRadius.all(Radius.circular(0)),
                 ),
                 child: CircleAvatar(
                           backgroundImage: AssetImage('assets/images/users.jpeg'),
-                          radius: 100,
+                          radius: 65,
                         ),
               ),
                           ],

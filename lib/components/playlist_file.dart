@@ -14,7 +14,7 @@ class PlaylistFiles extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(defaultPadding),
       decoration: BoxDecoration(
-        color: thirdColor,
+        color: Colors.black,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

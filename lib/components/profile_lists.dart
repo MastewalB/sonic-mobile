@@ -44,7 +44,7 @@ class ProfileInfoCardGridView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 200,
+      height: 230,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         shrinkWrap: true,
@@ -56,7 +56,7 @@ class ProfileInfoCardGridView extends StatelessWidget {
         //   childAspectRatio: 1,
         // ),
         itemBuilder: (context, index) => Padding(
-          padding: const EdgeInsets.symmetric(horizontal:4.0),
+          padding: const EdgeInsets.symmetric(horizontal:12.0),
           child: ProfileInfoCard(info: demoMyFiles[index]),
         ),
       ),

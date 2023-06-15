@@ -8,15 +8,13 @@ import '../components/profile_lists.dart';
 import '../components/side_menu.dart';
 import '../core/constants/colors.dart';
 
-class DesktopPlaylist extends StatelessWidget {
+class DesktopPlaylists extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
       child: SafeArea(
         child: Row( children: [
-          Expanded(
-              child: SideMenu(),
-              ),
+          
           Expanded(
             flex: 5,
             child: SingleChildScrollView(

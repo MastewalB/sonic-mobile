@@ -13,7 +13,7 @@ class PodCard extends StatelessWidget {
       children: [
         Expanded(
           child: ClipRRect(
-              // height: 200,
+              
               borderRadius: BorderRadius.circular(10),
               child: Image.network(
                 podcast.imageUrl,

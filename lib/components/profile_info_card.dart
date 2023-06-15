@@ -14,6 +14,8 @@ class ProfileInfoCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      height: 240,
+      width: 187,
       padding: EdgeInsets.all(defaultPadding),
       decoration: BoxDecoration(
         color: secondaryColor,
@@ -27,20 +29,21 @@ class ProfileInfoCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Container(
-                padding: EdgeInsets.all(defaultPadding * 0.75),
-                height: 140,
-                width: 120,
+                padding: EdgeInsets.all(5),
+                height: 180,
+                width: 155,
                 decoration: BoxDecoration(
                   borderRadius: const BorderRadius.all(Radius.circular(0)),
                 ),
                 child: Container(
 
-  height: 150,
+  
   alignment: Alignment.center,
   child: Image.asset(
         'assets/images/shay.jpeg',
-        fit: BoxFit.contain,
-        width: 350,
+        height: 180,
+    width: 160,
+    fit: BoxFit.fitWidth,
       ),
   
   ),

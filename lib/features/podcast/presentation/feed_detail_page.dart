@@ -42,9 +42,11 @@ class _FeedDetailPageState extends State<FeedDetailPage> {
             onWillPop: _onWillPop,
             child: SafeArea(
               child: Scaffold(
+                backgroundColor: Colors.black,
                 body: CustomScrollView(
                   slivers: [
                     SliverAppBar(
+                      backgroundColor: secondaryColor,
                       leading: IconButton(
                         icon: const Icon(Icons.arrow_back_ios),
                         onPressed: () {
@@ -60,35 +62,54 @@ class _FeedDetailPageState extends State<FeedDetailPage> {
                       ),
                     ),
                     SliverPadding(
-                      padding: EdgeInsets.fromLTRB(20.0, 5.0, 20.0, 0.0),
+                      padding: EdgeInsets.fromLTRB(20.0, 25.0, 20.0, 0.0),
                       sliver: SliverToBoxAdapter(
-                        child: SizedBox(
-                          height: 300,
-                          // width: 100,
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(15),
-                            child: Image.network(state.feed.imageUrl),
+                        child: Container(
+                          height: 350,
+                          alignment: Alignment.center,
+                          padding: EdgeInsets.all(defaultPadding),
+                          decoration: BoxDecoration(
+                            color: Colors.black,
+                            boxShadow: [
+                              BoxShadow(
+                                  color: const Color.fromARGB(255, 88, 85, 85),
+                                  spreadRadius: 1,
+                                  blurRadius: 7)
+                            ],
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(10)),
                           ),
-                        ),
-                      ),
-                    ),
-                    SliverPadding(
-                      padding: EdgeInsets.fromLTRB(25.0, 15.0, 15.0, 0.0),
-                      sliver: SliverToBoxAdapter(
-                        child: Text(
-                          state.feed.podcastTitle,
-                          style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 29,
-                              fontFamily: "Poppins",
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                    ),
-                    SliverPadding(
-                      padding: EdgeInsets.fromLTRB(25.0, 0.0, 0.0, 0.0),
-                      sliver: SliverToBoxAdapter(
-                        child: Text(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                children: [
+                                  SizedBox(
+                                    height: 300,
+                                    // width: 100,
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(15),
+                                      child: Image.network(state.feed.imageUrl),
+                                    ),
+                                  ),
+                                  Padding(
+                      padding: EdgeInsets.fromLTRB(40.0, 15.0, 40.0, 0.0),
+                      child:
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            SizedBox(height: 220,),
+                            Text(
+                              state.feed.podcastTitle,
+                              style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 29,
+                                  fontFamily: "Poppins",
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          
+                        Text(
                           state.feed.author,
                           style: TextStyle(
                             color: Colors.white,
@@ -96,8 +117,26 @@ class _FeedDetailPageState extends State<FeedDetailPage> {
                             fontWeight: FontWeight.w600,
                           ),
                         ),
+                        SizedBox(
+                        height: 15,
+                      ),
+                      
+                      
+
+                        ],
+                        ),
+                      
+                    ),
+                                  
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
                       ),
                     ),
+                    
+                   
                     const SliverToBoxAdapter(
                       child: SizedBox(
                         height: 15,
@@ -105,26 +144,26 @@ class _FeedDetailPageState extends State<FeedDetailPage> {
                     ),
                     SliverToBoxAdapter(
                       child: Padding(
-                          padding:
-                              const EdgeInsets.fromLTRB(25.0, 0.0, 15.0, 10.0),
-                          child:
-                          // Markdown(
-                          //   data: state.feed.description,
-                          //   shrinkWrap: true,
-                          //   selectable: true,
-                          // )
-                          ReadMore(
-                            data: state.feed.description,
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 14,
-                            ),
-                            trimLines: 4,
-                            trimCollapsedText: 'Show more',
-                            trimExpandedText: 'Show less',
-                            // moreStyle:
+                        padding:
+                            const EdgeInsets.fromLTRB(69.0, 50.0, 69.0, 50.0),
+                        child:
+                            // Markdown(
+                            //   data: state.feed.description,
+                            //   shrinkWrap: true,
+                            //   selectable: true,
+                            // )
+                            ReadMore(
+                          data: state.feed.description,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 14,
                           ),
-                          ),
+                          trimLines: 4,
+                          trimCollapsedText: 'Show more',
+                          trimExpandedText: 'Show less',
+                          // moreStyle:
+                        ),
+                      ),
                     ),
                     SliverList(
                       delegate: SliverChildBuilderDelegate(
@@ -154,7 +193,8 @@ class _FeedDetailPageState extends State<FeedDetailPage> {
                                           CrossAxisAlignment.center,
                                       children: [
                                         Text(
-                                          (state.feed.episodes.length - index).toString(),
+                                          (state.feed.episodes.length - index)
+                                              .toString(),
                                           style: const TextStyle(
                                             color: Colors.white,
                                             fontSize: 15,

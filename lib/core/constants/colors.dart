@@ -7,7 +7,7 @@ class SonicColors {
 }
 
 const primaryColor = Color(0xFF2697FF);
-const secondaryColor = Color(0xFF2A2D3E);
+const secondaryColor = Color.fromARGB(31, 119, 116, 116);
 const thirdColor = Color.fromARGB(255, 29, 31, 43);
 const bgColor = Color(0xFF212332);
 

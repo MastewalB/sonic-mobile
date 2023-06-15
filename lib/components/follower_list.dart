@@ -19,7 +19,7 @@ class FollowerLists extends StatelessWidget {
           children: [
             Padding
             (
-              padding: EdgeInsets.all(10),
+              padding: EdgeInsets.fromLTRB(10,25,0,10),
               child: Text(
                 
                 "My Followers",
@@ -66,10 +66,10 @@ class FollowerInfoCardGridView extends StatelessWidget {
   Widget build(BuildContext context) {
     
     return SizedBox(
-      height: 200,
+      height: 230,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
-        shrinkWrap: true,
+        
         itemCount: demoMyFollowers.length,
         // gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
         //   maxCrossAxisExtent: 200,
@@ -78,7 +78,7 @@ class FollowerInfoCardGridView extends StatelessWidget {
         //   childAspectRatio: 1,
         // ),
         itemBuilder: (context, index) => Padding(
-          padding: const EdgeInsets.symmetric(horizontal:4.0),
+          padding: const EdgeInsets.symmetric(horizontal:12.0),
           child: FollowerInfoCard(info: demoMyFollowers[index]),
         ),
       ),

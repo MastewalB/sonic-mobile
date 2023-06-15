@@ -165,7 +165,7 @@ class _SonicState extends State<Sonic> with WidgetsBindingObserver {
         userProfileRepository: DependencyProvider.getUserProfileRepository()!,
         secureStorage: DependencyProvider.getSecureStorage()!,
       )..add(LoginInitialEvent()),
-      child: const LoginPage(),
+      child: const DashboardScreen(),
     );
     // return MultiBlocProvider(
     //   providers: [

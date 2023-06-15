@@ -45,7 +45,7 @@ Widget _buildNormalPlaylist() {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(
-            height: 55.0,
+            height: 5.0,
           ),
           Row(
             children: [
@@ -121,7 +121,7 @@ Widget _buildMiddlePlaylist() {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(
-            height: 55.0,
+            height: 5.0,
           ),
           Row(
             children: [
@@ -184,6 +184,7 @@ Widget _buildMiddlePlaylist() {
 }
 Widget _buildWidePlaylist() {
     return Container(
+      
       decoration: const BoxDecoration(
         borderRadius: BorderRadius.only(
           topRight: Radius.circular(20),
@@ -198,7 +199,7 @@ Widget _buildWidePlaylist() {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(
-              height: 55.0,
+              height: 5.0,
             ),
             Row(
               children: [
