@@ -13,14 +13,14 @@ class AlbumCard extends StatelessWidget {
       children: [
         Expanded(
           child: ClipRRect(
-              // height: 200,
-              borderRadius: BorderRadius.circular(10),
-              child: Image.network(
-                album.cover,
-                fit: BoxFit.cover,
-              )),
+            borderRadius: BorderRadius.circular(10),
+            child: Image.network(
+              album.cover,
+              fit: BoxFit.cover,
+            ),
+          ),
         ),
-        SizedBox(
+        const SizedBox(
           height: 4,
         ),
         Column(
@@ -28,7 +28,7 @@ class AlbumCard extends StatelessWidget {
           children: [
             Text(
               album.name,
-              style: TextStyle(
+              style: const TextStyle(
                 color: Colors.white,
                 fontWeight: FontWeight.bold,
                 fontSize: 15,
@@ -36,17 +36,9 @@ class AlbumCard extends StatelessWidget {
               maxLines: 1,
               overflow: TextOverflow.fade,
             ),
-            SizedBox(
+            const SizedBox(
               height: 3,
             ),
-            // Text(
-            //   podcast.author,
-            //   style: TextStyle(
-            //     color: Colors.white,
-            //     fontWeight: FontWeight.bold,
-            //     fontSize: 12,
-            //   ),
-            // )
           ],
         ),
       ],

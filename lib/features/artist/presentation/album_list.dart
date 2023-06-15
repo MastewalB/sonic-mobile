@@ -1,15 +1,7 @@
-// ignore_for_file: prefer_const_constructors
-
-import 'dart:collection';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sonic_mobile/features/album/presentation/album_page.dart';
 import 'package:sonic_mobile/features/artist/presentation/widgets/album_grid.dart';
-import 'package:sonic_mobile/features/audio_player/bloc/audio_player_bloc.dart';
-import 'package:sonic_mobile/features/library/presentation/widgets/list_playlists.dart';
 import 'package:sonic_mobile/models/models.dart';
-import 'package:sonic_mobile/core/core.dart';
 
 class AlbumListWidget extends StatelessWidget {
   final List<AlbumInfo> albums;
@@ -38,42 +30,42 @@ class AlbumListWidget extends StatelessWidget {
       ));
     }
     return SafeArea(
-        child: Scaffold(
-            backgroundColor: const Color.fromARGB(255, 31, 29, 43),
-            body: CustomScrollView(slivers: [
-              SliverPadding(
-                padding: EdgeInsets.fromLTRB(14.0, 12.0, 0, 0),
-                sliver: SliverToBoxAdapter(
-                  child: Container(
-                    alignment: Alignment.topLeft,
-                    child: GestureDetector(
-                        onTap: () {
-                          Navigator.pop(context);
-                        },
-                        child: Icon(
-                          Icons.arrow_back_ios,
-                          color: Colors.white,
-                        )),
-                  ),
+      child: Scaffold(
+        backgroundColor: const Color.fromARGB(255, 31, 29, 43),
+        body: CustomScrollView(
+          slivers: [
+            SliverPadding(
+              padding: const EdgeInsets.fromLTRB(14.0, 12.0, 0, 0),
+              sliver: SliverToBoxAdapter(
+                child: Container(
+                  alignment: Alignment.topLeft,
+                  child: GestureDetector(
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      child: const Icon(
+                        Icons.arrow_back_ios,
+                        color: Colors.white,
+                      )),
                 ),
               ),
-              SliverPadding(
-                padding: EdgeInsets.fromLTRB(20.0, 5.0, 20.0, 0.0),
-                sliver: SliverToBoxAdapter(
-                  child: Container(
-                    height: 250,
-                    // width: 100,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(15),
-                      child: AspectRatio(
-                        aspectRatio: 0.5,
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10.0),
-                            image: DecorationImage(
-                              fit: BoxFit.cover,
-                              image: NetworkImage(artistUrl),
-                            ),
+            ),
+            SliverPadding(
+              padding: const EdgeInsets.fromLTRB(20.0, 5.0, 20.0, 0.0),
+              sliver: SliverToBoxAdapter(
+                child: Container(
+                  height: 250,
+                  // width: 100,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(15),
+                    child: AspectRatio(
+                      aspectRatio: 0.5,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10.0),
+                          image: DecorationImage(
+                            fit: BoxFit.cover,
+                            image: NetworkImage(artistUrl),
                           ),
                         ),
                       ),
@@ -81,106 +73,61 @@ class AlbumListWidget extends StatelessWidget {
                   ),
                 ),
               ),
-              SliverPadding(
-                padding: EdgeInsets.fromLTRB(25.0, 15.0, 15.0, 20.0),
-                sliver: SliverToBoxAdapter(
-                  child: Text(
-                    name,
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 28,
-                        fontFamily: "Poppins",
-                        fontWeight: FontWeight.bold),
-                  ),
+            ),
+            SliverPadding(
+              padding: const EdgeInsets.fromLTRB(25.0, 15.0, 15.0, 20.0),
+              sliver: SliverToBoxAdapter(
+                child: Text(
+                  name,
+                  style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 28,
+                      fontFamily: "Poppins",
+                      fontWeight: FontWeight.bold),
                 ),
               ),
-              SliverPadding(
-                padding: EdgeInsets.fromLTRB(25.0, 15.0, 15.0, 20.0),
-                sliver: SliverToBoxAdapter(
-                  child: Text(
-                    'Albums',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 14,
-                        fontFamily: "Poppins",
-                        fontWeight: FontWeight.w300),
-                  ),
+            ),
+            const SliverPadding(
+              padding: EdgeInsets.fromLTRB(25.0, 15.0, 15.0, 20.0),
+              sliver: SliverToBoxAdapter(
+                child: Text(
+                  'Albums',
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 14,
+                      fontFamily: "Poppins",
+                      fontWeight: FontWeight.w300),
                 ),
               ),
-
-              SliverGrid.builder(
-                  // shrinkWrap: true,
-                  itemCount: albums.length,
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    childAspectRatio: 0.9,
-                    mainAxisSpacing: 10.0,
-                    crossAxisSpacing: 10.0,
-                  ),
-                  itemBuilder: (context, index) {
-                    return InkWell(
-                      splashColor: Colors.white,
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) =>
-                                AlbumPage(albumID: albums[index].id),
-                          ),
-                        );
-                      },
-                      child: AlbumCard(album: albums[index]),
+            ),
+            SliverGrid.builder(
+              // shrinkWrap: true,
+              itemCount: albums.length,
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                childAspectRatio: 0.9,
+                mainAxisSpacing: 10.0,
+                crossAxisSpacing: 10.0,
+              ),
+              itemBuilder: (context, index) {
+                return InkWell(
+                  splashColor: Colors.white,
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            AlbumPage(albumID: albums[index].id),
+                      ),
                     );
-                  }),
-              // SliverList(
-              //   delegate: SliverChildBuilderDelegate(
-              //       (BuildContext context, int index) {
-              //     return Padding(
-              //       padding: const EdgeInsets.fromLTRB(30.0, 15.0, 0.0, 0.0),
-              //       child: InkWell(
-              //         onTap: () {
-              //           Navigator.push(
-              //             context,
-              //             MaterialPageRoute(
-              //               builder: (context) =>
-              //                   AlbumPage(albumID: albums[index].id),
-              //             ),
-              //           );
-              //         },
-              //         onDoubleTap: () {},
-              //         child: Row(
-              //           mainAxisSize: MainAxisSize.max,
-              //           children: [
-              //             InkWell(
-              //               child: Column(
-              //                 crossAxisAlignment: CrossAxisAlignment.center,
-              //                 children: const [
-              //                   Text(
-              //                     '-',
-              //                     style: TextStyle(
-              //                       color: Colors.white,
-              //                       fontSize: 15,
-              //                     ),
-              //                   ),
-              //                 ],
-              //               ),
-              //               onTap: () {},
-              //             ),
-              //             SizedBox(
-              //               width: 20,
-              //             ),
-              //             Expanded(
-              //                 child: CardSmall(
-              //               title: albums[index].name,
-              //               duration: '',
-              //               // image: 'assets/music_icon_image.jpg',
-              //             )),
-              //           ],
-              //         ),
-              //       ),
-              //     );
-              //   }, childCount: albums.length),
-              // )
-            ])));
+                  },
+                  child: AlbumCard(album: albums[index]),
+                );
+              },
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

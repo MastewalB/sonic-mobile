@@ -58,6 +58,8 @@ dependencies:
   xml: ^6.1.0
   flutter_markdown: ^0.6.15
   web_socket_channel: ^2.3.0
+  flutter_native_splash: 
+
 
 dev_dependencies:
   flutter_test:

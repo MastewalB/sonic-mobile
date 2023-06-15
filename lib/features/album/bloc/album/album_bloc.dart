@@ -1,5 +1,4 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sonic_mobile/models/models.dart';
 import 'package:sonic_mobile/features/album/repository/http_music_repository.dart';
 import 'album_event.dart';
 import 'album_state.dart';
@@ -12,12 +11,9 @@ class AlbumBloc extends Bloc<AlbumEvent, AlbumState> {
       : super(AlbumInitial()) {
     on<LoadAlbumSongs>((event, emit) async {
       emit(AlbumLoading());
-      print("album on load");
-      print(albumID);
       // try {
       final album = await dataProvider.getAlbum(event.albumID);
       // print(album);
-      print("bloc emitting");
       emit(AlbumLoaded(album));
       // }
       //  catch (e) {
