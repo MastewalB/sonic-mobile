@@ -7,12 +7,13 @@ abstract class StudioRepository {
 
   Future<List<StudioPodcast>> getPodcastsByUser(String userId);
 
-  Future<StudioPodcast> getPodcastDetail(String podcastId);
+  Future<dynamic> getPodcastDetail(String podcastId);
 
   Future<void> deletePodcast(String podcastId);
 
   Future<StudioPodcast> updatePodcast(
       String id, String title, String description, String genre);
 
-  Future<bool> createEpisode(String title, String description, String podcastId, File episodeFile);
+  Future<bool> createEpisode(
+      String title, String description, String podcastId, File episodeFile);
 }

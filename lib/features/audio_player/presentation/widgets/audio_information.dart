@@ -44,28 +44,33 @@ class AudioInformation extends StatelessWidget {
                     //               .imageUrl !=
                     //           null)
                     //       ?
-                    CachedNetworkImage(
-                  fit: BoxFit.cover,
-                  errorWidget: (BuildContext context, _, __) => Container(
-                    // fit: BoxFit.cover,
-                    child: SvgPicture.asset('assets/icons/music-circle.svg'),
-                  ),
-                  placeholder: (BuildContext context, _) => Container(
-                    // fit: BoxFit.cover,
-                    color: Colors.black26,
-                    child: SvgPicture.asset('assets/icons/music-circle.svg'),
-                  ),
-                  imageUrl:
-                      state.audioQueue!.elementAt(state.currentIndex).imageUrl!,
-                  height: 300,
-                  width: 350,
-                ),
-                // NetworkImage(state.audioQueue!
-                //         .elementAt(state.currentIndex)
-                //         .imageUrl!) as ImageProvider
-                // : const AssetImage(
-                //     'assets/music_icon_image.jpg',
-                //   ),
+                    (state.audioQueue!.elementAt(state.currentIndex).imageUrl !=
+                            null)
+                        ? CachedNetworkImage(
+                            fit: BoxFit.cover,
+                            errorWidget: (BuildContext context, _, __) =>
+                                Container(
+                              // fit: BoxFit.cover,
+                              child: SvgPicture.asset(
+                                  'assets/icons/music-circle.svg'),
+                            ),
+                            placeholder: (BuildContext context, _) => Container(
+                              // fit: BoxFit.cover,
+                              color: Colors.black26,
+                              child: SvgPicture.asset(
+                                  'assets/icons/music-circle.svg'),
+                            ),
+                            imageUrl: state.audioQueue!
+                                .elementAt(state.currentIndex)
+                                .imageUrl!,
+                            height: 300,
+                            width: 350,
+                          )
+                        : SvgPicture.asset(
+                            'assets/icons/music-circle.svg',
+                            height: 300,
+                            width: 350,
+                          ),
               ),
             ),
           ),

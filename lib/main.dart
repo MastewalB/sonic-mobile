@@ -167,14 +167,14 @@ class _SonicState extends State<Sonic> {
     MediaQueryManager.init(context);
 
     return BlocProvider(
-      create: (context) => LoginBloc(
+      create: (context) => SignupBloc(
         authenticationRepository:
             DependencyProvider.getHttpAuthenticationRepository()!,
         notificationCubit: DependencyProvider.getNotificationCubit()!,
         userProfileRepository: DependencyProvider.getUserProfileRepository()!,
         secureStorage: DependencyProvider.getSecureStorage()!,
-      )..add(LoginInitialEvent()),
-      child: const LoginPage(),
+      )..add(SignUpInitialEvent()),
+      child: const SignUpPage(),
     );
     // return MultiBlocProvider(
     //   providers: [

@@ -23,7 +23,7 @@ class CardSmall extends StatelessWidget {
         // color: Color.fromARGB(255, 31, 29, 43),
         color: Colors.transparent,
       ),
-      height: 50,
+      height: 70,
       alignment: Alignment.center,
       child: Row(
         children: [
