@@ -23,21 +23,35 @@ class StreamBloc extends Bloc<StreamEvent, StreamState> {
       // TODO: implement event handler
     });
 
+    on<StreamInitialEvent>((event, emit)async{
+      try{
+        await followRepository.isStreamOn().then((value) {
+          if(value){
+            emit(StreamOn());
+          }else{
+            emit(StreamOff());
+          }
+        });
+      }on AppException catch (e) {
+        emit(StreamOff());
+      }
+    });
+
     on<StartStreamEvent>((event, emit) async {
       try {
         await followRepository
             .startStreaming()
-            .then((value) => emit(StreamSuccess()));
+            .then((value) => emit(StreamOn()));
       } on AppException catch (e) {
-        emit(StreamError());
+        // emit(StreamOff());
       }
     });
 
     on<StopStreamEvent>((event, emit) async {
       try {
-        await followRepository.startStreaming().then((value) => emit(StreamInitial()));
+        await followRepository.stopStreaming().then((value) => emit(StreamOff()));
       } on AppException catch (e) {
-        emit(StreamError());
+        // emit(StreamError());
       }
     });
 

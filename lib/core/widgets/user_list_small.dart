@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sonic_mobile/core/core.dart';
-import 'package:sonic_mobile/features/audio_player/bloc/audio_player_bloc.dart';
+import 'package:sonic_mobile/features/follow/bloc_stream/stream_bloc.dart';
 import 'package:sonic_mobile/models/models.dart';
+
+import '../../features/follow/bloc/follow_bloc.dart';
 
 class UserListSmall extends StatelessWidget {
   final PublicUser user;
@@ -60,7 +62,7 @@ class UserListSmall extends StatelessWidget {
           children: [
             OutlinedButton(
               onPressed: () {
-                context.read<AudioPlayerBloc>().connect(user.id);
+                context.read<StreamBloc>().add(StartStreamEvent());
               },
               child: const Text(
                 "Join",

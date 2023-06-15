@@ -235,10 +235,10 @@ class _PlayerControlsState extends State<PlayerControls> {
             ),
         listener: (context, state) {
           if (state.status.isFailure) {
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              content: Text("Something went wrong."),
-              duration: Duration(seconds: 2),
-            ));
+            // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            //   content: Text("Something went wrong."),
+            //   duration: Duration(seconds: 2),
+            // ));
           }
         });
   }

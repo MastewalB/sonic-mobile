@@ -32,7 +32,7 @@ class _TimeSliderState extends State<TimeSlider> {
 
     return BlocBuilder<AudioPlayerBloc, AudioPlayerState>(builder: (_, state) {
       if (state.status.isFailure) {
-        return const Center(child: Text("Playback Error"));
+        return Center(child: sliderPlaceholder());
       } else if (state.status.isLoading || state.status.isInitial) {
         return Center(child: sliderPlaceholder());
       }

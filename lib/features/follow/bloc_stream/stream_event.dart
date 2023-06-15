@@ -4,6 +4,11 @@ abstract class StreamEvent extends Equatable {
   const StreamEvent();
 }
 
+class StreamInitialEvent extends StreamEvent{
+  @override
+  List<Object?> get props => [];
+}
+
 class StartStreamEvent extends StreamEvent {
   @override
   List<Object?> get props => [];

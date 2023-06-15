@@ -7,4 +7,5 @@ abstract class FollowRepository {
   Future<void> unFollowUser(String userId);
   Future<void> startStreaming();
   Future<void> stopStreaming();
+  Future<bool> isStreamOn();
 }

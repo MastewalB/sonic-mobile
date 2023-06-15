@@ -21,6 +21,7 @@ class Constants {
 
   //Stream URLs
   static const String toggleStreamUrl = "${apiUrl}streams/";
+  static const String checkStreamStatusUrl = "${apiUrl}streams/";
   static const String streamingUsersUrl = "${apiUrl}streams/list/";
 
   //Studio Urls

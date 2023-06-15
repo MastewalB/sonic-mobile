@@ -101,7 +101,7 @@ class HttpFollowProvider implements FollowRepository {
         uri,
         headers: <String, String>{
           'Content-Type': 'application/json',
-        },
+        }
       );
     } on SocketException catch (e) {
       throw NetworkException(ErrorType.CONNECTION_ERROR);
@@ -116,10 +116,30 @@ class HttpFollowProvider implements FollowRepository {
         uri,
         headers: <String, String>{
           'Content-Type': 'application/json',
-        },
+        }
       );
     } on SocketException catch (e) {
       throw NetworkException(ErrorType.CONNECTION_ERROR);
     }
   }
+
+  @override
+  Future<bool> isStreamOn() async {
+    Uri uri = Uri.parse(Constants.checkStreamStatusUrl);
+    try {
+      final response = await httpClient.get(
+        uri,
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+        },
+      );
+      // print(json.decode(response.body));
+      return json.decode(response.body)["status"];
+    } on SocketException catch (e) {
+      throw NetworkException(ErrorType.CONNECTION_ERROR);
+    }
+  }
 }
+/*
+
+ */

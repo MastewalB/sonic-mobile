@@ -132,7 +132,8 @@ class AudioInformation extends StatelessWidget {
                   builder: (context, streamState) {
                     return Container(
                       decoration: BoxDecoration(
-                          color: (streamState is StreamSuccess)
+                        borderRadius: BorderRadius.circular(15),
+                          color: (streamState is StreamOn)
                               ? Colors.green
                               : Colors.transparent,
                           border: Border.all(
@@ -140,14 +141,14 @@ class AudioInformation extends StatelessWidget {
                           )),
                       child: IconButton(
                         onPressed: () {
-                          if (streamState is StreamSuccess) {
+                          if (streamState is StreamOn) {
                             context.read<StreamBloc>().add(StopStreamEvent());
                           } else {
                             context.read<StreamBloc>().add(StartStreamEvent());
                             // context.read<AudioPlayerBloc>().connect(null);
                           }
                         },
-                        icon: (streamState is StreamSuccess)
+                        icon: (streamState is StreamOn)
                             ? const Icon(
                                 Icons.cell_tower,
                                 color: Colors.white,

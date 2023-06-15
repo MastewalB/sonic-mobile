@@ -55,6 +55,7 @@ void main() async {
             return AudioPlayerBloc(
               userProfileRepository:
                   DependencyProvider.getUserProfileRepository()!,
+              followRepository: DependencyProvider.getHttpFollowProvider()!,
               audioPlayer: DependencyProvider.getAudioPlayer()!,
               channel: WebSocketChannel.connect(
                 Uri.parse("${Constants.connectStreamUrl}stream/"),
@@ -84,7 +85,7 @@ void main() async {
               followRepository: DependencyProvider.getHttpFollowProvider()!,
               userProfileRepository:
                   DependencyProvider.getUserProfileRepository()!,
-            ),
+            )..add(StreamInitialEvent()),
           )
         ],
         child: MultiBlocListener(

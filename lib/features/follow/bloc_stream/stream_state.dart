@@ -10,12 +10,12 @@ class StreamInitial extends StreamState {
 }
 
 
-class StreamSuccess extends StreamState{
+class StreamOn extends StreamState{
   @override
   List<Object> get props => [];
 }
 
-class StreamError extends StreamState{
+class StreamOff extends StreamState{
   @override
   List<Object> get props => [];
 }
