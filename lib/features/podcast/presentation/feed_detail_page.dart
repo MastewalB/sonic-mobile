@@ -240,7 +240,7 @@ class _FeedDetailPageState extends State<FeedDetailPage> {
         return const Scaffold(
           body: Center(
             child: CircularProgressIndicator(
-              color: Colors.white,
+              color: Colors.blue,
             ),
           ),
         );

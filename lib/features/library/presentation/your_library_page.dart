@@ -19,16 +19,16 @@ class YourLibraryPage extends StatelessWidget {
         // ),
         text: "Playlists",
       ),
-      const Tab(
-        // icon: SvgPicture.asset(
-        //   'assets/icons/music-circle.svg',
-        // ),
-        text: "Albums",
-      ),
-      const Tab(
-        // icon: Icon(Icons.headset_outlined),
-        text: "Podcasts",
-      )
+      // const Tab(
+      //   // icon: SvgPicture.asset(
+      //   //   'assets/icons/music-circle.svg',
+      //   // ),
+      //   text: "Albums",
+      // ),
+      // const Tab(
+      //   // icon: Icon(Icons.headset_outlined),
+      //   text: "Podcasts",
+      // )
     ];
 
     return Scaffold(
@@ -65,8 +65,8 @@ class YourLibraryPage extends StatelessWidget {
                     )..add(GetAllPlaylistsByUser()),
                     child: const YourPlaylists(),
                   ),
-                  Container(),
-                  Container(),
+                  // Container(),
+                  // Container(),
                 ],
               ),
             ),

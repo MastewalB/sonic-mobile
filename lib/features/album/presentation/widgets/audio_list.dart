@@ -206,7 +206,7 @@ class AudioListWidget extends StatelessWidget {
                                   // shape: BorderRadius.only(topLeft: Radius.circular(25.0)),
                                   builder: (context) {
                                     return SizedBox(
-                                      height: 150,
+                                      height: 130,
                                       child: SingleChildScrollView(
                                         child: Column(
                                           mainAxisAlignment:
@@ -218,8 +218,9 @@ class AudioListWidget extends StatelessWidget {
                                                 child: Text(
                                                   "Add to Playlist",
                                                   style: TextStyle(
-                                                      color: Colors.black,
-                                                      fontSize: 18),
+                                                    color: Colors.black,
+                                                    // fontSize: 18
+                                                  ),
                                                 ),
                                               ),
                                               onTap: () {
@@ -236,8 +237,9 @@ class AudioListWidget extends StatelessWidget {
                                                 child: Text(
                                                   "Find Similar Songs",
                                                   style: TextStyle(
-                                                      color: Colors.white,
-                                                      fontSize: 18),
+                                                    color: Colors.white,
+                                                    // fontSize: 18
+                                                  ),
                                                 ),
                                               ),
                                               onTap: () {

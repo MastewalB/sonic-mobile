@@ -76,17 +76,17 @@ class Profile extends StatelessWidget {
                             style: TextStyle(
                               fontSize: 12,
                               fontWeight: FontWeight.w800,
-                              color: Colors.white,
+                              color: Color.fromARGB(255, 211, 205, 205),
                             ),
                           ),
 
                           Text(
                             '${state.profile.firstName} ${state.profile.lastName}',
                             style: TextStyle(
-                                fontSize: 26,
-                                fontWeight: FontWeight.w900,
+                                fontSize: 28,
+                                fontWeight: FontWeight.w800,
                                 color: Colors.white,
-                                overflow: TextOverflow.ellipsis),
+                                overflow: TextOverflow.visible),
                             softWrap: true,
                           ),
 

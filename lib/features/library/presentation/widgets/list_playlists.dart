@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sonic_mobile/core/core.dart';
 import 'package:sonic_mobile/features/library/bloc/library_bloc/library_bloc.dart';
-import 'package:sonic_mobile/features/library/bloc/playlist_bloc/playlist_bloc.dart' as playlist_bloc;
+import 'package:sonic_mobile/features/library/bloc/playlist_bloc/playlist_bloc.dart'
+    as playlist_bloc;
 import 'package:sonic_mobile/features/library/presentation/playlist_detail_page.dart';
 import 'package:sonic_mobile/features/library/presentation/widgets/screen_arguments.dart';
 
@@ -32,7 +33,7 @@ class ChoosePlaylist extends StatelessWidget {
           return const Scaffold(
             body: Center(
               child: CircularProgressIndicator(
-                color: Colors.white,
+                color: Colors.blue,
               ),
             ),
           );

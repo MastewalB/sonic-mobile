@@ -125,7 +125,10 @@ class DisplayBlock extends StatelessWidget {
                 );
               }
               // Show a placeholder or loading state when songs are not yet loaded
-              return const Center(child: CircularProgressIndicator());
+              return const Center(
+                  child: CircularProgressIndicator(
+                color: Colors.blue,
+              ));
             },
           ),
         ),

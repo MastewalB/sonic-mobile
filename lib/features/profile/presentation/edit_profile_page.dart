@@ -145,7 +145,9 @@ class _EditProfilePageState extends State<EditProfilePage> {
           } else if (state is SubmittingEditedProfile) {
             return Center(
               child: Column(children: const [
-                CircularProgressIndicator(),
+                CircularProgressIndicator(
+                  color: Colors.blue,
+                ),
                 Text("Updating Profile")
               ]),
             );

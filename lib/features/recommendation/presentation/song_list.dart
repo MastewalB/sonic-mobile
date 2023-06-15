@@ -144,7 +144,7 @@ class AudioList extends StatelessWidget {
                                   backgroundColor: Colors.black,
                                   builder: (context) {
                                     return SizedBox(
-                                      height: 200,
+                                      height: 130,
                                       child: SingleChildScrollView(
                                         child: Column(
                                           children: [
@@ -154,8 +154,9 @@ class AudioList extends StatelessWidget {
                                                 child: Text(
                                                   "Add to Playlist",
                                                   style: TextStyle(
-                                                      color: Colors.black,
-                                                      fontSize: 18),
+                                                    color: Colors.black,
+                                                    // fontSize: 18
+                                                  ),
                                                 ),
                                               ),
                                               onTap: () {

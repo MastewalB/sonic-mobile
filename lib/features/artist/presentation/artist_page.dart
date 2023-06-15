@@ -23,11 +23,15 @@ class ArtistPage extends StatelessWidget {
           builder: (context, state) {
             if (state is ArtistInitial) {
               return const Center(
-                child: CircularProgressIndicator(),
+                child: CircularProgressIndicator(
+                  color: Colors.blue,
+                ),
               );
             } else if (state is ArtistLoading) {
               return const Center(
-                child: CircularProgressIndicator(),
+                child: CircularProgressIndicator(
+                  color: Colors.blue,
+                ),
               );
             } else if (state is ArtistLoaded) {
               final artist = state.artist;

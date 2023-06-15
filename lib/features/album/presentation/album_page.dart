@@ -25,11 +25,15 @@ class AlbumPage extends StatelessWidget {
           builder: (context, state) {
             if (state is AlbumInitial) {
               return const Center(
-                child: CircularProgressIndicator(),
+                child: CircularProgressIndicator(
+                  color: Colors.blue,
+                ),
               );
             } else if (state is AlbumLoading) {
               return const Center(
-                child: CircularProgressIndicator(),
+                child: CircularProgressIndicator(
+                  color: Colors.blue,
+                ),
               );
             } else if (state is AlbumLoaded) {
               // Loaded state, display the album details and song list

@@ -26,7 +26,7 @@ class YourPlaylists extends StatelessWidget {
           return const Scaffold(
             body: Center(
               child: CircularProgressIndicator(
-                color: Colors.white,
+                color: Colors.blue,
               ),
             ),
           );
@@ -154,6 +154,10 @@ class YourPlaylists extends StatelessWidget {
                                 ),
                                 actions: [
                                   ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                      primary: Colors
+                                          .blue, // Set the background color
+                                    ),
                                     onPressed: () {
                                       if (nameController.text.isNotEmpty) {
                                         context
@@ -168,7 +172,7 @@ class YourPlaylists extends StatelessWidget {
                                     child: const Text(
                                       "Create Playlist",
                                       style: TextStyle(
-                                        color: Colors.green,
+                                        color: Colors.white,
                                       ),
                                     ),
                                   ),

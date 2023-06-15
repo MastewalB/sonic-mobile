@@ -52,6 +52,7 @@ class _PlaylistDetailPageState extends State<PlaylistDetailPage> {
                             case "edit":
                               break;
                             case "delete":
+                              final playlistBloc = context.read<PlaylistBloc>();
                               showDialog(
                                   context: context,
                                   builder: (builder) {
@@ -68,12 +69,11 @@ class _PlaylistDetailPageState extends State<PlaylistDetailPage> {
                                       actions: [
                                         OutlinedButton(
                                           onPressed: () {
-                                            context
-                                                .read()<PlaylistBloc>()
-                                                .add(DeletePlaylistEvent(
+                                            playlistBloc.add(
+                                              DeletePlaylistEvent(
                                                   playlistId:
-                                                      widget.playlist.id,
-                                                ));
+                                                      widget.playlist.id),
+                                            );
                                             Navigator.pop(context);
                                             Navigator.pop(builder);
                                           },
@@ -121,17 +121,20 @@ class _PlaylistDetailPageState extends State<PlaylistDetailPage> {
                     ],
                   ),
                   SliverPadding(
-                    padding: EdgeInsets.fromLTRB(20.0, 5.0, 20.0, 0.0),
+                    padding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 0.0),
                     sliver: SliverToBoxAdapter(
                       child: SizedBox(
                         height: 200,
                         // width: 100,
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(15),
-                          child: SvgPicture.asset(
-                            "assets/icons/podcast-svgrepo-com.svg",
-                            color: Colors.white,
-                          ),
+                          // child: SvgPicture.asset(
+                          //   "assets/icons/podcast-svgrepo-com.svg",
+                          //   color: Colors.white,
+                          // ),
+                          child: const Image(
+                              image: NetworkImage(
+                                  'https://1.bp.blogspot.com/-RgJWXm0t7q0/XIWTSUvY40I/AAAAAAAAIj0/YMDr1bdHzBsryvSU8CEGeSGNlqPh3axlQCK4BGAYYCw/s1600/music%2Bicons.png')),
                         ),
                       ),
                     ),
@@ -176,18 +179,16 @@ class _PlaylistDetailPageState extends State<PlaylistDetailPage> {
                           child: InkWell(
                             onTap: () {
                               ListQueue<Audio> playlist =
-                              ListQueue.from(widget.playlist.playlistItems);
+                                  ListQueue.from(widget.playlist.playlistItems);
                               context.read<AudioPlayerBloc>().add(
-                                PlayAudioEvent(
-                                  playlist: playlist,
-                                  currentIndex: index,
-                                  fromCurrentPlaylist: false,
-                                ),
-                              );
+                                    PlayAudioEvent(
+                                      playlist: playlist,
+                                      currentIndex: index,
+                                      fromCurrentPlaylist: false,
+                                    ),
+                                  );
                             },
-                            onDoubleTap: () {
-                              
-                            },
+                            onDoubleTap: () {},
                             child: Row(
                               mainAxisSize: MainAxisSize.max,
                               children: [
@@ -224,7 +225,7 @@ class _PlaylistDetailPageState extends State<PlaylistDetailPage> {
                                   child: CardSmall(
                                     title: widget
                                         .playlist.playlistItems[index].title,
-                                    duration: "00:12",
+                                    duration: "02:56",
                                     image: 'assets/music_icon_image.jpg',
                                   ),
                                 ),
@@ -237,15 +238,18 @@ class _PlaylistDetailPageState extends State<PlaylistDetailPage> {
                                           backgroundColor: Colors.black,
                                           builder: (context) {
                                             return SizedBox(
-                                              height: 300,
+                                              height: 130,
                                               child: SingleChildScrollView(
                                                 child: Column(
                                                   children: [
                                                     ListTile(
-                                                      title: Text(
-                                                        "Remove from Playlist",
-                                                        style: TextStyle(
-                                                          color: Colors.white,
+                                                      tileColor: Colors.white,
+                                                      title: Center(
+                                                        child: Text(
+                                                          "Remove from Playlist",
+                                                          style: TextStyle(
+                                                            color: Colors.black,
+                                                          ),
                                                         ),
                                                       ),
                                                       onTap: () {
@@ -265,10 +269,13 @@ class _PlaylistDetailPageState extends State<PlaylistDetailPage> {
                                                       },
                                                     ),
                                                     ListTile(
-                                                      title: Text(
-                                                        "Add to other Playlist",
-                                                        style: TextStyle(
-                                                          color: Colors.white,
+                                                      // tileColor: Colors.white,
+                                                      title: Center(
+                                                        child: Text(
+                                                          "Add to other Playlist",
+                                                          style: TextStyle(
+                                                            color: Colors.white,
+                                                          ),
                                                         ),
                                                       ),
                                                       onTap: () {
