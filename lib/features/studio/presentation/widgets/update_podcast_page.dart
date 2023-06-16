@@ -175,6 +175,10 @@ class _UpdatePodcastPageState extends State<UpdatePodcastPage> {
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor:
+                                    Colors.blue, // Set the background color
+                              ),
                               onPressed: () {
                                 if (titleController.text.isEmpty ||
                                     genreController.text.isEmpty ||

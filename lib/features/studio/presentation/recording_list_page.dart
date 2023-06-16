@@ -58,8 +58,10 @@ class _RecordingListPageState extends State<RecordingListPage> {
         if (state is LoadingState) {
           return Scaffold(
             appBar: appBar,
-            body: const CircularProgressIndicator(
-              color: Colors.white,
+            body: const Center(
+              child: CircularProgressIndicator(
+                color: Colors.blue,
+              ),
             ),
           );
         }
@@ -82,10 +84,7 @@ class _RecordingListPageState extends State<RecordingListPage> {
                   children: [
                     Text(
                       "Your recordings will appear here.",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 15
-                      ),
+                      style: TextStyle(color: Colors.white, fontSize: 15),
                     ),
                     SizedBox(
                       height: 10,
@@ -174,10 +173,10 @@ class _RecordingListPageState extends State<RecordingListPage> {
                                   e.name.toString(),
                                   style: TextStyle(color: Colors.white),
                                 ),
-                                trailing: const Icon(
-                                  Icons.more_vert,
-                                  color: Colors.white,
-                                ),
+                                // trailing: const Icon(
+                                //   Icons.more_vert,
+                                //   color: Colors.white,
+                                // ),
                                 onTap: () {
                                   ListQueue<Audio> playlist =
                                       ListQueue.from(state.recordingList);

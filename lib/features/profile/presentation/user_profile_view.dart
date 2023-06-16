@@ -105,7 +105,8 @@ class _UserProfileViewState extends State<UserProfileView> {
                                       style: TextStyle(
                                         fontSize: 12,
                                         fontWeight: FontWeight.w800,
-                                        color: Colors.white,
+                                        color:
+                                            Color.fromARGB(255, 211, 205, 205),
                                       ),
                                     ),
                                     Text(
@@ -114,7 +115,7 @@ class _UserProfileViewState extends State<UserProfileView> {
                                         fontSize: 26,
                                         fontWeight: FontWeight.w900,
                                         color: Colors.white,
-                                        overflow: TextOverflow.ellipsis,
+                                        overflow: TextOverflow.visible,
                                       ),
                                     ),
                                   ],
@@ -136,14 +137,16 @@ class _UserProfileViewState extends State<UserProfileView> {
                                         padding:
                                             const EdgeInsets.only(left: 12.0),
                                         child: IconButton(
-                                          icon: (state.users.contains(widget.userId))
+                                          icon: (state.users
+                                                  .contains(widget.userId))
                                               ? Icon(Icons.person_remove)
                                               : Icon(
                                                   Icons.person_add,
                                                 ),
                                           color: Colors.blue,
                                           onPressed: () {
-                                            (state.users.contains(widget.userId))
+                                            (state.users
+                                                    .contains(widget.userId))
                                                 ? context
                                                     .read<FollowBloc>()
                                                     .add(UnfollowUserEvent(
@@ -180,18 +183,18 @@ class _UserProfileViewState extends State<UserProfileView> {
               const SizedBox(
                 height: 16.0,
               ),
-              const Padding(
-                padding: EdgeInsets.fromLTRB(0, 28, 0, 10),
-                child: Center(
-                    child: Text(
-                  "Playlists",
-                  style: TextStyle(
-                      fontSize: 20,
-                      color: Colors.white,
-                      fontWeight: FontWeight.w500,
-                      letterSpacing: BorderSide.strokeAlignCenter),
-                )),
-              ),
+              // const Padding(
+              //   padding: EdgeInsets.fromLTRB(0, 28, 0, 10),
+              //   child: Center(
+              //       child: Text(
+              //     "Playlists",
+              //     style: TextStyle(
+              //         fontSize: 20,
+              //         color: Colors.white,
+              //         fontWeight: FontWeight.w500,
+              //         letterSpacing: BorderSide.strokeAlignCenter),
+              //   )),
+              // ),
               // const SizedBox(height: 22.0,),
               // Expanded(
               //   child: BlocBuilder<LibraryBloc, LibraryState>(

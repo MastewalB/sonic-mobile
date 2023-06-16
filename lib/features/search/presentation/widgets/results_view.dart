@@ -51,7 +51,7 @@ class SearchResultsWidget<T> extends StatelessWidget {
       } else if (searchType == 'Album') {
         return inp['cover'] as String;
       } else if (searchType == 'User') {
-        return 'https://www.iconspng.com/images/young-user-icon.jpg';
+        return 'https://img.freepik.com/free-icon/black-male-user-symbol_318-60703.jpg';
       }
       return ''; // Default value
     }
@@ -99,23 +99,23 @@ class SearchResultsWidget<T> extends StatelessWidget {
               Text(
                 'Search results for $searchType', // Display the search type
                 style: const TextStyle(
-                  color: Colors.white,
+                  color: Color.fromARGB(255, 233, 224, 224),
                   fontSize: 18.0,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              TextButton(
-                onPressed: () {
-                  // Handle the view all button action
-                },
-                child: const Text(
-                  'View All',
-                  style: TextStyle(
-                    fontSize: 16.0,
-                    color: Colors.blue,
-                  ),
-                ),
-              ),
+              // TextButton(
+              //   onPressed: () {
+              //     // Handle the view all button action
+              //   },
+              //   child: const Text(
+              //     'View All',
+              //     style: TextStyle(
+              //       fontSize: 16.0,
+              //       color: Colors.blue,
+              //     ),
+              //   ),
+              // ),
             ],
           ),
         ),
@@ -208,6 +208,9 @@ class SearchResultsWidget<T> extends StatelessWidget {
             );
           },
         ),
+        const SizedBox(
+          height: 18,
+        )
       ],
     );
   }

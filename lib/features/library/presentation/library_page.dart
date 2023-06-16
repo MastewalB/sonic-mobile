@@ -230,7 +230,9 @@ class _LibraryPageState extends State<LibraryPage> {
                                   GestureDetector(
                                     child: (state.status.isLoading)
                                         ? const Center(
-                                            child: CircularProgressIndicator(),
+                                            child: CircularProgressIndicator(
+                                              color: Colors.blue,
+                                            ),
                                           )
                                         : Icon(
                                             (state.status.isPlaying)

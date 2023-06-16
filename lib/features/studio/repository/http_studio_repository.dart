@@ -62,8 +62,11 @@ class HttpStudioRepository implements StudioRepository {
   }
 
   @override
-  Future<StudioPodcast> getPodcastDetail(String podcastId) async {
+  Future<dynamic> getPodcastDetail(String podcastId) async {
     // TODO: implement getPodcastDetail
+    Uri uri = Uri.parse("${podcastUrl}view/$podcastId");
+    final response = await httpClient.get(uri);
+    return json.decode(response.body);
     throw UnimplementedError();
   }
 
@@ -124,7 +127,7 @@ class HttpStudioRepository implements StudioRepository {
 
       final fileBytes = episodeFile.readAsBytesSync();
       http.MultipartRequest request =
-          http.MultipartRequest("POST", Uri.parse("$apiUrl/episodes/"));
+          http.MultipartRequest("POST", Uri.parse("${apiUrl}studio/episodes/"));
       http.MultipartFile multipartFile = http.MultipartFile.fromBytes(
         "file",
         fileBytes,
@@ -135,9 +138,11 @@ class HttpStudioRepository implements StudioRepository {
       request.fields["title"] = title;
       request.fields["description"] = description;
       request.fields["podcast_id"] = podcastId;
+      // request.fields["file"] = multipartFile;
       request.headers.addAll({"Authorization": 'Bearer $token'});
       request.headers["Content-Type"] = "multipart/form-data";
       request.files.add(multipartFile);
+      print(request.files);
 
       var response = await request.send();
       if (response.statusCode == 401) {

@@ -3,6 +3,7 @@ import 'dart:collection';
 import 'dart:convert';
 import 'dart:ffi';
 import 'package:audioplayers/audioplayers.dart';
+import 'package:flutter/material.dart';
 import 'package:sonic_mobile/core/core.dart';
 import 'package:sonic_mobile/features/follow/repository/follow_repository.dart';
 

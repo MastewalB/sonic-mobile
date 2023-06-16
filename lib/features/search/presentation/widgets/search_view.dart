@@ -79,24 +79,34 @@ class _SearchViewState extends State<SearchView> {
                 ];
               },
               body: (state is SearchLoadedState)
-                  ? ListView(children: [
-                      SearchResultsWidget(
-                        searchType: 'Song',
-                        items: state.searchData[0],
-                      ),
-                      SearchResultsWidget(
-                        searchType: 'Album',
-                        items: state.searchData[1],
-                      ),
-                      SearchResultsWidget(
-                        searchType: 'Artist',
-                        items: state.searchData[2],
-                      ),
-                      SearchResultsWidget(
-                        searchType: 'User',
-                        items: state.searchData[3],
-                      ),
-                    ])
+                  ? ListView(
+                      // padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
+                      children: [
+                          state.searchData[0].isEmpty
+                              ? const SizedBox()
+                              : SearchResultsWidget(
+                                  searchType: 'Song',
+                                  items: state.searchData[0],
+                                ),
+                          state.searchData[1].isEmpty
+                              ? const SizedBox()
+                              : SearchResultsWidget(
+                                  searchType: 'Album',
+                                  items: state.searchData[1],
+                                ),
+                          state.searchData[2].isEmpty
+                              ? const SizedBox()
+                              : SearchResultsWidget(
+                                  searchType: 'Artist',
+                                  items: state.searchData[2],
+                                ),
+                          state.searchData[3].isEmpty
+                              ? const SizedBox()
+                              : SearchResultsWidget(
+                                  searchType: 'User',
+                                  items: state.searchData[3],
+                                ),
+                        ])
                   : (state is SearchEmptyState)
                       ? nothingFound(context)
                       : (state is SearchErrorState)

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sonic_mobile/core/core.dart';
+import 'package:sonic_mobile/features/audio_player/bloc/audio_player_bloc.dart';
 import 'package:sonic_mobile/features/follow/bloc_stream/stream_bloc.dart';
 import 'package:sonic_mobile/models/models.dart';
 
@@ -47,7 +48,10 @@ class UserListSmall extends StatelessWidget {
             child: Container(
               padding: EdgeInsets.all(5),
               decoration: BoxDecoration(
-                border: Border.all(width: 1, color: Colors.white,),
+                border: Border.all(
+                  width: 1,
+                  color: Colors.white,
+                ),
                 borderRadius: BorderRadius.circular(80.0),
                 color: Colors.green,
               ),
@@ -63,6 +67,7 @@ class UserListSmall extends StatelessWidget {
             OutlinedButton(
               onPressed: () {
                 context.read<StreamBloc>().add(StartStreamEvent());
+                context.read<AudioPlayerBloc>().connect(null);
               },
               child: const Text(
                 "Join",

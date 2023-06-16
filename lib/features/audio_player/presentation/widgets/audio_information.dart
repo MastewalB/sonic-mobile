@@ -66,13 +66,11 @@ class AudioInformation extends StatelessWidget {
                             height: 300,
                             width: 350,
                           )
-                        : SvgPicture.asset('assets/icons/music-circle.svg'),
-                // NetworkImage(state.audioQueue!
-                //         .elementAt(state.currentIndex)
-                //         .imageUrl!) as ImageProvider
-                // : const AssetImage(
-                //     'assets/music_icon_image.jpg',
-                //   ),
+                        : SvgPicture.asset(
+                            'assets/icons/music-circle.svg',
+                            height: 300,
+                            width: 350,
+                          ),
               ),
             ),
           ),
@@ -132,7 +130,7 @@ class AudioInformation extends StatelessWidget {
                   builder: (context, streamState) {
                     return Container(
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(15),
+                          borderRadius: BorderRadius.circular(15),
                           color: (streamState is StreamOn)
                               ? Colors.green
                               : Colors.transparent,

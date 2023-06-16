@@ -41,7 +41,7 @@ class AlbumDisplayBlock extends StatelessWidget {
               }
               if (state is AlbumLoadedState) {
                 final albums = state.albums; // Access the songs from the state
-                if(albums.isEmpty){
+                if (albums.isEmpty) {
                   return const Center(
                     child: Text(
                       "No albums found",
@@ -88,12 +88,21 @@ class AlbumDisplayBlock extends StatelessWidget {
                             ),
                           ),
                           const SizedBox(height: 8.0),
-                          Text(
-                            album.name, // Use the title from the song object
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 16.0,
-                              fontWeight: FontWeight.bold,
+                          Flexible(
+                            child: Container(
+                              constraints: BoxConstraints(maxWidth: 120),
+                              child: Text(
+                                album
+                                    .name, // Use the title from the song object
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 16.0,
+                                  fontWeight: FontWeight.bold,
+                                  overflow: TextOverflow.fade,
+                                ),
+                                softWrap: true,
+                                maxLines: 3,
+                              ),
                             ),
                           ),
                           const SizedBox(height: 4.0),
@@ -112,7 +121,10 @@ class AlbumDisplayBlock extends StatelessWidget {
                 );
               }
               // Show a placeholder or loading state when songs are not yet loaded
-              return const Center(child: CircularProgressIndicator());
+              return const Center(
+                  child: CircularProgressIndicator(
+                color: Colors.blue,
+              ));
             },
           ),
         ),

@@ -86,7 +86,7 @@ class Homepage extends StatelessWidget {
 
                   // Return the DisplayBlock widget
                   return DisplayBlock(
-                    desc: "Songs you may like",
+                    desc: "Top Songs",
                   );
                 },
               ),
@@ -103,7 +103,7 @@ class Homepage extends StatelessWidget {
 
                   // Return the DisplayBlock widget
                   return AlbumDisplayBlock(
-                    desc: "Albums you may like",
+                    desc: "Top Albums",
                   );
                 },
               ),

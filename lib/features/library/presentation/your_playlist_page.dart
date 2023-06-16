@@ -26,7 +26,7 @@ class YourPlaylists extends StatelessWidget {
           return const Scaffold(
             body: Center(
               child: CircularProgressIndicator(
-                color: Colors.white,
+                color: Colors.blue,
               ),
             ),
           );
@@ -44,12 +44,18 @@ class YourPlaylists extends StatelessWidget {
                     ),
                   ),
                   ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.blue, // Set the background color
+                    ),
                     onPressed: () {
                       context.read<LibraryBloc>().add(
                             GetAllPlaylistsByUser(),
                           );
                     },
-                    child: const Text("Retry"),
+                    child: const Text(
+                      "Retry",
+                      style: TextStyle(color: Colors.white),
+                    ),
                   )
                 ],
               ),
@@ -77,12 +83,19 @@ class YourPlaylists extends StatelessWidget {
                                 TextEditingController();
                             return AlertDialog(
                               backgroundColor: Color.fromARGB(255, 47, 49, 66),
-                              title: const Text("Enter playlist title."),
+                              title: const Text(
+                                "Enter playlist title.",
+                                // style: TextStyle(fontSize: 12),
+                              ),
                               content: TextField(
                                 controller: nameController,
                               ),
                               actions: [
                                 ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor:
+                                        Colors.blue, // Set the background color
+                                  ),
                                   onPressed: () {
                                     if (nameController.text.isNotEmpty) {
                                       context
@@ -154,6 +167,10 @@ class YourPlaylists extends StatelessWidget {
                                 ),
                                 actions: [
                                   ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: Colors
+                                          .blue, // Set the background color
+                                    ),
                                     onPressed: () {
                                       if (nameController.text.isNotEmpty) {
                                         context
@@ -168,7 +185,7 @@ class YourPlaylists extends StatelessWidget {
                                     child: const Text(
                                       "Create Playlist",
                                       style: TextStyle(
-                                        color: Colors.green,
+                                        color: Colors.white,
                                       ),
                                     ),
                                   ),

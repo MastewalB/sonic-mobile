@@ -180,6 +180,10 @@ class _CreateEpisodePageState extends State<CreateEpisodePage> {
                               : const SizedBox(),
                           (_file != null) ? const Spacer() : const SizedBox(),
                           ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor:
+                                  Colors.blue, // Set the background color
+                            ),
                             onPressed: () {
                               superContext.read<PodcastDetailBloc>().add(
                                     ListEpisodeRecordingsEvent(),
@@ -216,17 +220,25 @@ class _CreateEpisodePageState extends State<CreateEpisodePage> {
                                     ),
                                     actions: [
                                       ElevatedButton(
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor: Colors
+                                              .blue, // Set the background color
+                                        ),
                                         onPressed: () async {
                                           Navigator.pop(context);
                                         },
                                         child: const Text(
                                           'Select',
                                           style: TextStyle(
-                                            color: Colors.red,
+                                            color: Colors.white,
                                           ),
                                         ),
                                       ),
                                       ElevatedButton(
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor: Colors
+                                              .red, // Set the background color
+                                        ),
                                         onPressed: () {
                                           Navigator.pop(context);
                                         },
@@ -250,6 +262,10 @@ class _CreateEpisodePageState extends State<CreateEpisodePage> {
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor:
+                                  Colors.blue, // Set the background color
+                            ),
                             onPressed: () {
                               if (titleController.text.isEmpty ||
                                   descriptionController.text.isEmpty) {

@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sonic_mobile/features/audio_player/bloc/audio_player_bloc.dart';
 import 'package:sonic_mobile/features/library/presentation/widgets/list_playlists.dart';
+import 'package:sonic_mobile/features/recommendation/presentation/recommendation_page.dart';
+import 'package:sonic_mobile/features/studio/presentation/record_page.dart';
 import 'package:sonic_mobile/models/models.dart';
 import 'package:sonic_mobile/core/core.dart';
 
@@ -196,17 +198,30 @@ class AudioListWidget extends StatelessWidget {
                               showBottomSheet(
                                   context: context,
                                   backgroundColor: Colors.black,
+                                  shape: Border(
+                                      left: BorderSide(color: Colors.black),
+                                      right: BorderSide(color: Colors.black),
+                                      top: BorderSide(color: Colors.black)),
+                                  // clipBehavior: Clip.hardEdge,
+                                  // shape: BorderRadius.only(topLeft: Radius.circular(25.0)),
                                   builder: (context) {
                                     return SizedBox(
-                                      height: 300,
+                                      height: 130,
                                       child: SingleChildScrollView(
                                         child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
                                           children: [
                                             ListTile(
-                                              title: Text(
-                                                "Add to Playlist",
-                                                style: TextStyle(
-                                                    color: Colors.white),
+                                              tileColor: Colors.white,
+                                              title: Center(
+                                                child: Text(
+                                                  "Add to Playlist",
+                                                  style: TextStyle(
+                                                    color: Colors.black,
+                                                    // fontSize: 18
+                                                  ),
+                                                ),
                                               ),
                                               onTap: () {
                                                 Navigator.push(context,
@@ -217,6 +232,27 @@ class AudioListWidget extends StatelessWidget {
                                                 }));
                                               },
                                             ),
+                                            ListTile(
+                                              title: Center(
+                                                child: Text(
+                                                  "Find Similar Songs",
+                                                  style: TextStyle(
+                                                    color: Colors.white,
+                                                    // fontSize: 18
+                                                  ),
+                                                ),
+                                              ),
+                                              onTap: () {
+                                                Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            RecommendationPage(
+                                                                songId:
+                                                                    songs[index]
+                                                                        .id)));
+                                              },
+                                            )
                                           ],
                                         ),
                                       ),

@@ -66,69 +66,74 @@ class Profile extends StatelessWidget {
                         ],
                       ),
                     ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Profile",
-                          style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w800,
-                            color: Colors.white,
+                    Flexible(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Profile",
+                            style: TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w800,
+                              color: Color.fromARGB(255, 211, 205, 205),
+                            ),
                           ),
-                        ),
-                        Text(
-                          '${state.profile.firstName} ${state.profile.lastName}',
-                          style: TextStyle(
-                              fontSize: 26,
-                              fontWeight: FontWeight.w900,
-                              color: Colors.white,
-                              overflow: TextOverflow.ellipsis),
-                        ),
-                        // RichText(
-                        //   selectionColor: Colors.white,
-                        //   text: TextSpan(
-                        //     text: ".8",
-                        //     style: TextStyle(
-                        //       fontSize: 14,
-                        //       fontWeight: FontWeight.w100,
-                        //       color: Colors.white,
-                        //     ),
-                        //     children: [
-                        //       TextSpan(
-                        //         text: ' Followers   ',
-                        //         style: TextStyle(
-                        //           // fontFamily: 'courier',
-                        //           fontSize: 14,
-                        //           color: Colors.white,
-                        //         ),
-                        //       ),
-                        //       TextSpan(
-                        //         text: '.13',
-                        //         style: TextStyle(
-                        //           // fontFamily: 'courier',
-                        //           fontSize: 14,
-                        //           fontWeight: FontWeight.w800,
-                        //           color: Colors.white,
-                        //         ),
-                        //       ),
-                        //       TextSpan(
-                        //         text: ' Following',
-                        //         style: TextStyle(
-                        //           // fontFamily: 'courier',
-                        //           fontSize: 14,
-                        //           fontWeight: FontWeight.w100,
-                        //           color: Colors.white,
-                        //         ),
-                        //       ),
-                        //     ],
-                        //   ),
-                        // ),
-                      ],
+
+                          Text(
+                            '${state.profile.firstName} ${state.profile.lastName}',
+                            style: TextStyle(
+                                fontSize: 28,
+                                fontWeight: FontWeight.w800,
+                                color: Colors.white,
+                                overflow: TextOverflow.visible),
+                            softWrap: true,
+                          ),
+
+                          // RichText(
+                          //   selectionColor: Colors.white,
+                          //   text: TextSpan(
+                          //     text: ".8",
+                          //     style: TextStyle(
+                          //       fontSize: 14,
+                          //       fontWeight: FontWeight.w100,
+                          //       color: Colors.white,
+                          //     ),
+                          //     children: [
+                          //       TextSpan(
+                          //         text: ' Followers   ',
+                          //         style: TextStyle(
+                          //           // fontFamily: 'courier',
+                          //           fontSize: 14,
+                          //           color: Colors.white,
+                          //         ),
+                          //       ),
+                          //       TextSpan(
+                          //         text: '.13',
+                          //         style: TextStyle(
+                          //           // fontFamily: 'courier',
+                          //           fontSize: 14,
+                          //           fontWeight: FontWeight.w800,
+                          //           color: Colors.white,
+                          //         ),
+                          //       ),
+                          //       TextSpan(
+                          //         text: ' Following',
+                          //         style: TextStyle(
+                          //           // fontFamily: 'courier',
+                          //           fontSize: 14,
+                          //           fontWeight: FontWeight.w100,
+                          //           color: Colors.white,
+                          //         ),
+                          //       ),
+                          //     ],
+                          //   ),
+                          // ),
+                        ],
+                      ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(left:12.0),
+                      padding: const EdgeInsets.only(left: 12.0),
                       child: GestureDetector(
                         onTap: () {
                           Navigator.pushReplacementNamed(

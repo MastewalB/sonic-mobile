@@ -23,7 +23,7 @@ class CardSmall extends StatelessWidget {
         // color: Color.fromARGB(255, 31, 29, 43),
         color: Colors.transparent,
       ),
-      height: 50,
+      height: 70,
       alignment: Alignment.center,
       child: Row(
         children: [
@@ -52,7 +52,7 @@ class CardSmall extends StatelessWidget {
                   title,
                   style: TextStyle(
                     color: color ?? Colors.white,
-                    fontSize: 14,
+                    fontSize: 16,
                   ),
                   softWrap: true,
                   overflow: TextOverflow.ellipsis,
@@ -61,7 +61,10 @@ class CardSmall extends StatelessWidget {
                 Flexible(
                   child: Text(
                     duration,
-                    style: const TextStyle(color: Colors.white, fontSize: 13,),
+                    style: const TextStyle(
+                      color: Color.fromARGB(255, 211, 205, 205),
+                      fontSize: 12,
+                    ),
                   ),
                 )
               ],

@@ -13,8 +13,8 @@ class RecommendationDataProvider {
 
   // get album by id
   Future<List<Song>> getRecommendation(String songId) async {
-    final response =
-    await httpClient.get(Uri.parse('${_baseUrl}recommender/recommend/$songId/'));
+    final response = await httpClient
+        .get(Uri.parse('${_baseUrl}recommender/recommend/$songId/'));
     // print(response.statusCode);
     // print(albumId);
     if (response.statusCode == 200) {
