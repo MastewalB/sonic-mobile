@@ -11,8 +11,10 @@ import 'package:sonic_mobile/features/studio/presentation/widgets/create_episode
 import 'package:sonic_mobile/features/studio/presentation/widgets/screen_arguments.dart';
 import 'package:sonic_mobile/features/studio/presentation/widgets/update_podcast_page.dart';
 import 'package:sonic_mobile/features/audio_player/bloc/audio_player_bloc.dart';
+import 'package:sonic_mobile/features/studio/repository/http_studio_repository.dart';
 import 'package:sonic_mobile/models/models.dart';
 import 'package:sonic_mobile/features/studio/presentation/episode_detail_page.dart';
+import 'package:http/http.dart' as http;
 
 class PodcastDetailPage extends StatefulWidget {
   static const String routeName = "podcast-detail";
@@ -89,7 +91,11 @@ class _PodcastDetailPageState extends State<PodcastDetailPage> {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) => RssView(
-                                          podcastId: widget.podcast.id)));
+                                            podcastId: widget.podcast.id,
+                                            httpStudioRepository:
+                                                HttpStudioRepository(
+                                                    httpClient: http.Client()),
+                                          )));
                               break;
                             case "delete":
                               showDialog(

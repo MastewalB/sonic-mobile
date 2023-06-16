@@ -18,12 +18,10 @@ class RecordPage extends StatefulWidget {
 }
 
 class _RecordPageState extends State<RecordPage> {
-
   Future<bool> _onWillPop() async {
     Navigator.pop(context);
     return true;
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -53,10 +51,7 @@ class _RecordPageState extends State<RecordPage> {
                       padding: EdgeInsets.all(8.0),
                       child: Text(
                         "Tap to Start Recording",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 25
-                        ),
+                        style: TextStyle(color: Colors.white, fontSize: 25),
                       ),
                     )
                   ],
@@ -125,12 +120,18 @@ class _RecordPageState extends State<RecordPage> {
                           context: superContext,
                           builder: (context) {
                             return AlertDialog(
-                              title: const Text("Enter File Name"),
+                              title: const Text(
+                                "Enter File Name",
+                              ),
                               content: TextField(
                                 controller: nameController,
                               ),
                               actions: [
                                 ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor:
+                                        Colors.blue, // Set the background color
+                                  ),
                                   onPressed: () {
                                     superContext.read<RecordBloc>().add(
                                         StopRecordingEvent(
@@ -139,7 +140,7 @@ class _RecordPageState extends State<RecordPage> {
                                   },
                                   child: const Text(
                                     "Save",
-                                    style: TextStyle(color: Colors.green),
+                                    style: TextStyle(color: Colors.white),
                                   ),
                                 )
                               ],

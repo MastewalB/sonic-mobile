@@ -85,12 +85,18 @@ class YourPodcastsPage extends StatelessWidget {
                     ),
                   ),
                   ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.blue, // Set the background color
+                    ),
                     onPressed: () {
                       context.read<StudioBloc>().add(
                             GetAllPodcastsByUserEvent(),
                           );
                     },
-                    child: Text("Retry"),
+                    child: Text(
+                      "Retry",
+                      style: TextStyle(color: Colors.white),
+                    ),
                   )
                 ],
               ),

@@ -3,6 +3,7 @@ import 'dart:collection';
 import 'dart:convert';
 import 'dart:ffi';
 import 'package:audioplayers/audioplayers.dart';
+import 'package:flutter/material.dart';
 import 'package:sonic_mobile/core/core.dart';
 
 // import 'package:just_audio/just_audio.dart' as Just;
@@ -69,13 +70,11 @@ class AudioPlayerBloc extends Bloc<AudioPlayerEvent, AudioPlayerState> {
         print(msgType);
         switch (msgType) {
           case "STATUS_REQ":
-            if (isStreamOwner) {
-              int currentPosition =
-                  await state.audioPlayer.getCurrentPosition();
-              Audio audio = state.audioQueue!.elementAt(state.currentIndex);
-              sendMessage(
-                  "STATUS_UPDATE", "PLAY", audio, currentPosition, true);
-            }
+            // if (isStreamOwner) {
+            int currentPosition = await state.audioPlayer.getCurrentPosition();
+            Audio audio = state.audioQueue!.elementAt(state.currentIndex);
+            sendMessage("STATUS_UPDATE", "PLAY", audio, currentPosition, true);
+            // }
             return;
           case "STATUS_UPDATE":
             switch (jsonData["OPERATION"]) {
@@ -85,6 +84,8 @@ class AudioPlayerBloc extends Bloc<AudioPlayerEvent, AudioPlayerState> {
                 String title = jsonData["DATA"]["TITLE"];
                 String imageUrl = jsonData["DATA"]["IMAGE_URL"];
                 ListQueue<Audio> playlist = ListQueue<Audio>();
+                audioQueue = playlist;
+                currentIndex = 0;
 
                 //Load the information to the audio player state
                 await state.audioPlayer
@@ -100,9 +101,10 @@ class AudioPlayerBloc extends Bloc<AudioPlayerEvent, AudioPlayerState> {
                 ));
                 add(
                   PlayAudioEvent(
-                      playlist: playlist,
-                      fromCurrentPlaylist: false,
-                      currentIndex: 0),
+                    playlist: playlist,
+                    fromCurrentPlaylist: false,
+                    currentIndex: currentIndex,
+                  ),
                 );
                 // if (jsonData["DATA"]["PLAY"]) {
                 //   add(

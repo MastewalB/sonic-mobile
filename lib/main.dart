@@ -56,7 +56,7 @@ void main() async {
                   DependencyProvider.getUserProfileRepository()!,
               audioPlayer: DependencyProvider.getAudioPlayer()!,
               channel: WebSocketChannel.connect(
-                Uri.parse("${Constants.connectStreamUrl}/user/"),
+                Uri.parse("${Constants.connectStreamUrl}stream/"),
               ),
             ),
           ),

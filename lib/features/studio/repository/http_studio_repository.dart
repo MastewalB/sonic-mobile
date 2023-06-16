@@ -66,7 +66,7 @@ class HttpStudioRepository implements StudioRepository {
     // TODO: implement getPodcastDetail
     Uri uri = Uri.parse("${podcastUrl}view/$podcastId");
     final response = await httpClient.get(uri);
-    return response.body;
+    return json.decode(response.body);
     throw UnimplementedError();
   }
 

@@ -51,12 +51,18 @@ class ChoosePlaylist extends StatelessWidget {
                     ),
                   ),
                   ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.blue, // Set the background color
+                    ),
                     onPressed: () {
                       context.read<LibraryBloc>().add(
                             GetAllPlaylistsByUser(),
                           );
                     },
-                    child: const Text("Retry"),
+                    child: const Text(
+                      "Retry",
+                      style: TextStyle(color: Colors.white),
+                    ),
                   )
                 ],
               ),
@@ -89,6 +95,10 @@ class ChoosePlaylist extends StatelessWidget {
                               ),
                               actions: [
                                 ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor:
+                                        Colors.blue, // Set the background color
+                                  ),
                                   onPressed: () {
                                     if (nameController.text.isNotEmpty) {
                                       context
@@ -103,7 +113,7 @@ class ChoosePlaylist extends StatelessWidget {
                                   child: const Text(
                                     "Create Playlist",
                                     style: TextStyle(
-                                      color: Colors.green,
+                                      color: Colors.white,
                                     ),
                                   ),
                                 ),
@@ -160,6 +170,10 @@ class ChoosePlaylist extends StatelessWidget {
                                 ),
                                 actions: [
                                   ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: Colors
+                                          .blue, // Set the background color
+                                    ),
                                     onPressed: () {
                                       if (nameController.text.isNotEmpty) {
                                         context
@@ -174,7 +188,7 @@ class ChoosePlaylist extends StatelessWidget {
                                     child: const Text(
                                       "Create Playlist",
                                       style: TextStyle(
-                                        color: Colors.green,
+                                        color: Colors.white,
                                       ),
                                     ),
                                   ),
