@@ -73,7 +73,8 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
               .then((value) async {
             await userProfileRepository.setUser(UserProfile.fromUser(user));
             notificationCubit.successNotification(
-                message: "Sign up Successful.");
+                message:
+                    "Sign up Successful. Go to your email and activate your Account!");
             emit(state.copyWith(status: SignupStatus.success));
           });
         });
