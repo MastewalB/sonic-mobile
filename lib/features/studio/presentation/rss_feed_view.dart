@@ -48,7 +48,7 @@ class RssView extends StatelessWidget {
       // Return the fetched podcast detail along with the additional information
       return {
         'podcast': podcast,
-        'rssData': rssData,
+        'rssData': rurl,
       };
     } catch (error) {
       // Handle any errors that occur during the API request

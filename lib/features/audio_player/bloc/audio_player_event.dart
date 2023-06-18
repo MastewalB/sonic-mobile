@@ -24,12 +24,14 @@ class PlayAudioEvent extends AudioPlayerEvent {
   bool fromCurrentPlaylist;
   bool isLocal;
   Duration duration;
+  bool send;
 
   PlayAudioEvent({
     this.playlist,
     this.currentIndex,
     this.fromCurrentPlaylist = false,
     this.isLocal = false,
+    this.send = true,
     duration,
   }) : duration = duration ?? const Duration(seconds: 0);
 

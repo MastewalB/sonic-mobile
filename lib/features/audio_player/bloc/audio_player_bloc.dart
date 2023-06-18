@@ -114,11 +114,11 @@ class AudioPlayerBloc extends Bloc<AudioPlayerEvent, AudioPlayerState> {
                   print(seekSeconds);
                   add(
                     PlayAudioEvent(
-                      playlist: playlist,
-                      fromCurrentPlaylist: false,
-                      currentIndex: currentIndex,
-                      duration: Duration(seconds: seekSeconds),
-                    ),
+                        playlist: playlist,
+                        fromCurrentPlaylist: false,
+                        currentIndex: currentIndex,
+                        duration: Duration(seconds: seekSeconds),
+                        send: false),
                   );
 
                   // if (jsonData["DATA"]["PLAY"]) {
@@ -200,8 +200,10 @@ class AudioPlayerBloc extends Bloc<AudioPlayerEvent, AudioPlayerState> {
       // await state.audioPlayer.setUrl(url);
 
       //send message to the group streaming interface
-      sendMessage("STATUS_UPDATE", "PLAY", audioQueue.elementAt(currentIndex),
-          null, true);
+      if (event.send) {
+        sendMessage("STATUS_UPDATE", "PLAY", audioQueue.elementAt(currentIndex),
+            null, true);
+      }
       // ! ------ !
       print(event.duration);
       await state.audioPlayer.play(audioQueue.elementAt(currentIndex).fileUrl,
