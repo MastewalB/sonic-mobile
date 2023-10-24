@@ -51,4 +51,11 @@ class Constants {
   //Recording Constants
   static const double decibleLimit = -30;
   static const amplitudeCaptureRateInMilliSeconds = 100;
+
+  //Color Constants
+  static const primaryColor = Color(0xFF2697FF);
+static const secondaryColor = Color(0xFF2A2D3E);
+static const bgColor = Color(0xFF212332);
+static const followerColor = Color.fromARGB(255, 104, 109, 112);
+static const defaultPadding = 16.0;
 }

@@ -87,6 +87,8 @@ flutter:
     - assets/
     - assets/icons/
     - assets/images/
+    - assets/images/avatar.png
+    - assets/images/playlist.png
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 
